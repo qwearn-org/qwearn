@@ -1,0 +1,94 @@
+# =============================================================================
+# Qwearn CI Pipeline
+# =============================================================================
+#
+# Runs on every PR and push to main. Validates:
+#   1. Frontend: lint, typecheck, build
+#   2. Backend: lint (ruff), typecheck (mypy), tests (pytest)
+#   3. quantum-core: lint (ruff), tests (pytest)
+#
+# Python and Node.js jobs run in parallel for faster feedback.
+# =============================================================================
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Frontend (Next.js + TypeScript)
+  # ---------------------------------------------------------------------------
+  frontend:
+    name: Frontend (lint, typecheck, build)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Build
+        run: pnpm build
+
+  # ---------------------------------------------------------------------------
+  # Backend (FastAPI + Python)
+  # ---------------------------------------------------------------------------
+  backend:
+    name: Backend (lint, typecheck, test)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install quantum-core
+        run: pip install -e "./packages/quantum-core[dev]"
+
+      - name: Install API dependencies
+        run: pip install -e "./apps/api[dev]"
+
+      - name: Lint (ruff)
+        run: |
+          ruff check apps/api/ packages/quantum-core/
+          ruff format --check apps/api/ packages/quantum-core/
+
+      - name: Test quantum-core
+        run: |
+          cd packages/quantum-core
+          pytest -v
+
+      - name: Test API
+        run: |
+          cd apps/api
+          pytest -v

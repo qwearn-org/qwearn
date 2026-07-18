@@ -1,0 +1,26 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# System dependencies for Qiskit
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install quantum-core package first (it's a dependency)
+COPY packages/quantum-core/ /app/packages/quantum-core/
+RUN pip install --no-cache-dir /app/packages/quantum-core/
+
+# Install API dependencies
+COPY apps/api/pyproject.toml /app/apps/api/
+RUN pip install --no-cache-dir /app/apps/api/
+
+# Copy API source code
+COPY apps/api/ /app/apps/api/
+
+WORKDIR /app/apps/api
+
+EXPOSE 8000
+
+# Run with --reload for development; production will use gunicorn
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

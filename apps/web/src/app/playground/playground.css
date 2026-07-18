@@ -1,0 +1,556 @@
+/* ========================================================================
+   Circuit Playground Styles
+   ======================================================================== */
+
+/* Layout: 3-column — palette | circuit+code | results */
+.playground-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr 340px;
+  gap: 0;
+  height: calc(100vh - 64px);
+  background: #0a0a0f;
+  color: #e2e8f0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ---- Gate Palette (Left Sidebar) ---- */
+.playground-sidebar {
+  background: #0f1117;
+  border-right: 1px solid #1e293b;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.palette-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+  margin: 0 0 8px;
+}
+
+.palette-category {
+  margin-bottom: 12px;
+}
+
+.category-label {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #475569;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.gate-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.gate-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 4px;
+  border: 1px solid color-mix(in srgb, var(--gate-color) 30%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--gate-color) 8%, #0f1117);
+  color: var(--gate-color);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.gate-button:hover {
+  background: color-mix(in srgb, var(--gate-color) 18%, #0f1117);
+  border-color: color-mix(in srgb, var(--gate-color) 60%, transparent);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--gate-color) 20%, transparent);
+}
+
+.gate-symbol {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.gate-label {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.gate-qubits {
+  font-size: 9px;
+  color: #64748b;
+  background: #1e293b;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.selected-gate-info {
+  margin-top: auto;
+  padding: 10px;
+  background: #1e293b;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.selected-gate-info .hint {
+  font-size: 11px;
+  color: #64748b;
+}
+
+/* ---- Main Area (Circuit + Controls + Code) ---- */
+.playground-main {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: #0a0a0f;
+}
+
+.playground-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid #1e293b;
+  background: #0f1117;
+}
+
+.qubit-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.qubit-control select {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  color: #e2e8f0;
+  padding: 4px 8px;
+  font-size: 13px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.btn-run {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+.btn-run:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+}
+
+.btn-run:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-clear {
+  background: #1e293b;
+  color: #94a3b8;
+}
+
+.btn-clear:hover {
+  background: #334155;
+  color: #e2e8f0;
+}
+
+/* ---- Circuit Grid ---- */
+.circuit-grid {
+  padding: 16px 20px;
+  flex: 1;
+  min-height: 200px;
+}
+
+.circuit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.circuit-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.circuit-info {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.circuit-wires {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.qubit-wire {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 44px;
+  position: relative;
+}
+
+.qubit-label {
+  width: 36px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6366f1;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.wire-line {
+  height: 2px;
+  background: #334155;
+  flex: 0 0 8px;
+}
+
+.gate-slots {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+  position: relative;
+}
+
+/* Wire line behind gate slots */
+.gate-slots::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #334155;
+  z-index: 0;
+}
+
+.qubit-output {
+  width: 30px;
+  font-size: 12px;
+  color: #475569;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.gate-slot {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.gate-empty {
+  background: #111318;
+  color: #334155;
+  border: 1px dashed #1e293b;
+}
+
+.gate-empty:hover {
+  background: #1e293b;
+  color: #64748b;
+  border-color: #475569;
+}
+
+.gate-placed {
+  background: color-mix(in srgb, var(--gate-color) 20%, #0f1117);
+  color: var(--gate-color);
+  border: 1px solid color-mix(in srgb, var(--gate-color) 50%, transparent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--gate-color) 15%, transparent);
+}
+
+.gate-placed:hover {
+  background: color-mix(in srgb, var(--gate-color) 30%, #0f1117);
+  transform: scale(1.05);
+}
+
+.gate-connector {
+  background: transparent;
+  color: var(--gate-color);
+  border: 1px solid color-mix(in srgb, var(--gate-color) 30%, transparent);
+  font-size: 18px;
+}
+
+/* ---- Code Panel ---- */
+.code-panel {
+  border-top: 1px solid #1e293b;
+  background: #0c0d12;
+  max-height: 240px;
+  display: flex;
+  flex-direction: column;
+}
+
+.code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  border-bottom: 1px solid #1e293b;
+}
+
+.code-header h3 {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.copy-button {
+  font-size: 12px;
+  padding: 4px 10px;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  background: #1e293b;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.copy-button:hover {
+  background: #334155;
+  color: #e2e8f0;
+}
+
+.code-content {
+  padding: 12px 16px;
+  margin: 0;
+  overflow: auto;
+  flex: 1;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #a5b4fc;
+  tab-size: 4;
+}
+
+/* ---- Results Panel (Right Sidebar) ---- */
+.playground-results {
+  background: #0f1117;
+  border-left: 1px solid #1e293b;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.results-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.results-loading, .results-error, .results-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 12px;
+  padding: 24px;
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.results-error {
+  color: #ef4444;
+}
+
+.empty-icon {
+  font-size: 48px;
+  opacity: 0.4;
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid #1e293b;
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.results-tabs {
+  display: flex;
+  border-bottom: 1px solid #1e293b;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 10px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.tab-button:hover { color: #94a3b8; }
+.tab-button.active {
+  color: #a5b4fc;
+  border-bottom-color: #6366f1;
+}
+
+.results-content {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+/* Probability Chart */
+.prob-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.prob-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.prob-label {
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  color: #94a3b8;
+  width: 48px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.prob-bar-track {
+  flex: 1;
+  height: 20px;
+  background: #1e293b;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.prob-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+  min-width: 2px;
+}
+
+.prob-value {
+  font-size: 12px;
+  color: #94a3b8;
+  width: 48px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* Statevector Display */
+.statevector-display { font-size: 13px; }
+.sv-header {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.sv-amplitudes {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sv-amplitude {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+}
+
+.sv-coeff { color: #22d3ee; }
+.sv-ket { color: #a5b4fc; }
+.sv-prob { color: #64748b; font-size: 11px; }
+
+/* Bloch Sphere */
+.bloch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.bloch-sphere-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.bloch-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.bloch-svg {
+  width: 140px;
+  height: 140px;
+}
+
+.bloch-coords {
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: #64748b;
+}
+
+.bloch-empty {
+  text-align: center;
+  color: #64748b;
+  padding: 24px;
+}

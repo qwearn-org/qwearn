@@ -1,0 +1,76 @@
+# =============================================================================
+# Qwearn Docker Compose — Local Development
+# =============================================================================
+#
+# Brings up three services:
+#   1. web    — Next.js frontend on http://localhost:3000
+#   2. api    — FastAPI backend on http://localhost:8000
+#   3. mongo  — MongoDB on mongodb://localhost:27017
+#
+# Usage:
+#   docker-compose up              # Start all services
+#   docker-compose up --build      # Rebuild and start
+#   docker-compose down            # Stop all services
+#   docker-compose down -v         # Stop and remove volumes (clears DB)
+#
+# The web and api services mount source code as volumes, so changes
+# are reflected immediately without rebuilding (hot-reload enabled).
+# =============================================================================
+
+version: "3.8"
+
+services:
+  # ---------------------------------------------------------------------------
+  # Next.js Frontend
+  # ---------------------------------------------------------------------------
+  web:
+    build:
+      context: .
+      dockerfile: infra/docker/Dockerfile.web
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/web:/app/apps/web
+      - ./packages/ui:/app/packages/ui
+      - /app/apps/web/node_modules
+      - /app/apps/web/.next
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - WATCHPACK_POLLING=true
+    depends_on:
+      - api
+
+  # ---------------------------------------------------------------------------
+  # FastAPI Backend
+  # ---------------------------------------------------------------------------
+  api:
+    build:
+      context: .
+      dockerfile: infra/docker/Dockerfile.api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./apps/api:/app/apps/api
+      - ./packages/quantum-core:/app/packages/quantum-core
+    environment:
+      - MONGODB_URL=mongodb://mongo:27017
+      - MONGODB_DB=qwearn
+      - CORS_ORIGINS=http://localhost:3000
+    depends_on:
+      - mongo
+
+  # ---------------------------------------------------------------------------
+  # MongoDB
+  # ---------------------------------------------------------------------------
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    # No auth for local dev. Production MUST use authentication.
+    # See docs/adr/ADR-0004-mongodb-access-pattern.md
+
+volumes:
+  mongo-data:
+    driver: local
