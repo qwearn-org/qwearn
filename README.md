@@ -44,7 +44,7 @@ The core differentiator is the **Circuit Playground**: a drag-and-drop circuit b
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/qwearn.git
+git clone https://github.com/qwearn-org/qwearn.git
 cd qwearn
 
 # Start all services
