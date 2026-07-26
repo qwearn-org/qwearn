@@ -8,16 +8,20 @@
  * 2. See generated Qiskit code update in real-time
  * 3. Run the circuit on the Aer simulator
  * 4. View results (probabilities, statevector, Bloch sphere)
+ * 5. Save/load circuits for later use
  *
  * State management is local (useState) since the circuit is ephemeral
- * until the user explicitly saves it (Phase 1, Slice 3).
+ * until the user explicitly saves it via the SaveLoadPanel.
  */
 
 import React, { useState, useCallback, useMemo } from 'react';
+import Link from 'next/link';
 import GatePalette from '@web/components/circuit/GatePalette';
 import CircuitGrid, { type PlacedGate } from '@web/components/circuit/CircuitGrid';
 import CodePanel from '@web/components/circuit/CodePanel';
 import ResultsPanel from '@web/components/circuit/ResultsPanel';
+import SaveLoadPanel from '@web/components/circuit/SaveLoadPanel';
+import CircuitExamples from '@web/components/circuit/CircuitExamples';
 import {
   executeCircuit,
   getBlochCoordinates,
@@ -181,68 +185,122 @@ export default function PlaygroundPage() {
     setError(null);
   }, []);
 
+  // Load a saved circuit
+  const handleLoadCircuit = useCallback(
+    (spec: { num_qubits: number; gates: GateSpec[] }, _title: string) => {
+      setNumQubits(spec.num_qubits);
+      const placedGates: PlacedGate[] = spec.gates.map((g, i) => ({
+        id: `loaded-${Date.now()}-${i}`,
+        gate: g.gate,
+        qubits: g.qubits,
+        column: i,
+        ...(g.params && Object.keys(g.params).length > 0 ? { params: g.params } : {}),
+      }));
+      setGates(placedGates);
+      setResult(null);
+      setBlochCoords([]);
+      setError(null);
+    },
+    []
+  );
+
+  // Load a preset example
+  const handleLoadPreset = useCallback(
+    (presetNumQubits: number, presetGates: PlacedGate[]) => {
+      setNumQubits(presetNumQubits);
+      // Re-generate IDs to avoid conflicts
+      const newGates = presetGates.map((g, i) => ({
+        ...g,
+        id: `preset-${Date.now()}-${i}`,
+      }));
+      setGates(newGates);
+      setResult(null);
+      setBlochCoords([]);
+      setError(null);
+    },
+    []
+  );
+
   return (
-    <div className="playground-layout">
-      {/* Left: Gate Palette */}
-      <aside className="playground-sidebar">
-        <GatePalette onAddGate={handleSelectGate} />
-        {selectedGate && (
-          <div className="selected-gate-info">
-            <span>Selected: <strong>{selectedGate.name}</strong></span>
-            <span className="hint">Click a slot on the circuit to place</span>
-          </div>
-        )}
-      </aside>
-
-      {/* Center: Circuit + Controls */}
-      <main className="playground-main">
-        <div className="playground-controls">
-          <div className="qubit-control">
-            <label htmlFor="num-qubits">Qubits:</label>
-            <select
-              id="num-qubits"
-              value={numQubits}
-              onChange={(e) => {
-                setNumQubits(parseInt(e.target.value));
-                handleClear();
-              }}
-            >
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-                <option key={n} value={n}>{n}</option>
-              ))}
-            </select>
-          </div>
-          <button
-            className="btn btn-run"
-            onClick={handleRun}
-            disabled={isLoading || gates.length === 0}
-          >
-            {isLoading ? '⏳ Running...' : '▶ Run Circuit'}
-          </button>
-          <button className="btn btn-clear" onClick={handleClear}>
-            🗑 Clear
-          </button>
+    <>
+      {/* Navigation Bar */}
+      <nav className="nav">
+        <Link href="/" className="nav-brand">⚛️ Qwearn</Link>
+        <div className="nav-links">
+          <Link href="/playground" className="nav-link nav-link-active">
+            Circuit Playground
+          </Link>
         </div>
+      </nav>
 
-        <CircuitGrid
-          numQubits={numQubits}
-          gates={gates}
-          onRemoveGate={handleRemoveGate}
-          onAddGateAtSlot={handleAddGateAtSlot}
-        />
+      <div className="playground-layout">
+        {/* Left: Gate Palette + Examples + Save/Load */}
+        <aside className="playground-sidebar">
+          <GatePalette onAddGate={handleSelectGate} />
+          {selectedGate && (
+            <div className="selected-gate-info">
+              <span>Selected: <strong>{selectedGate.name}</strong></span>
+              <span className="hint">Click a slot on the circuit to place</span>
+            </div>
+          )}
+          <CircuitExamples onLoadPreset={handleLoadPreset} />
+          <SaveLoadPanel
+            currentCircuit={{ num_qubits: numQubits, gates: buildCircuitSpec() }}
+            onLoadCircuit={handleLoadCircuit}
+            hasGates={gates.length > 0}
+          />
+        </aside>
 
-        <CodePanel code={result?.generated_code || previewCode} />
-      </main>
+        {/* Center: Circuit + Controls + Code */}
+        <main className="playground-main">
+          <div className="playground-controls">
+            <div className="qubit-control">
+              <label htmlFor="num-qubits">Qubits:</label>
+              <select
+                id="num-qubits"
+                value={numQubits}
+                onChange={(e) => {
+                  setNumQubits(parseInt(e.target.value));
+                  handleClear();
+                }}
+              >
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+                  <option key={n} value={n}>{n}</option>
+                ))}
+              </select>
+            </div>
+            <button
+              className="btn btn-run"
+              onClick={handleRun}
+              disabled={isLoading || gates.length === 0}
+            >
+              {isLoading ? '⏳ Running...' : '▶ Run Circuit'}
+            </button>
+            <button className="btn btn-clear" onClick={handleClear}>
+              🗑 Clear
+            </button>
+          </div>
 
-      {/* Right: Results */}
-      <aside className="playground-results">
-        <ResultsPanel
-          result={result}
-          blochCoords={blochCoords}
-          isLoading={isLoading}
-          error={error}
-        />
-      </aside>
-    </div>
+          <CircuitGrid
+            numQubits={numQubits}
+            gates={gates}
+            onRemoveGate={handleRemoveGate}
+            onAddGateAtSlot={handleAddGateAtSlot}
+          />
+
+          <CodePanel code={result?.generated_code || previewCode} />
+        </main>
+
+        {/* Right: Results */}
+        <aside className="playground-results">
+          <ResultsPanel
+            result={result}
+            blochCoords={blochCoords}
+            isLoading={isLoading}
+            error={error}
+          />
+        </aside>
+      </div>
+    </>
   );
 }

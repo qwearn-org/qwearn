@@ -102,3 +102,89 @@ export async function validateCircuit(
   if (!res.ok) throw new Error('Validation request failed');
   return res.json();
 }
+
+// ---------------------------------------------------------------------------
+// Session ID (anonymous user identification)
+// ---------------------------------------------------------------------------
+
+const SESSION_ID_KEY = 'qwearn_session_id';
+
+/** Get or create an anonymous session ID stored in localStorage. */
+export function getSessionId(): string {
+  if (typeof window === 'undefined') return 'server';
+  let id = localStorage.getItem(SESSION_ID_KEY);
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem(SESSION_ID_KEY, id);
+  }
+  return id;
+}
+
+// ---------------------------------------------------------------------------
+// Circuit Save/Load
+// ---------------------------------------------------------------------------
+
+/** A saved circuit from the backend. */
+export interface CircuitSaveResponse {
+  id: string;
+  title: string;
+  description: string;
+  circuit_spec: CircuitSpec;
+  session_id: string;
+  created_at: string;
+  updated_at: string;
+}
+
+/** Save a new circuit. */
+export async function saveCircuit(
+  title: string,
+  circuitSpec: CircuitSpec,
+  description: string = ''
+): Promise<CircuitSaveResponse> {
+  const res = await fetch(`${API_URL}/api/circuits/saves`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Session-ID': getSessionId(),
+    },
+    body: JSON.stringify({
+      title,
+      description,
+      circuit_spec: circuitSpec,
+    }),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: res.statusText }));
+    throw new Error(err.detail || 'Failed to save circuit');
+  }
+  return res.json();
+}
+
+/** List all saved circuits for the current session. */
+export async function listSavedCircuits(): Promise<CircuitSaveResponse[]> {
+  const res = await fetch(`${API_URL}/api/circuits/saves`, {
+    headers: { 'X-Session-ID': getSessionId() },
+  });
+  if (!res.ok) return [];
+  return res.json();
+}
+
+/** Load a specific saved circuit. */
+export async function loadSavedCircuit(
+  saveId: string
+): Promise<CircuitSaveResponse> {
+  const res = await fetch(`${API_URL}/api/circuits/saves/${saveId}`, {
+    headers: { 'X-Session-ID': getSessionId() },
+  });
+  if (!res.ok) throw new Error('Failed to load circuit');
+  return res.json();
+}
+
+/** Delete a saved circuit. */
+export async function deleteSavedCircuit(saveId: string): Promise<void> {
+  const res = await fetch(`${API_URL}/api/circuits/saves/${saveId}`, {
+    method: 'DELETE',
+    headers: { 'X-Session-ID': getSessionId() },
+  });
+  if (!res.ok) throw new Error('Failed to delete circuit');
+}

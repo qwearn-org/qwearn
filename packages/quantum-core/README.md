@@ -65,8 +65,9 @@ sequenceDiagram
 | File | Purpose |
 |---|---|
 | `quantum_core/backend.py` | Abstract `QuantumBackend` interface + data models (`CircuitSpec`, `CircuitResult`, `GateSpec`, `BlochCoordinates`) |
-| `quantum_core/qiskit_backend.py` | Qiskit implementation (Phase 1) |
+| `quantum_core/qiskit_backend.py` | Qiskit Aer implementation (Phase 1) |
 | `tests/test_backend.py` | Unit tests for data models |
+| `tests/test_qiskit_backend.py` | Deterministic unit tests for QiskitBackend execution, Bloch coordinates, validation, & code gen |
 
 ## Quantum Conventions
 

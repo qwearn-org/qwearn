@@ -18,7 +18,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from app.routers import circuits, health
+from app.models.circuit_save import CircuitSave
+from app.routers import circuits, health, saves
 
 
 @asynccontextmanager
@@ -31,19 +32,35 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
     The MONGODB_URL environment variable defaults to a local Docker Compose
     MongoDB instance. Override it for production deployments.
+
+    If MongoDB is unavailable, the app still starts — circuit execution
+    endpoints work without a database. Only save/load endpoints require
+    MongoDB and will return errors at request time.
     """
     mongo_url = os.getenv("MONGODB_URL", "mongodb://localhost:27017")
     db_name = os.getenv("MONGODB_DB", "qwearn")
 
-    client = AsyncIOMotorClient(mongo_url)
-    db = client[db_name]
-
-    # Initialize Beanie with all document models.
-    # Models will be added here as they are built in subsequent phases.
-    await init_beanie(
-        database=db,
-        document_models=[],  # Phase 1 will add CircuitSave, etc.
+    client = AsyncIOMotorClient(
+        mongo_url,
+        serverSelectionTimeoutMS=3000,  # 3s timeout instead of 30s default
     )
+
+    try:
+        # Attempt to connect and initialize Beanie
+        db = client[db_name]
+        await init_beanie(
+            database=db,
+            document_models=[CircuitSave],
+        )
+    except Exception:
+        # MongoDB not available — circuit endpoints still work,
+        # but save/load endpoints will fail at request time.
+        import logging
+        logging.warning(
+            "MongoDB not available at %s. "
+            "Circuit execution works, but save/load is disabled.",
+            mongo_url,
+        )
 
     yield
 
@@ -74,3 +91,4 @@ app.add_middleware(
 # Mount routers
 app.include_router(health.router)
 app.include_router(circuits.router)
+app.include_router(saves.router)
