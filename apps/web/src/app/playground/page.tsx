@@ -227,6 +227,9 @@ export default function PlaygroundPage() {
       <nav className="nav">
         <Link href="/" className="nav-brand">⚛️ Qwearn</Link>
         <div className="nav-links">
+          <Link href="/learn" className="nav-link">
+            Learn
+          </Link>
           <Link href="/playground" className="nav-link nav-link-active">
             Circuit Playground
           </Link>

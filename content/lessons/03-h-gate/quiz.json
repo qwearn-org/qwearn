@@ -1,0 +1,7 @@
+{
+  "questions": [
+    { "id": "h-q1", "type": "multiple_choice", "question": "What state does H|0⟩ produce?", "options": ["|0⟩", "|1⟩", "|+⟩ = (|0⟩+|1⟩)/√2", "|−⟩ = (|0⟩−|1⟩)/√2"], "correctIndex": 2, "explanation": "The Hadamard gate maps |0⟩ to the superposition state |+⟩ = (|0⟩+|1⟩)/√2." },
+    { "id": "h-q2", "type": "multiple_choice", "question": "What is H·H (Hadamard applied twice)?", "options": ["H", "Z", "X", "I (identity)"], "correctIndex": 3, "explanation": "H is its own inverse: H² = I. Applying it twice returns the qubit to its original state." },
+    { "id": "h-q3", "type": "multiple_choice", "question": "What is the probability of measuring |0⟩ after applying H to |0⟩?", "options": ["0%", "25%", "50%", "100%"], "correctIndex": 2, "explanation": "H|0⟩ = (|0⟩+|1⟩)/√2, so the probability is |1/√2|² = 1/2 = 50%." }
+  ]
+}

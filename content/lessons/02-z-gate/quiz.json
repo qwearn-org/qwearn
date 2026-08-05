@@ -1,0 +1,28 @@
+{
+  "questions": [
+    {
+      "id": "z-q1",
+      "type": "multiple_choice",
+      "question": "What does the Z gate do to |0⟩?",
+      "options": ["Flips it to |1⟩", "Leaves it unchanged", "Creates superposition", "Adds a phase of i"],
+      "correctIndex": 1,
+      "explanation": "Z|0⟩ = |0⟩. The Z gate only affects the |1⟩ component by multiplying it by -1."
+    },
+    {
+      "id": "z-q2",
+      "type": "multiple_choice",
+      "question": "What is Z|+⟩?",
+      "options": ["|+⟩", "|−⟩", "|0⟩", "|1⟩"],
+      "correctIndex": 1,
+      "explanation": "Z|+⟩ = Z(|0⟩+|1⟩)/√2 = (|0⟩−|1⟩)/√2 = |−⟩. The Z gate flips the relative phase."
+    },
+    {
+      "id": "z-q3",
+      "type": "multiple_choice",
+      "question": "Which axis does the Z gate rotate around on the Bloch sphere?",
+      "options": ["X-axis", "Y-axis", "Z-axis", "No rotation"],
+      "correctIndex": 2,
+      "explanation": "The Z gate performs a π rotation around the Z-axis. That's why |0⟩ and |1⟩ (on the Z-axis) are eigenstates."
+    }
+  ]
+}

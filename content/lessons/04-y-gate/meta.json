@@ -1,0 +1,14 @@
+{
+  "id": "y-gate",
+  "title": "The Pauli-Y Gate",
+  "subtitle": "Combined Bit and Phase Flip",
+  "order": 4,
+  "gate": "Y",
+  "prerequisites": ["x-gate", "z-gate"],
+  "estimatedMinutes": 7,
+  "objectives": [
+    "Understand Y as a combined X and Z operation",
+    "See the complex entries in the Y matrix",
+    "Relate Y to rotations on the Bloch sphere"
+  ]
+}

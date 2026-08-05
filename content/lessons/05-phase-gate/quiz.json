@@ -1,0 +1,7 @@
+{
+  "questions": [
+    { "id": "p-q1", "type": "multiple_choice", "question": "What is P(π)?", "options": ["X gate", "Y gate", "Z gate", "H gate"], "correctIndex": 2, "explanation": "P(π) applies e^{iπ} = -1 to |1⟩, which is exactly what the Z gate does." },
+    { "id": "p-q2", "type": "multiple_choice", "question": "What does the S gate equal?", "options": ["P(π)", "P(π/2)", "P(π/4)", "P(2π)"], "correctIndex": 1, "explanation": "S = P(π/2). It applies a phase of e^{iπ/2} = i to |1⟩." },
+    { "id": "p-q3", "type": "multiple_choice", "question": "Why is the T gate important?", "options": ["It creates entanglement", "It's needed for universal quantum computation with H and CNOT", "It's the fastest gate", "It measures qubits"], "correctIndex": 1, "explanation": "The gate set {H, T, CNOT} is universal — any quantum computation can be approximated using just these three gates." }
+  ]
+}

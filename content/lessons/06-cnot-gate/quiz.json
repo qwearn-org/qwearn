@@ -1,0 +1,7 @@
+{
+  "questions": [
+    { "id": "cx-q1", "type": "multiple_choice", "question": "When does the CNOT gate flip the target qubit?", "options": ["Always", "When the control is |0⟩", "When the control is |1⟩", "When the target is |1⟩"], "correctIndex": 2, "explanation": "CNOT flips the target only when the control qubit is in state |1⟩." },
+    { "id": "cx-q2", "type": "multiple_choice", "question": "What state does H(q0)→CNOT(q0,q1) create from |00⟩?", "options": ["|00⟩", "|11⟩", "(|00⟩+|11⟩)/√2 (Bell state)", "(|01⟩+|10⟩)/√2"], "correctIndex": 2, "explanation": "H puts q0 in superposition, then CNOT correlates q1 with q0, creating the entangled Bell state |Φ+⟩." },
+    { "id": "cx-q3", "type": "multiple_choice", "question": "What do the Bloch spheres show for an entangled Bell state?", "options": ["Both at north pole", "Both at south pole", "Both at the center (0,0,0)", "One north, one south"], "correctIndex": 2, "explanation": "In an entangled state, each qubit individually is maximally mixed — its Bloch vector is at the origin. The quantum information is in the correlations between qubits, not in either qubit alone." }
+  ]
+}

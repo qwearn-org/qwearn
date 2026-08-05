@@ -1,0 +1,14 @@
+{
+  "id": "cnot-gate",
+  "title": "The CNOT Gate",
+  "subtitle": "Entanglement and Controlled Operations",
+  "order": 6,
+  "gate": "CX",
+  "prerequisites": ["x-gate", "h-gate"],
+  "estimatedMinutes": 12,
+  "objectives": [
+    "Understand two-qubit gates and the control/target pattern",
+    "Create entanglement with H + CNOT",
+    "Build and understand the Bell state"
+  ]
+}

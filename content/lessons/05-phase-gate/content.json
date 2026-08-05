@@ -1,0 +1,36 @@
+{
+  "blocks": [
+    { "type": "heading", "text": "What is the Phase Gate?", "level": 2 },
+    { "type": "text", "body": "The **Phase gate** P(θ) is the first **parameterized** gate we'll learn. Unlike X, Y, Z, and H which have fixed matrices, the Phase gate takes an angle θ as input and rotates the phase of |1⟩ by that angle. The Z gate is a special case: P(π) = Z." },
+
+    { "type": "heading", "text": "The Matrix", "level": 2 },
+    { "type": "matrix", "label": "P(θ)", "rows": [["1", "0"], ["0", "e^{i\\theta}"]] },
+    { "type": "math", "latex": "P(\\theta)|0\\rangle = |0\\rangle, \\quad P(\\theta)|1\\rangle = e^{i\\theta}|1\\rangle", "display": true },
+    { "type": "text", "body": "Like Z, the Phase gate leaves |0⟩ unchanged. The difference is that the phase applied to |1⟩ is a tunable parameter θ instead of the fixed value π." },
+
+    { "type": "heading", "text": "Special Cases: S and T Gates", "level": 2 },
+    { "type": "text", "body": "Two Phase gates are so commonly used they have their own names:" },
+    { "type": "math", "latex": "S = P\\left(\\frac{\\pi}{2}\\right), \\quad T = P\\left(\\frac{\\pi}{4}\\right)", "display": true },
+    { "type": "text", "body": "The **S gate** (quarter-turn) and **T gate** (eighth-turn) are crucial for quantum computing. The set {H, T, CNOT} is **universal** — any quantum computation can be approximated using just these three gates." },
+    { "type": "callout", "variant": "info", "body": "The T gate is particularly important for fault-tolerant quantum computing. It's the hardest gate to implement in most error-correcting codes, which is why quantum algorithms are often measured by their T-count." },
+
+    { "type": "heading", "text": "Phase on Superposition", "level": 2 },
+    { "type": "text", "body": "Let's see P(π/2) = S applied after an H gate:" },
+    { "type": "math", "latex": "S \\cdot H|0\\rangle = S \\frac{|0\\rangle + |1\\rangle}{\\sqrt{2}} = \\frac{|0\\rangle + i|1\\rangle}{\\sqrt{2}}", "display": true },
+    { "type": "circuit", "numQubits": 1, "caption": "H then S: the |1⟩ amplitude gains a phase of i", "readonly": true, "autoRun": true, "preset": [
+      { "id": "demo-1", "gate": "H", "qubits": [0], "column": 0 },
+      { "id": "demo-2", "gate": "S", "qubits": [0], "column": 1 }
+    ]},
+
+    { "type": "heading", "text": "On the Bloch Sphere", "level": 2 },
+    { "type": "text", "body": "The Phase gate rotates around the Z-axis by angle θ. Different angles move states to different points on the equator:" },
+    { "type": "bloch", "description": "Phase rotation moves states along the equator", "state": "custom", "customCoords": { "x": 0, "y": 1, "z": 0 } },
+
+    { "type": "heading", "text": "Try It Yourself", "level": 2 },
+    { "type": "text", "body": "Experiment with the S and T gates. Try H→S, H→T, and H→S→S (which should equal H→Z)." },
+    { "type": "circuit", "numQubits": 1, "caption": "Interactive: explore phase rotations", "readonly": false, "autoRun": false, "preset": [] },
+
+    { "type": "divider" },
+    { "type": "callout", "variant": "tip", "body": "**Key takeaway:** P(θ) rotates the phase of |1⟩ by angle θ. Special cases: Z = P(π), S = P(π/2), T = P(π/4). The T gate is essential for universal quantum computation." }
+  ]
+}

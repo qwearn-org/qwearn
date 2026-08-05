@@ -1,0 +1,36 @@
+{
+  "blocks": [
+    { "type": "heading", "text": "What is the Y Gate?", "level": 2 },
+    { "type": "text", "body": "The **Pauli-Y gate** combines the effects of both X (bit flip) and Z (phase flip). It flips |0⟩ to |1⟩ and |1⟩ to |0⟩, but with **imaginary** phase factors. It's the least intuitive of the three Pauli gates, but completes the set needed to describe any single-qubit rotation." },
+    { "type": "math", "latex": "Y = iXZ", "display": true },
+
+    { "type": "heading", "text": "The Matrix", "level": 2 },
+    { "type": "matrix", "label": "Y", "rows": [["0", "-i"], ["i", "0"]] },
+    { "type": "text", "body": "The imaginary numbers i and -i are what distinguish Y from X. They introduce a phase that depends on which state you started in:" },
+    { "type": "math", "latex": "Y|0\\rangle = i|1\\rangle, \\quad Y|1\\rangle = -i|0\\rangle", "display": true },
+
+    { "type": "heading", "text": "Y in Action", "level": 2 },
+    { "type": "text", "body": "Let's see the Y gate applied to |0⟩. The probabilities are identical to the X gate (100% chance of |1⟩), but the statevector has an imaginary component:" },
+    { "type": "circuit", "numQubits": 1, "caption": "Y|0⟩ = i|1⟩ — same probabilities as X|0⟩ but with phase i", "readonly": true, "autoRun": true, "preset": [
+      { "id": "demo-1", "gate": "Y", "qubits": [0], "column": 0 }
+    ]},
+
+    { "type": "heading", "text": "Y² = I", "level": 2 },
+    { "type": "text", "body": "Like X and Z, applying Y twice returns to the original state:" },
+    { "type": "math", "latex": "Y^2 = I", "display": true },
+    { "type": "circuit", "numQubits": 1, "caption": "Two Y gates cancel out", "readonly": true, "autoRun": true, "preset": [
+      { "id": "demo-1", "gate": "Y", "qubits": [0], "column": 0 },
+      { "id": "demo-2", "gate": "Y", "qubits": [0], "column": 1 }
+    ]},
+
+    { "type": "heading", "text": "On the Bloch Sphere", "level": 2 },
+    { "type": "text", "body": "The Y gate performs a **π rotation around the Y-axis**. This takes |0⟩ to |1⟩ via the Y-axis of the Bloch sphere (through the +Y point), as opposed to the X gate which goes through the +X point." },
+    { "type": "bloch", "description": "|0⟩ → |1⟩ via Y rotation", "state": "one" },
+
+    { "type": "heading", "text": "Try It Yourself", "level": 2 },
+    { "type": "circuit", "numQubits": 1, "caption": "Interactive: compare Y with X and Z", "readonly": false, "autoRun": false, "preset": [] },
+
+    { "type": "divider" },
+    { "type": "callout", "variant": "tip", "body": "**Key takeaway:** Y = iXZ. It combines bit flip and phase flip with imaginary coefficients. All three Pauli gates (X, Y, Z) are self-inverse and form a complete basis for single-qubit errors in quantum error correction." }
+  ]
+}

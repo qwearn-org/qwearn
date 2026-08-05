@@ -1,0 +1,42 @@
+{
+  "blocks": [
+    { "type": "heading", "text": "What is the Z Gate?", "level": 2 },
+    { "type": "text", "body": "The **Pauli-Z gate** is a phase flip gate. Unlike the X gate which swaps |0⟩ and |1⟩, the Z gate leaves |0⟩ completely unchanged but multiplies |1⟩ by -1. This is a **phase change** — invisible when you measure in the standard basis, but crucial for quantum interference." },
+    { "type": "callout", "variant": "info", "body": "Phase is what makes quantum computing different from classical computing. A phase flip doesn't change measurement probabilities in the computational basis, but it changes how qubits interfere with each other." },
+
+    { "type": "heading", "text": "The Matrix", "level": 2 },
+    { "type": "matrix", "label": "Z", "rows": [["1", "0"], ["0", "-1"]] },
+    { "type": "text", "body": "The Z gate is diagonal — it multiplies each basis state by a scalar:" },
+    { "type": "math", "latex": "Z|0\\rangle = |0\\rangle, \\quad Z|1\\rangle = -|1\\rangle", "display": true },
+
+    { "type": "heading", "text": "Z on the Computational Basis", "level": 2 },
+    { "type": "text", "body": "When applied to |0⟩, the Z gate does nothing. The probabilities are unchanged:" },
+    { "type": "circuit", "numQubits": 1, "caption": "Z|0⟩ = |0⟩ — no visible effect on |0⟩", "readonly": true, "autoRun": true, "preset": [
+      { "id": "demo-1", "gate": "Z", "qubits": [0], "column": 0 }
+    ]},
+    { "type": "text", "body": "But when applied to |1⟩ (after an X gate), the Z gate adds a global phase of -1. This is undetectable by measurement:" },
+    { "type": "circuit", "numQubits": 1, "caption": "X then Z: the -1 phase on |1⟩ doesn't change probabilities", "readonly": true, "autoRun": true, "preset": [
+      { "id": "demo-1", "gate": "X", "qubits": [0], "column": 0 },
+      { "id": "demo-2", "gate": "Z", "qubits": [0], "column": 1 }
+    ]},
+
+    { "type": "heading", "text": "Where Z Really Matters: Superposition", "level": 2 },
+    { "type": "text", "body": "The Z gate's effect becomes visible in superposition. The state |+⟩ = (|0⟩ + |1⟩)/√2 becomes |−⟩ = (|0⟩ − |1⟩)/√2:" },
+    { "type": "math", "latex": "Z|+\\rangle = Z \\frac{|0\\rangle + |1\\rangle}{\\sqrt{2}} = \\frac{|0\\rangle - |1\\rangle}{\\sqrt{2}} = |-\\rangle", "display": true },
+    { "type": "circuit", "numQubits": 1, "caption": "H then Z: creates the |−⟩ state — same probabilities as |+⟩ but different phase", "readonly": true, "autoRun": true, "preset": [
+      { "id": "demo-1", "gate": "H", "qubits": [0], "column": 0 },
+      { "id": "demo-2", "gate": "Z", "qubits": [0], "column": 1 }
+    ]},
+
+    { "type": "heading", "text": "On the Bloch Sphere", "level": 2 },
+    { "type": "text", "body": "The Z gate performs a **π rotation around the Z-axis**. States on the Z-axis (|0⟩ and |1⟩) are unchanged, but states on the equator (like |+⟩) rotate to their opposite point." },
+    { "type": "bloch", "description": "|+⟩ → |−⟩: rotation on the equator", "state": "minus" },
+
+    { "type": "heading", "text": "Try It Yourself", "level": 2 },
+    { "type": "text", "body": "Experiment with the Z gate. Try Z alone, then H→Z, and Z→H. Are the results the same?" },
+    { "type": "circuit", "numQubits": 1, "caption": "Interactive: explore phase flips", "readonly": false, "autoRun": false, "preset": [] },
+
+    { "type": "divider" },
+    { "type": "callout", "variant": "tip", "body": "**Key takeaway:** The Z gate flips the phase of |1⟩ without changing |0⟩. Its effect is invisible in the computational basis but crucial in superposition, where it distinguishes |+⟩ from |−⟩." }
+  ]
+}

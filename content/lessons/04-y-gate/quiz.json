@@ -1,0 +1,7 @@
+{
+  "questions": [
+    { "id": "y-q1", "type": "multiple_choice", "question": "What is Y|0⟩?", "options": ["|0⟩", "|1⟩", "i|1⟩", "-i|1⟩"], "correctIndex": 2, "explanation": "Y|0⟩ = i|1⟩. The Y gate flips the bit and adds a phase of i." },
+    { "id": "y-q2", "type": "multiple_choice", "question": "How is Y related to X and Z?", "options": ["Y = X + Z", "Y = XZ", "Y = iXZ", "Y = X/Z"], "correctIndex": 2, "explanation": "Y = iXZ. The Y gate is the product of X and Z (with a factor of i)." },
+    { "id": "y-q3", "type": "multiple_choice", "question": "What distinguishes Y from X in terms of measurement probabilities?", "options": ["Y gives different probabilities", "Nothing — same probabilities, different phases", "Y always gives 50/50", "Y never changes the state"], "correctIndex": 1, "explanation": "Y|0⟩ and X|0⟩ both give 100% probability of |1⟩. The difference is the complex phase, which matters for interference effects." }
+  ]
+}

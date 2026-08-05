@@ -1,0 +1,44 @@
+{
+  "blocks": [
+    { "type": "heading", "text": "What is the Toffoli Gate?", "level": 2 },
+    { "type": "text", "body": "The **Toffoli gate** (also called CCX or CCNOT) is a three-qubit gate with **two controls** and **one target**. The target is flipped only when **both** controls are |1⟩. This makes it a quantum version of the classical AND gate — and proves that quantum computers can do everything classical computers can." },
+    { "type": "callout", "variant": "info", "body": "Named after Tommaso Toffoli, who introduced it in 1980. The Toffoli gate is reversible (unitary), unlike classical AND, which is irreversible (you can't recover the inputs from the output)." },
+
+    { "type": "heading", "text": "The Truth Table", "level": 2 },
+    { "type": "text", "body": "The Toffoli gate maps |a, b, c⟩ → |a, b, c ⊕ (a·b)⟩. In other words, the target flips when both controls are 1:" },
+    { "type": "matrix", "label": "Truth Table", "rows": [["Input", "Output"], ["|000⟩", "|000⟩"], ["|010⟩", "|010⟩"], ["|100⟩", "|100⟩"], ["|110⟩", "|111⟩"], ["|001⟩", "|001⟩"], ["|011⟩", "|011⟩"], ["|101⟩", "|101⟩"], ["|111⟩", "|110⟩"]] },
+
+    { "type": "heading", "text": "Toffoli as AND Gate", "level": 2 },
+    { "type": "text", "body": "If the target qubit starts as |0⟩, the Toffoli gate computes the AND of the two controls: |a, b, 0⟩ → |a, b, a·b⟩. Let's verify with both controls set to |1⟩:" },
+    { "type": "circuit", "numQubits": 3, "caption": "Both controls = |1⟩: target flips to |1⟩ (AND = 1)", "readonly": true, "autoRun": true, "preset": [
+      { "id": "demo-1", "gate": "X", "qubits": [0], "column": 0 },
+      { "id": "demo-2", "gate": "X", "qubits": [1], "column": 0 },
+      { "id": "demo-3", "gate": "CCX", "qubits": [0, 1, 2], "column": 1 }
+    ]},
+    { "type": "text", "body": "Now with only one control set to |1⟩ — the target stays |0⟩:" },
+    { "type": "circuit", "numQubits": 3, "caption": "One control = |1⟩: target stays |0⟩ (AND = 0)", "readonly": true, "autoRun": true, "preset": [
+      { "id": "demo-1", "gate": "X", "qubits": [0], "column": 0 },
+      { "id": "demo-2", "gate": "CCX", "qubits": [0, 1, 2], "column": 1 }
+    ]},
+
+    { "type": "heading", "text": "Why It Matters: Classical Universality", "level": 2 },
+    { "type": "text", "body": "The Toffoli gate can simulate any classical logic circuit. Since AND and NOT are a universal classical gate set, and Toffoli computes AND (with NOT available via X), quantum computers are **at least as powerful** as classical computers." },
+    { "type": "math", "latex": "\\text{AND}(a, b) = \\text{Toffoli}(a, b, 0) \\quad \\text{NOT}(a) = X(a)", "display": true },
+    { "type": "callout", "variant": "tip", "body": "This is a key theoretical result: quantum computing is strictly more powerful than classical computing (assuming BQP ≠ BPP), because quantum computers can do everything classical ones can plus quantum operations like superposition and entanglement." },
+
+    { "type": "heading", "text": "Toffoli with Superposition", "level": 2 },
+    { "type": "text", "body": "When the controls are in superposition, the Toffoli gate creates entanglement across all three qubits:" },
+    { "type": "circuit", "numQubits": 3, "caption": "H on both controls → Toffoli: creates a 3-qubit entangled state", "readonly": true, "autoRun": true, "preset": [
+      { "id": "demo-1", "gate": "H", "qubits": [0], "column": 0 },
+      { "id": "demo-2", "gate": "H", "qubits": [1], "column": 0 },
+      { "id": "demo-3", "gate": "CCX", "qubits": [0, 1, 2], "column": 1 }
+    ]},
+
+    { "type": "heading", "text": "Try It Yourself", "level": 2 },
+    { "type": "text", "body": "Build circuits with the Toffoli gate. Try implementing OR using Toffoli and X gates (De Morgan's law)." },
+    { "type": "circuit", "numQubits": 3, "caption": "Interactive: experiment with the Toffoli gate", "readonly": false, "autoRun": false, "preset": [] },
+
+    { "type": "divider" },
+    { "type": "callout", "variant": "tip", "body": "**Key takeaway:** The Toffoli gate flips the target when both controls are |1⟩ — a reversible AND gate. It proves quantum computers are at least as powerful as classical ones. Combined with H, it enables quantum computation on classical logic." }
+  ]
+}

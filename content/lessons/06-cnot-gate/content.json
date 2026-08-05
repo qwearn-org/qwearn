@@ -1,0 +1,43 @@
+{
+  "blocks": [
+    { "type": "heading", "text": "What is the CNOT Gate?", "level": 2 },
+    { "type": "text", "body": "The **CNOT** (Controlled-NOT) gate is the most important two-qubit gate. It has a **control** qubit and a **target** qubit. If the control is |1⟩, the target gets flipped (X applied). If the control is |0⟩, nothing happens. This conditional behavior is what creates **entanglement** — the defining feature of quantum computing." },
+    { "type": "callout", "variant": "info", "body": "CNOT is also called CX (Controlled-X). In circuit diagrams, the control qubit gets a dot (●) and the target gets a ⊕ symbol." },
+
+    { "type": "heading", "text": "The Matrix", "level": 2 },
+    { "type": "text", "body": "CNOT acts on two qubits, so it's a 4×4 matrix (2² = 4 basis states):" },
+    { "type": "matrix", "label": "CNOT", "rows": [["1","0","0","0"], ["0","1","0","0"], ["0","0","0","1"], ["0","0","1","0"]] },
+    { "type": "text", "body": "Reading the matrix: |00⟩→|00⟩, |01⟩→|01⟩, |10⟩→|11⟩, |11⟩→|10⟩. The target qubit flips only when the control is 1." },
+
+    { "type": "heading", "text": "CNOT on Computational Basis States", "level": 2 },
+    { "type": "text", "body": "When both qubits start as |0⟩, CNOT does nothing (control is 0):" },
+    { "type": "circuit", "numQubits": 2, "caption": "CNOT with control=|0⟩: nothing happens", "readonly": true, "autoRun": true, "preset": [
+      { "id": "demo-1", "gate": "CX", "qubits": [0, 1], "column": 0 }
+    ]},
+    { "type": "text", "body": "But if we first flip the control qubit with X, the CNOT flips the target too:" },
+    { "type": "circuit", "numQubits": 2, "caption": "X on q0 then CNOT: control=|1⟩ flips the target → |11⟩", "readonly": true, "autoRun": true, "preset": [
+      { "id": "demo-1", "gate": "X", "qubits": [0], "column": 0 },
+      { "id": "demo-2", "gate": "CX", "qubits": [0, 1], "column": 1 }
+    ]},
+
+    { "type": "heading", "text": "Creating Entanglement: The Bell State", "level": 2 },
+    { "type": "text", "body": "The magic happens when the control qubit is in **superposition**. Apply H to q0, then CNOT:" },
+    { "type": "math", "latex": "\\text{CNOT} \\cdot (H \\otimes I)|00\\rangle = \\text{CNOT} \\frac{|00\\rangle + |10\\rangle}{\\sqrt{2}} = \\frac{|00\\rangle + |11\\rangle}{\\sqrt{2}}", "display": true },
+    { "type": "text", "body": "This is the **Bell state** |Φ+⟩ — the simplest example of quantum entanglement. The two qubits are now correlated: measuring one instantly determines the other, no matter how far apart they are." },
+    { "type": "callout", "variant": "warning", "body": "Entanglement is NOT faster-than-light communication. You can't choose what measurement outcome you get — it's random. But the outcomes are perfectly correlated." },
+    { "type": "circuit", "numQubits": 2, "caption": "The Bell state: H(q0) → CNOT(q0,q1) creates entanglement", "readonly": true, "autoRun": true, "preset": [
+      { "id": "demo-1", "gate": "H", "qubits": [0], "column": 0 },
+      { "id": "demo-2", "gate": "CX", "qubits": [0, 1], "column": 1 }
+    ]},
+
+    { "type": "heading", "text": "Entangled Bloch Spheres", "level": 2 },
+    { "type": "text", "body": "Notice something unusual in the Bloch spheres: both qubits show Bloch vectors at the **center** of the sphere (0, 0, 0). This means each qubit individually is in a maximally mixed state — it's only when you consider both qubits together that the state is pure. This is the signature of entanglement." },
+
+    { "type": "heading", "text": "Try It Yourself", "level": 2 },
+    { "type": "text", "body": "Create your own entangled states. Try CNOT with different controls, or build all four Bell states." },
+    { "type": "circuit", "numQubits": 2, "caption": "Interactive: experiment with CNOT and entanglement", "readonly": false, "autoRun": false, "preset": [] },
+
+    { "type": "divider" },
+    { "type": "callout", "variant": "tip", "body": "**Key takeaway:** CNOT flips the target qubit when the control is |1⟩. Combined with H, it creates entanglement — quantum correlations that have no classical analog. The Bell state H→CNOT is the foundation of quantum teleportation, superdense coding, and many algorithms." }
+  ]
+}

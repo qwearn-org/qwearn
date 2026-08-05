@@ -1,0 +1,50 @@
+{
+  "blocks": [
+    { "type": "heading", "text": "What is the Hadamard Gate?", "level": 2 },
+    { "type": "text", "body": "The **Hadamard gate** (H) is arguably the most important single-qubit gate in quantum computing. It creates **superposition** — putting a qubit into an equal mix of |0⟩ and |1⟩. This is the foundation of quantum parallelism and the starting point of nearly every quantum algorithm." },
+    { "type": "callout", "variant": "info", "body": "Without superposition, quantum computers would just be slow classical computers. The H gate is what unlocks quantum computational advantage." },
+
+    { "type": "heading", "text": "The Matrix", "level": 2 },
+    { "type": "matrix", "label": "H", "rows": [["\\frac{1}{\\sqrt{2}}", "\\frac{1}{\\sqrt{2}}"], ["\\frac{1}{\\sqrt{2}}", "-\\frac{1}{\\sqrt{2}}"]] },
+    { "type": "text", "body": "The factor 1/√2 ensures the gate is unitary (preserves total probability = 1)." },
+
+    { "type": "heading", "text": "H on |0⟩: The |+⟩ State", "level": 2 },
+    { "type": "math", "latex": "H|0\\rangle = \\frac{|0\\rangle + |1\\rangle}{\\sqrt{2}} = |+\\rangle", "display": true },
+    { "type": "text", "body": "The result |+⟩ (\"plus\") has equal probability of being measured as 0 or 1 — a perfect coin flip, but quantum!" },
+    { "type": "circuit", "numQubits": 1, "caption": "H|0⟩ = |+⟩: 50/50 superposition", "readonly": true, "autoRun": true, "preset": [
+      { "id": "demo-1", "gate": "H", "qubits": [0], "column": 0 }
+    ]},
+
+    { "type": "heading", "text": "H on |1⟩: The |−⟩ State", "level": 2 },
+    { "type": "math", "latex": "H|1\\rangle = \\frac{|0\\rangle - |1\\rangle}{\\sqrt{2}} = |-\\rangle", "display": true },
+    { "type": "text", "body": "The |−⟩ state also gives 50/50 probabilities when measured. The difference from |+⟩ is the **relative phase** — invisible in standard measurement but essential for algorithms." },
+    { "type": "circuit", "numQubits": 1, "caption": "X then H: creates |−⟩ = (|0⟩−|1⟩)/√2", "readonly": true, "autoRun": true, "preset": [
+      { "id": "demo-1", "gate": "X", "qubits": [0], "column": 0 },
+      { "id": "demo-2", "gate": "H", "qubits": [0], "column": 1 }
+    ]},
+
+    { "type": "heading", "text": "H is Its Own Inverse", "level": 2 },
+    { "type": "text", "body": "A remarkable property: applying H twice returns the qubit to its original state!" },
+    { "type": "math", "latex": "H \\cdot H = I \\quad \\Rightarrow \\quad H^2|0\\rangle = |0\\rangle", "display": true },
+    { "type": "circuit", "numQubits": 1, "caption": "H² = I: two Hadamards cancel out", "readonly": true, "autoRun": true, "preset": [
+      { "id": "demo-1", "gate": "H", "qubits": [0], "column": 0 },
+      { "id": "demo-2", "gate": "H", "qubits": [0], "column": 1 }
+    ]},
+
+    { "type": "heading", "text": "The H-Z-X Connection", "level": 2 },
+    { "type": "text", "body": "The Hadamard gate connects the X and Z bases. It transforms between them:" },
+    { "type": "math", "latex": "HXH = Z, \\quad HZH = X", "display": true },
+    { "type": "text", "body": "This means: if you sandwich an X gate between two H gates, it behaves like a Z gate (and vice versa). This duality is deeply important in quantum error correction and algorithm design." },
+
+    { "type": "heading", "text": "On the Bloch Sphere", "level": 2 },
+    { "type": "text", "body": "The H gate rotates the Bloch sphere by π around the axis halfway between X and Z. It maps the poles to the equator and back." },
+    { "type": "bloch", "description": "|0⟩ → |+⟩: from north pole to equator (+X)", "state": "plus" },
+
+    { "type": "heading", "text": "Try It Yourself", "level": 2 },
+    { "type": "text", "body": "Build circuits with H gates. Try: H alone, H→Z→H, and H on multiple qubits." },
+    { "type": "circuit", "numQubits": 2, "caption": "Interactive: experiment with superposition", "readonly": false, "autoRun": false, "preset": [] },
+
+    { "type": "divider" },
+    { "type": "callout", "variant": "tip", "body": "**Key takeaway:** The Hadamard gate creates superposition from a definite state. H|0⟩ = |+⟩ gives equal probability of 0 and 1. It's self-inverse (H² = I) and bridges the X and Z bases." }
+  ]
+}

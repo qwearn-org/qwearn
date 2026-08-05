@@ -1,0 +1,14 @@
+{
+  "id": "x-gate",
+  "title": "The Pauli-X Gate",
+  "subtitle": "Quantum Bit Flip",
+  "order": 1,
+  "gate": "X",
+  "prerequisites": [],
+  "estimatedMinutes": 8,
+  "objectives": [
+    "Understand the X gate as a quantum NOT gate",
+    "See how it transforms |0⟩ to |1⟩ and vice versa",
+    "Read the X gate's matrix representation"
+  ]
+}

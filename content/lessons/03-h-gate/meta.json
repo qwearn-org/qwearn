@@ -1,0 +1,14 @@
+{
+  "id": "h-gate",
+  "title": "The Hadamard Gate",
+  "subtitle": "Creating Superposition",
+  "order": 3,
+  "gate": "H",
+  "prerequisites": ["x-gate", "z-gate"],
+  "estimatedMinutes": 10,
+  "objectives": [
+    "Understand superposition and why it matters",
+    "See how H creates equal probability of |0⟩ and |1⟩",
+    "Learn the relationship between H, X, and Z"
+  ]
+}

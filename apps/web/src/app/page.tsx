@@ -6,6 +6,9 @@ export default function Home() {
       <nav className="nav">
         <span className="nav-brand">⚛️ Qwearn</span>
         <div className="nav-links">
+          <Link href="/learn" className="nav-link">
+            Learn
+          </Link>
           <Link href="/playground" className="nav-link">
             Circuit Playground
           </Link>

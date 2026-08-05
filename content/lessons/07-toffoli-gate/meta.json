@@ -1,0 +1,14 @@
+{
+  "id": "toffoli-gate",
+  "title": "The Toffoli Gate",
+  "subtitle": "Universal Classical Computation",
+  "order": 7,
+  "gate": "CCX",
+  "prerequisites": ["x-gate", "cnot-gate"],
+  "estimatedMinutes": 10,
+  "objectives": [
+    "Understand three-qubit controlled operations",
+    "See how Toffoli implements classical logic (AND gate)",
+    "Learn why Toffoli makes quantum computing classically universal"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "z-gate",
+  "title": "The Pauli-Z Gate",
+  "subtitle": "Phase Flip",
+  "order": 2,
+  "gate": "Z",
+  "prerequisites": ["x-gate"],
+  "estimatedMinutes": 8,
+  "objectives": [
+    "Understand phase flips vs. bit flips",
+    "See how Z leaves |0⟩ unchanged but flips the phase of |1⟩",
+    "Recognize the Z gate's diagonal matrix"
+  ]
+}

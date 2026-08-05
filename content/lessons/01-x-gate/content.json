@@ -1,0 +1,40 @@
+{
+  "blocks": [
+    { "type": "heading", "text": "What is the X Gate?", "level": 2 },
+    { "type": "text", "body": "The **Pauli-X gate** is the quantum equivalent of a classical NOT gate. It flips a qubit's state: |0⟩ becomes |1⟩, and |1⟩ becomes |0⟩. It's the simplest single-qubit gate and the first one every quantum programmer learns." },
+    { "type": "callout", "variant": "info", "body": "The X gate is named after physicist Wolfgang Pauli. Together with the Y and Z gates, the three Pauli gates form a basis for all single-qubit operations." },
+
+    { "type": "heading", "text": "The Matrix", "level": 2 },
+    { "type": "text", "body": "Every quantum gate is represented by a unitary matrix. The X gate's matrix is:" },
+    { "type": "matrix", "label": "X", "rows": [["0", "1"], ["1", "0"]] },
+    { "type": "text", "body": "This matrix swaps the amplitudes of |0⟩ and |1⟩. When we apply it to a general qubit state:" },
+    { "type": "math", "latex": "X \\begin{pmatrix} \\alpha \\\\ \\beta \\end{pmatrix} = \\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix} \\begin{pmatrix} \\alpha \\\\ \\beta \\end{pmatrix} = \\begin{pmatrix} \\beta \\\\ \\alpha \\end{pmatrix}", "display": true },
+
+    { "type": "heading", "text": "X Gate on |0⟩", "level": 2 },
+    { "type": "text", "body": "Let's see what happens when we apply the X gate to |0⟩:" },
+    { "type": "math", "latex": "X|0\\rangle = |1\\rangle", "display": true },
+    { "type": "circuit", "numQubits": 1, "caption": "X gate flips |0⟩ to |1⟩ — the probability of measuring |1⟩ is 100%", "readonly": true, "autoRun": true, "preset": [
+      { "id": "demo-1", "gate": "X", "qubits": [0], "column": 0 }
+    ]},
+
+    { "type": "heading", "text": "X Gate on |1⟩", "level": 2 },
+    { "type": "text", "body": "And when we apply X twice (X on |1⟩):" },
+    { "type": "math", "latex": "X \\cdot X|0\\rangle = X|1\\rangle = |0\\rangle", "display": true },
+    { "type": "text", "body": "Applying X twice returns the qubit to its original state. This makes sense — flipping a bit twice gives you back the original!" },
+    { "type": "circuit", "numQubits": 1, "caption": "Two X gates cancel out — the qubit returns to |0⟩", "readonly": true, "autoRun": true, "preset": [
+      { "id": "demo-1", "gate": "X", "qubits": [0], "column": 0 },
+      { "id": "demo-2", "gate": "X", "qubits": [0], "column": 1 }
+    ]},
+
+    { "type": "heading", "text": "On the Bloch Sphere", "level": 2 },
+    { "type": "text", "body": "The X gate performs a **π rotation around the X-axis** of the Bloch sphere. This takes |0⟩ (north pole) to |1⟩ (south pole) and vice versa." },
+    { "type": "bloch", "description": "|0⟩ → |1⟩: North pole to south pole", "state": "one" },
+
+    { "type": "heading", "text": "Try It Yourself", "level": 2 },
+    { "type": "text", "body": "Place an X gate on the circuit below and run it. Try adding multiple X gates — what happens?" },
+    { "type": "circuit", "numQubits": 1, "caption": "Interactive: place X gates and observe the results", "readonly": false, "autoRun": false, "preset": [] },
+
+    { "type": "divider" },
+    { "type": "callout", "variant": "tip", "body": "**Key takeaway:** The X gate is the quantum NOT. It flips |0⟩ ↔ |1⟩. Applying it twice returns the qubit to its original state (X² = I)." }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "questions": [
+    {
+      "id": "x-q1",
+      "type": "multiple_choice",
+      "question": "What does the X gate do to |0⟩?",
+      "options": ["Leaves it as |0⟩", "Maps it to |1⟩", "Creates superposition |+⟩", "Adds a phase factor"],
+      "correctIndex": 1,
+      "explanation": "The X gate is a quantum NOT — it flips |0⟩ to |1⟩ and |1⟩ to |0⟩."
+    },
+    {
+      "id": "x-q2",
+      "type": "multiple_choice",
+      "question": "What happens when you apply the X gate twice?",
+      "options": ["The qubit is in superposition", "The qubit returns to its original state", "The qubit is destroyed", "You get an error"],
+      "correctIndex": 1,
+      "explanation": "X² = I (the identity). Applying X twice swaps the amplitudes twice, returning to the original state."
+    },
+    {
+      "id": "x-q3",
+      "type": "multiple_choice",
+      "question": "What rotation does the X gate perform on the Bloch sphere?",
+      "options": ["π rotation around Z-axis", "π rotation around X-axis", "π/2 rotation around Y-axis", "No rotation"],
+      "correctIndex": 1,
+      "explanation": "The Pauli-X gate performs a π (180°) rotation around the X-axis of the Bloch sphere."
+    }
+  ]
+}

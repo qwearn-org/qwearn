@@ -1,0 +1,7 @@
+{
+  "questions": [
+    { "id": "ccx-q1", "type": "multiple_choice", "question": "When does the Toffoli gate flip the target qubit?", "options": ["When either control is |1⟩", "When both controls are |1⟩", "When the target is |1⟩", "Always"], "correctIndex": 1, "explanation": "The Toffoli gate requires both controls to be |1⟩ before flipping the target." },
+    { "id": "ccx-q2", "type": "multiple_choice", "question": "If the target starts as |0⟩, what classical operation does the Toffoli gate compute?", "options": ["OR", "AND", "XOR", "NOT"], "correctIndex": 1, "explanation": "Toffoli(a, b, 0) = (a, b, a AND b). The target becomes the AND of the two controls." },
+    { "id": "ccx-q3", "type": "multiple_choice", "question": "Why does the Toffoli gate prove quantum computers can simulate classical computers?", "options": ["It's very fast", "It can compute AND and NOT, which are classically universal", "It uses entanglement", "It has 3 qubits"], "correctIndex": 1, "explanation": "AND + NOT is a universal classical gate set. Since Toffoli computes AND (and X computes NOT), quantum computers can simulate any classical circuit." }
+  ]
+}

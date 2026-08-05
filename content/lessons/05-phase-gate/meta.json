@@ -1,0 +1,14 @@
+{
+  "id": "phase-gate",
+  "title": "The Phase Gate",
+  "subtitle": "Parameterized Phase Rotation",
+  "order": 5,
+  "gate": "Phase",
+  "prerequisites": ["z-gate", "h-gate"],
+  "estimatedMinutes": 10,
+  "objectives": [
+    "Understand parameterized quantum gates",
+    "See how different angles produce different phase rotations",
+    "Relate S and T gates to the Phase gate"
+  ]
+}
