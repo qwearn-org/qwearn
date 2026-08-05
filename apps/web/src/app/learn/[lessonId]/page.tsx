@@ -9,6 +9,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Logo from '@web/components/common/Logo';
 import { useParams } from 'next/navigation';
 import { getLessonById, getNextLesson, getPrevLesson, getAllLessonMetas } from '@web/lib/lessons';
 import LessonRenderer from '@web/components/learn/LessonRenderer';
@@ -30,7 +31,7 @@ export default function LessonPage() {
     return (
       <>
         <nav className="nav">
-          <Link href="/" className="nav-brand">⚛️ Qwearn</Link>
+          <Link href="/" className="nav-brand"><Logo size={28} /></Link>
           <div className="nav-links">
             <Link href="/learn" className="nav-link nav-link-active">Learn</Link>
             <Link href="/playground" className="nav-link">Circuit Playground</Link>
@@ -48,7 +49,7 @@ export default function LessonPage() {
   return (
     <>
       <nav className="nav">
-        <Link href="/" className="nav-brand">⚛️ Qwearn</Link>
+        <Link href="/" className="nav-brand"><Logo size={28} /></Link>
         <div className="nav-links">
           <Link href="/learn" className="nav-link nav-link-active">Learn</Link>
           <Link href="/playground" className="nav-link">Circuit Playground</Link>

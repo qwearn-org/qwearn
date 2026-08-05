@@ -1,6 +1,8 @@
 <div align="center">
 
-# ⚛️ Qwearn
+<img src="docs/assets/logo.svg" alt="Qwearn Logo" width="120" />
+
+# Qwearn
 
 **An open-source, interactive quantum computing learning platform.**
 

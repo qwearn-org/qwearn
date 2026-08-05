@@ -16,6 +16,7 @@
 
 import React, { useState, useCallback, useMemo } from 'react';
 import Link from 'next/link';
+import Logo from '@web/components/common/Logo';
 import GatePalette from '@web/components/circuit/GatePalette';
 import CircuitGrid, { type PlacedGate } from '@web/components/circuit/CircuitGrid';
 import CodePanel from '@web/components/circuit/CodePanel';
@@ -225,7 +226,7 @@ export default function PlaygroundPage() {
     <>
       {/* Navigation Bar */}
       <nav className="nav">
-        <Link href="/" className="nav-brand">⚛️ Qwearn</Link>
+        <Link href="/" className="nav-brand"><Logo size={28} /></Link>
         <div className="nav-links">
           <Link href="/learn" className="nav-link">
             Learn

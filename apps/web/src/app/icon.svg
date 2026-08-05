@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="orbitGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="50%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="orbitGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#d946ef"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+    <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="60%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#4338ca"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="#090d16"/>
+  <circle cx="256" cy="256" r="220" fill="url(#bgGlow)"/>
+  <g>
+    <ellipse cx="256" cy="256" rx="170" ry="64" fill="none" stroke="url(#orbitGrad1)" stroke-width="20" transform="rotate(-30, 256, 256)" stroke-linecap="round"/>
+    <ellipse cx="256" cy="256" rx="170" ry="64" fill="none" stroke="url(#orbitGrad2)" stroke-width="20" transform="rotate(45, 256, 256)" stroke-linecap="round"/>
+    <path d="M 330 330 Q 390 390 435 415" fill="none" stroke="url(#orbitGrad1)" stroke-width="22" stroke-linecap="round"/>
+    <circle cx="435" cy="415" r="14" fill="#22d3ee"/>
+    <circle cx="256" cy="256" r="45" fill="url(#coreGlow)"/>
+    <circle cx="256" cy="256" r="20" fill="#ffffff"/>
+    <circle cx="115" cy="185" r="14" fill="#22d3ee"/>
+    <circle cx="390" cy="310" r="12" fill="#a855f7"/>
+  </g>
+</svg>

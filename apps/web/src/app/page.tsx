@@ -1,10 +1,13 @@
 import Link from 'next/link';
+import Logo from '@web/components/common/Logo';
 
 export default function Home() {
   return (
     <div className="landing">
       <nav className="nav">
-        <span className="nav-brand">⚛️ Qwearn</span>
+        <Link href="/" className="nav-brand">
+          <Logo size={32} />
+        </Link>
         <div className="nav-links">
           <Link href="/learn" className="nav-link">
             Learn

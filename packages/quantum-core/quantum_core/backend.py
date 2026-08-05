@@ -161,6 +161,29 @@ class CircuitResult(BaseModel):
     backend_name: str
 
 
+class StepResult(BaseModel):
+    """
+    Result of a single step in step-through execution.
+
+    Used by the Quantum Algorithms module to show how the quantum
+    state evolves gate by gate. Each StepResult captures the state
+    of the system after applying one gate.
+
+    Attributes:
+        step_index: 0-based index of this step (0 = initial state before any gates).
+        gate_name: Name of the gate just applied (None for step 0 = initial state).
+        gate_qubits: Qubits the gate was applied to.
+        statevector: Complex amplitudes after this step.
+        probabilities: Measurement probabilities after this step.
+    """
+
+    step_index: int
+    gate_name: str | None = None
+    gate_qubits: list[int] = Field(default_factory=list)
+    statevector: list[list[float]]
+    probabilities: dict[str, float]
+
+
 class BlochCoordinates(BaseModel):
     """
     Bloch sphere coordinates for a single qubit.
@@ -324,5 +347,26 @@ class QuantumBackend(ABC):
 
         Returns:
             List of gate metadata dictionaries.
+        """
+        ...
+
+    @abstractmethod
+    def execute_steps(
+        self,
+        circuit: CircuitSpec,
+    ) -> list["StepResult"]:
+        """
+        Execute a circuit gate-by-gate, returning intermediate states.
+
+        This is used by the Quantum Algorithms module to animate
+        step-through execution. Step 0 is the initial state (all |0⟩),
+        and each subsequent step shows the state after one more gate.
+
+        Args:
+            circuit: Framework-agnostic circuit specification.
+
+        Returns:
+            List of StepResult objects, length = len(gates) + 1
+            (initial state + one per gate).
         """
         ...

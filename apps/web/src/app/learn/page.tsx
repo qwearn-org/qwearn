@@ -6,6 +6,7 @@
  */
 
 import Link from 'next/link';
+import Logo from '@web/components/common/Logo';
 import { getAllLessonMetas } from '@web/lib/lessons';
 import './learn.css';
 
@@ -25,7 +26,7 @@ export default function LearnPage() {
   return (
     <>
       <nav className="nav">
-        <Link href="/" className="nav-brand">⚛️ Qwearn</Link>
+        <Link href="/" className="nav-brand"><Logo size={28} /></Link>
         <div className="nav-links">
           <Link href="/learn" className="nav-link nav-link-active">Learn</Link>
           <Link href="/playground" className="nav-link">Circuit Playground</Link>
