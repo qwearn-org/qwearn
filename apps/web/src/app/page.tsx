@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Logo from '@web/components/common/Logo';
+import Footer from '@web/components/common/Footer';
 
 export default function Home() {
   return (
@@ -51,6 +52,9 @@ export default function Home() {
           ))}
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 }
+

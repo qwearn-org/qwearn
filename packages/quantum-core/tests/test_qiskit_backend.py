@@ -219,3 +219,37 @@ class TestMeasurementCounts:
         spec = CircuitSpec(num_qubits=1, gates=[])
         result = backend.execute(spec, shots=0)
         assert result.backend_name == "qiskit-aer"
+
+
+class TestStepExecution:
+    """Verify gate-by-gate step-through execution."""
+
+    def test_bell_state_steps(self, backend: QiskitBackend) -> None:
+        """H on q0 then CNOT(0,1): 3 steps total (initial, post-H, post-CNOT)."""
+        spec = CircuitSpec(
+            num_qubits=2,
+            gates=[
+                GateSpec(gate=GateName.H, qubits=[0]),
+                GateSpec(gate=GateName.CX, qubits=[0, 1]),
+            ],
+        )
+        steps = backend.execute_steps(spec)
+        assert len(steps) == 3
+
+        # Step 0: |00⟩
+        assert steps[0].step_index == 0
+        assert steps[0].gate_name is None
+        assert steps[0].probabilities == {"00": 1.0}
+
+        # Step 1: H on q0 → (|00⟩+|01⟩)/√2 (Qiskit LSB ordering)
+        assert steps[1].step_index == 1
+        assert steps[1].gate_name == "H"
+        assert steps[1].gate_qubits == [0]
+
+        # Step 2: Bell state (|00⟩+|11⟩)/√2
+        assert steps[2].step_index == 2
+        assert steps[2].gate_name == "CX"
+        assert steps[2].gate_qubits == [0, 1]
+        assert steps[2].probabilities["00"] == pytest.approx(0.5, abs=1e-6)
+        assert steps[2].probabilities["11"] == pytest.approx(0.5, abs=1e-6)
+

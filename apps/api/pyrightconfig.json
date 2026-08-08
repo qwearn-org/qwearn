@@ -1,0 +1,7 @@
+{
+  "pythonVersion": "3.11",
+  "extraPaths": [
+    "../../packages/quantum-core",
+    "packages/quantum-core"
+  ]
+}

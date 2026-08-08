@@ -1,0 +1,17 @@
+{
+  "executionEnvironments": [
+    {
+      "root": "apps/api",
+      "extraPaths": [
+        "packages/quantum-core"
+      ]
+    },
+    {
+      "root": "packages/quantum-core"
+    }
+  ],
+  "extraPaths": [
+    "packages/quantum-core",
+    "apps/api"
+  ]
+}

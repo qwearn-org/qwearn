@@ -115,3 +115,23 @@ class TestValidateEndpoint:
         data = response.json()
         assert data["valid"] is False
         assert len(data["errors"]) > 0
+
+
+class TestStepEndpoint:
+    """Tests for POST /api/circuits/step"""
+
+    def test_step_execution(self) -> None:
+        response = client.post("/api/circuits/step", json={
+            "num_qubits": 2,
+            "gates": [
+                {"gate": "H", "qubits": [0]},
+                {"gate": "CX", "qubits": [0, 1]},
+            ],
+        })
+        assert response.status_code == 200
+        steps = response.json()
+        assert len(steps) == 3
+        assert steps[0]["step_index"] == 0
+        assert steps[1]["gate_name"] == "H"
+        assert steps[2]["gate_name"] == "CX"
+

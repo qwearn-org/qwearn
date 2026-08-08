@@ -36,6 +36,7 @@ from typing import Any
 
 import numpy as np
 from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
 from qiskit_aer import AerSimulator
 
 from quantum_core.backend import (
@@ -45,6 +46,7 @@ from quantum_core.backend import (
     GateName,
     GateSpec,
     QuantumBackend,
+    StepResult,
 )
 
 
@@ -89,15 +91,9 @@ class QiskitBackend(QuantumBackend):
         # 2. Build the Qiskit circuit (no measurements — for statevector)
         qc = self._build_circuit(circuit)
 
-        # 3. Run statevector simulation
-        sv_sim = AerSimulator(method="statevector")
-        qc_sv = qc.copy()
-        qc_sv.save_statevector()
-        result_sv = sv_sim.run(qc_sv).result()
-        statevector_raw = result_sv.get_statevector(qc_sv)
-
-        # Convert complex numpy array to [[real, imag], ...] for JSON
-        sv_array = np.array(statevector_raw)
+        # 3. Run statevector calculation
+        sv_obj = Statevector.from_instruction(qc)
+        sv_array = np.array(sv_obj.data)
         statevector = [[float(c.real), float(c.imag)] for c in sv_array]
 
         # Compute probabilities from statevector
@@ -131,6 +127,79 @@ class QiskitBackend(QuantumBackend):
             generated_code=generated_code,
             backend_name=self.name,
         )
+
+    def execute_steps(
+        self,
+        circuit: CircuitSpec,
+    ) -> list[StepResult]:
+        """
+        Execute a circuit gate-by-gate, returning intermediate states.
+        Step 0 is the initial state (all |0⟩).
+        Subsequent steps show state after each gate application.
+        """
+        errors = self.validate_circuit(circuit)
+        if errors:
+            raise ValueError(f"Invalid circuit: {'; '.join(errors)}")
+
+        results: list[StepResult] = []
+
+        def _get_step_data(qc: QuantumCircuit) -> tuple[list[list[float]], dict[str, float]]:
+            sv_obj = Statevector.from_instruction(qc)
+            sv_raw = np.array(sv_obj.data)
+            sv = [[float(c.real), float(c.imag)] for c in sv_raw]
+            probs = {}
+            for i, amp in enumerate(sv_raw):
+                prob = float(abs(amp) ** 2)
+                if prob > 1e-10:
+                    basis_state = format(i, f"0{circuit.num_qubits}b")
+                    probs[basis_state] = round(prob, 10)
+            return sv, probs
+
+        # Step 0: initial state
+        num_classical = circuit.num_classical_bits or circuit.num_qubits
+        qc = QuantumCircuit(circuit.num_qubits, num_classical)
+        sv0, probs0 = _get_step_data(qc)
+        results.append(
+            StepResult(
+                step_index=0,
+                gate_name=None,
+                gate_qubits=[],
+                statevector=sv0,
+                probabilities=probs0,
+            )
+        )
+
+        gate_map = {
+            GateName.X: lambda q, gs: q.x(gs.qubits[0]),
+            GateName.Y: lambda q, gs: q.y(gs.qubits[0]),
+            GateName.Z: lambda q, gs: q.z(gs.qubits[0]),
+            GateName.H: lambda q, gs: q.h(gs.qubits[0]),
+            GateName.S: lambda q, gs: q.s(gs.qubits[0]),
+            GateName.T: lambda q, gs: q.t(gs.qubits[0]),
+            GateName.PHASE: lambda q, gs: q.p(gs.params["theta"], gs.qubits[0]),
+            GateName.CX: lambda q, gs: q.cx(gs.qubits[0], gs.qubits[1]),
+            GateName.CZ: lambda q, gs: q.cz(gs.qubits[0], gs.qubits[1]),
+            GateName.CCX: lambda q, gs: q.ccx(gs.qubits[0], gs.qubits[1], gs.qubits[2]),
+            GateName.SWAP: lambda q, gs: q.swap(gs.qubits[0], gs.qubits[1]),
+        }
+
+        for idx, gate_spec in enumerate(circuit.gates, start=1):
+            handler = gate_map.get(gate_spec.gate)
+            if handler is None:
+                raise ValueError(f"Unsupported gate: {gate_spec.gate}")
+            handler(qc, gate_spec)
+            sv, probs = _get_step_data(qc)
+            results.append(
+                StepResult(
+                    step_index=idx,
+                    gate_name=gate_spec.gate.value,
+                    gate_qubits=gate_spec.qubits,
+                    statevector=sv,
+                    probabilities=probs,
+                )
+            )
+
+        return results
 
     def get_bloch_coordinates(
         self,

@@ -14,7 +14,7 @@ execution path from user input. See docs/adr/ for the security design.
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from quantum_core.backend import CircuitSpec, CircuitResult, BlochCoordinates
+from quantum_core.backend import CircuitSpec, CircuitResult, BlochCoordinates, StepResult
 from quantum_core.qiskit_backend import QiskitBackend
 
 router = APIRouter(prefix="/api/circuits", tags=["circuits"])
@@ -48,6 +48,22 @@ async def execute_circuit(request: ExecuteRequest) -> CircuitResult:
     try:
         result = _backend.execute(request.circuit, shots=request.shots)
         return result
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    except RuntimeError as e:
+        raise HTTPException(status_code=500, detail=f"Simulation error: {e}")
+
+
+@router.post("/step", response_model=list[StepResult])
+async def execute_circuit_steps(circuit: CircuitSpec) -> list[StepResult]:
+    """
+    Execute a quantum circuit gate-by-gate and return intermediate step results.
+
+    Used by the Quantum Algorithms module to animate circuit execution step-by-step.
+    """
+    try:
+        results = _backend.execute_steps(circuit)
+        return results
     except ValueError as e:
         raise HTTPException(status_code=422, detail=str(e))
     except RuntimeError as e:

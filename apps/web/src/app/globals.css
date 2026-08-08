@@ -140,3 +140,183 @@ html, body {
 .feature-icon { font-size: 28px; display: block; margin-bottom: 12px; }
 .feature-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; color: #f1f5f9; }
 .feature-card p { font-size: 14px; color: #64748b; line-height: 1.5; }
+
+/* ---- Site Footer (ErrorBite Ecosystem Theme) ---- */
+.site-footer {
+  border-top: 1px solid #1e293b;
+  background: #07070a;
+  color: #94a3b8;
+  padding: 64px 32px 32px;
+  margin-top: 80px;
+  font-size: 14px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 1.2fr 2fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+
+@media (max-width: 900px) {
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footer-logo-link {
+  display: inline-block;
+  text-decoration: none;
+}
+
+/* ErrorBite Parent Company Attribution Styling */
+.footer-attribution {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.errorbite-brand-link,
+.errorbite-brand-link-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.errorbite-brand-link:hover,
+.errorbite-brand-link-inline:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.errorbite-text {
+  color: #f59e0b; /* ErrorBite Signature Amber / Gold */
+  letter-spacing: -0.01em;
+}
+
+.footer-desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #64748b;
+  max-width: 340px;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: #94a3b8;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.social-icon:hover {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: #f59e0b;
+}
+
+/* Footer Link Columns */
+.footer-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+@media (max-width: 640px) {
+  .footer-nav-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+.footer-column h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #f8fafc;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+}
+
+.footer-column ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-column a {
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.15s;
+}
+.footer-column a:hover {
+  color: #f8fafc;
+}
+
+.partner-link .highlight-link {
+  color: #ec4899;
+  font-weight: 600;
+}
+.partner-link .highlight-link:hover {
+  color: #f472b6;
+}
+
+/* Footer Bottom Bar */
+.footer-bottom {
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.footer-copyright {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.bullet-sep {
+  color: #334155;
+}
+
+.footer-made-by .heart {
+  color: #ef4444;
+  display: inline-block;
+  margin: 0 2px;
+}
+
