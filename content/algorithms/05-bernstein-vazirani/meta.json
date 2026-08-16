@@ -1,0 +1,19 @@
+{
+  "id": "bernstein-vazirani",
+  "title": "Bernstein-Vazirani Algorithm",
+  "subtitle": "Find a hidden string in one query",
+  "order": 5,
+  "difficulty": "intermediate",
+  "prerequisites": ["h-gate", "cnot-gate"],
+  "estimatedMinutes": 12,
+  "objectives": [
+    "Understand the hidden string problem",
+    "See how inner product oracles encode information in phase",
+    "Find an n-bit secret string in 1 query vs n classically"
+  ],
+  "complexity": {
+    "classical": "n queries",
+    "quantum": "1 query"
+  },
+  "applications": ["Quantum query complexity", "Hidden subgroup framework"]
+}

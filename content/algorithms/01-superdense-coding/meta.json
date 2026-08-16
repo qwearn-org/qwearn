@@ -1,0 +1,19 @@
+{
+  "id": "superdense-coding",
+  "title": "Superdense Coding",
+  "subtitle": "Send 2 classical bits using 1 qubit",
+  "order": 1,
+  "difficulty": "beginner",
+  "prerequisites": ["h-gate", "cnot-gate"],
+  "estimatedMinutes": 12,
+  "objectives": [
+    "Understand how entanglement enables superdense coding",
+    "Encode 2 classical bits into 1 qubit",
+    "Decode the message using Bell measurement"
+  ],
+  "complexity": {
+    "classical": "2 bits needed",
+    "quantum": "1 qubit + 1 shared ebit"
+  },
+  "applications": ["Quantum communication", "Quantum networking", "Quantum key distribution"]
+}

@@ -1,0 +1,38 @@
+{
+  "questions": [
+    {
+      "id": "gr-q1",
+      "type": "multiple_choice",
+      "question": "What type of speedup does Grover's algorithm provide?",
+      "options": ["Exponential", "Quadratic", "Polynomial (cubic)", "Logarithmic"],
+      "correctIndex": 1,
+      "explanation": "Grover's provides a quadratic speedup: O(√N) instead of O(N). This is provably the best possible for unstructured search."
+    },
+    {
+      "id": "gr-q2",
+      "type": "multiple_choice",
+      "question": "What happens if you run too many Grover iterations?",
+      "options": [
+        "The probability keeps increasing",
+        "It stays at 100%",
+        "The probability *decreases* — the state rotates past the target",
+        "The quantum computer crashes"
+      ],
+      "correctIndex": 2,
+      "explanation": "Grover's rotation is periodic. Too many iterations rotate the state past |w⟩, decreasing the success probability. The optimal number of iterations is approximately (π/4)√N."
+    },
+    {
+      "id": "gr-q3",
+      "type": "multiple_choice",
+      "question": "What are the two operators in each Grover iteration?",
+      "options": [
+        "Hadamard and CNOT",
+        "Oracle (phase flip target) and Diffusion (reflect about mean)",
+        "Measurement and correction",
+        "Encoding and decoding"
+      ],
+      "correctIndex": 1,
+      "explanation": "Each iteration applies the Oracle (marks the target with -1 phase) and the Diffusion operator (reflects amplitudes about their mean, amplifying the marked state)."
+    }
+  ]
+}

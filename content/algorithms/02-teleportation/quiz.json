@@ -1,0 +1,38 @@
+{
+  "questions": [
+    {
+      "id": "tp-q1",
+      "type": "multiple_choice",
+      "question": "How many classical bits does Alice need to send to Bob for teleportation?",
+      "options": ["0", "1", "2", "3"],
+      "correctIndex": 2,
+      "explanation": "Alice measures 2 qubits, producing 2 classical bits that she sends to Bob for correction."
+    },
+    {
+      "id": "tp-q2",
+      "type": "multiple_choice",
+      "question": "Does quantum teleportation violate the no-cloning theorem?",
+      "options": [
+        "Yes, it creates a copy of the state",
+        "No, the original state is destroyed in the process",
+        "It depends on the state being teleported",
+        "The no-cloning theorem doesn't apply to teleportation"
+      ],
+      "correctIndex": 1,
+      "explanation": "Teleportation destroys the original state at Alice's end. The state is transferred, not copied, which is consistent with the no-cloning theorem."
+    },
+    {
+      "id": "tp-q3",
+      "type": "multiple_choice",
+      "question": "Can teleportation transmit information faster than light?",
+      "options": [
+        "Yes, entanglement is instantaneous",
+        "No, Bob needs Alice's classical bits to reconstruct the state",
+        "Only for specific quantum states",
+        "Yes, if the Bell pair is prepared in advance"
+      ],
+      "correctIndex": 1,
+      "explanation": "Bob's qubit is in a random mixed state until he receives Alice's 2 classical bits. The classical communication travels at most at light speed, so no FTL information transfer occurs."
+    }
+  ]
+}

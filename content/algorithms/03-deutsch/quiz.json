@@ -1,0 +1,28 @@
+{
+  "questions": [
+    {
+      "id": "de-q1",
+      "type": "multiple_choice",
+      "question": "What does Deutsch's algorithm determine about a function f: {0,1} → {0,1}?",
+      "options": ["Its exact truth table", "Whether it is constant or balanced", "Its inverse", "Its quantum gate decomposition"],
+      "correctIndex": 1,
+      "explanation": "Deutsch's algorithm determines whether f is constant (same output for both inputs) or balanced (different output for each input)."
+    },
+    {
+      "id": "de-q2",
+      "type": "multiple_choice",
+      "question": "What is the key quantum phenomenon that makes Deutsch's algorithm work?",
+      "options": ["Entanglement", "Superposition only", "Phase kickback and interference", "Quantum tunneling"],
+      "correctIndex": 2,
+      "explanation": "The oracle produces phase kickback — encoding f(x) in the phase of the input qubit — and the final Hadamard gate converts this phase difference into a measurable amplitude difference through interference."
+    },
+    {
+      "id": "de-q3",
+      "type": "multiple_choice",
+      "question": "How many oracle queries does Deutsch's algorithm need, compared to classical?",
+      "options": ["1 quantum vs 1 classical", "1 quantum vs 2 classical", "2 quantum vs 4 classical", "0 quantum vs 2 classical"],
+      "correctIndex": 1,
+      "explanation": "Classically you must query f(0) and f(1) — 2 queries. Deutsch's algorithm needs only 1 query thanks to quantum parallelism."
+    }
+  ]
+}

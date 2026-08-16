@@ -1,0 +1,55 @@
+{
+  "blocks": [
+    { "type": "heading", "text": "What is Superdense Coding?", "level": 2 },
+    { "type": "text", "body": "Superdense coding is one of the simplest and most elegant quantum protocols. It allows Alice to send **2 classical bits** of information to Bob by transmitting only **1 qubit** — provided they share an entangled pair (a Bell state) in advance." },
+    { "type": "callout", "variant": "info", "body": "This protocol was proposed by Charles Bennett and Stephen Wiesner in 1992. It was one of the first demonstrations that entanglement is a genuine physical resource." },
+
+    { "type": "heading", "text": "The Protocol", "level": 2 },
+    { "type": "text", "body": "The protocol has three phases:" },
+    { "type": "text", "body": "**1. Preparation:** A third party creates a Bell state |Φ+⟩ = (|00⟩ + |11⟩)/√2 and sends one qubit to Alice and one to Bob." },
+    { "type": "text", "body": "**2. Encoding:** Alice applies one of four operations to her qubit depending on which 2-bit message she wants to send:" },
+
+    { "type": "matrix", "label": "Encoding", "rows": [
+      ["Message", "Operation", "Resulting State"],
+      ["00", "I (nothing)", "|Φ+⟩ = (|00⟩ + |11⟩)/√2"],
+      ["01", "X", "|Ψ+⟩ = (|10⟩ + |01⟩)/√2"],
+      ["10", "Z", "|Φ−⟩ = (|00⟩ − |11⟩)/√2"],
+      ["11", "ZX", "|Ψ−⟩ = (|10⟩ − |01⟩)/√2"]
+    ]},
+
+    { "type": "text", "body": "**3. Decoding:** Alice sends her qubit to Bob. Bob now has both qubits. He applies a CNOT followed by an H gate, then measures. The measurement result gives him Alice's original 2-bit message." },
+
+    { "type": "heading", "text": "The Math", "level": 2 },
+    { "type": "text", "body": "The initial Bell state shared between Alice (qubit 0) and Bob (qubit 1):" },
+    { "type": "math", "latex": "|\\Phi^+\\rangle = \\frac{|00\\rangle + |11\\rangle}{\\sqrt{2}}", "display": true },
+    { "type": "text", "body": "If Alice wants to send '01', she applies X to her qubit:" },
+    { "type": "math", "latex": "(X \\otimes I)|\\Phi^+\\rangle = \\frac{|10\\rangle + |01\\rangle}{\\sqrt{2}} = |\\Psi^+\\rangle", "display": true },
+
+    { "type": "heading", "text": "Step-Through: Sending '00'", "level": 2 },
+    { "type": "text", "body": "Watch the protocol execute gate by gate for the message '00' (identity encoding):" },
+    { "type": "step_circuit", "numQubits": 2, "caption": "Superdense coding: Alice sends '00' to Bob",
+      "gates": [
+        { "id": "sd1", "gate": "H", "qubits": [0], "column": 0 },
+        { "id": "sd2", "gate": "CX", "qubits": [0, 1], "column": 1 },
+        { "id": "sd3", "gate": "CX", "qubits": [0, 1], "column": 2 },
+        { "id": "sd4", "gate": "H", "qubits": [0], "column": 3 }
+      ],
+      "stepDescriptions": [
+        "Initial state: both qubits |0⟩",
+        "H on q0: creates superposition (|0⟩ + |1⟩)/√2",
+        "CNOT: creates Bell state |Φ+⟩ = (|00⟩ + |11⟩)/√2 — Alice and Bob now share entanglement",
+        "Bob's CNOT: part of Bell measurement decoding",
+        "Bob's H gate: completes decoding — measures |00⟩ → message received!"
+      ]
+    },
+
+    { "type": "heading", "text": "Complexity", "level": 2 },
+    { "type": "complexity", "classical": "2 bits", "quantum": "1 qubit + 1 ebit", "speedup": "2× communication compression" },
+
+    { "type": "callout", "variant": "tip", "body": "Superdense coding is the *dual* of quantum teleportation. Teleportation sends 1 qubit using 2 classical bits; superdense coding sends 2 classical bits using 1 qubit. Both require a shared Bell pair." },
+
+    { "type": "divider" },
+    { "type": "heading", "text": "Real-World Applications", "level": 2 },
+    { "type": "text", "body": "While the 2:1 compression ratio might seem modest, superdense coding is a foundational protocol for *quantum networking*. It demonstrates that entanglement is a genuine communication resource — a key insight for building quantum internet infrastructure." }
+  ]
+}

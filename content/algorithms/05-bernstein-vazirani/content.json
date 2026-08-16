@@ -1,0 +1,53 @@
+{
+  "blocks": [
+    { "type": "heading", "text": "The Hidden String Problem", "level": 2 },
+    { "type": "text", "body": "You're given a function f(x) = s · x (mod 2), where s is an unknown n-bit string and · is the bitwise inner product. Your goal: find s." },
+    { "type": "text", "body": "Classically, you need **n queries** — one for each standard basis vector eᵢ to extract each bit of s. The Bernstein-Vazirani algorithm finds s in a **single query**." },
+
+    { "type": "heading", "text": "How It Works", "level": 2 },
+    { "type": "text", "body": "The structure is identical to Deutsch-Jozsa:" },
+    { "type": "text", "body": "**1.** Prepare |0⟩^n|1⟩ and apply Hadamard to all qubits." },
+    { "type": "text", "body": "**2.** Apply the oracle. Phase kickback gives: (-1)^(s·x)|x⟩" },
+    { "type": "text", "body": "**3.** Apply Hadamard to the input qubits. The state collapses to |s⟩." },
+
+    { "type": "heading", "text": "The Math", "level": 2 },
+    { "type": "text", "body": "After the oracle and final Hadamard:" },
+    { "type": "math", "latex": "H^{\\otimes n}\\left(\\frac{1}{\\sqrt{2^n}}\\sum_x (-1)^{s \\cdot x}|x\\rangle\\right) = |s\\rangle", "display": true },
+    { "type": "callout", "variant": "info", "body": "This works because the Hadamard transform is its own inverse, and the phase pattern (-1)^(s·x) is exactly the Hadamard basis representation of |s⟩." },
+
+    { "type": "heading", "text": "Step-Through: s = 11 (3-qubit)", "level": 2 },
+    { "type": "text", "body": "Finding the hidden string s = '11'. The oracle applies CNOT from each qubit where sᵢ = 1 to the ancilla:" },
+    { "type": "step_circuit", "numQubits": 3, "caption": "Bernstein-Vazirani: finding hidden string s = '11'",
+      "gates": [
+        { "id": "bv1", "gate": "X", "qubits": [2], "column": 0 },
+        { "id": "bv2", "gate": "H", "qubits": [0], "column": 1 },
+        { "id": "bv3", "gate": "H", "qubits": [1], "column": 1 },
+        { "id": "bv4", "gate": "H", "qubits": [2], "column": 1 },
+        { "id": "bv5", "gate": "CX", "qubits": [0, 2], "column": 2 },
+        { "id": "bv6", "gate": "CX", "qubits": [1, 2], "column": 2 },
+        { "id": "bv7", "gate": "H", "qubits": [0], "column": 3 },
+        { "id": "bv8", "gate": "H", "qubits": [1], "column": 3 }
+      ],
+      "stepDescriptions": [
+        "Initial state: |000⟩",
+        "X on q2: prepare ancilla |1⟩",
+        "H on q0: superposition",
+        "H on q1: superposition",
+        "H on q2: |−⟩ state for phase kickback",
+        "Oracle CNOT(q0,q2): s₀ = 1, so CNOT from q0",
+        "Oracle CNOT(q1,q2): s₁ = 1, so CNOT from q1",
+        "H on q0: decode — q0 collapses to |s₀⟩ = |1⟩",
+        "H on q1: decode — q1 collapses to |s₁⟩ = |1⟩ → secret string is '11'"
+      ]
+    },
+
+    { "type": "heading", "text": "Complexity", "level": 2 },
+    { "type": "complexity", "classical": "n queries", "quantum": "1 query", "speedup": "Linear → constant (n× improvement)" },
+
+    { "type": "callout", "variant": "tip", "body": "Bernstein-Vazirani is a beautiful example of the Hadamard transform acting as a 'quantum Fourier transform over Z₂^n'. The same technique — encoding structure in phases, then using Fourier analysis to extract it — is the core of Shor's algorithm." },
+
+    { "type": "divider" },
+    { "type": "heading", "text": "Connection to Deutsch-Jozsa", "level": 2 },
+    { "type": "text", "body": "Bernstein-Vazirani uses the *same circuit structure* as Deutsch-Jozsa but asks a different question. Instead of 'is f constant or balanced?', it asks 'what is the hidden parameter s?'. The quantum advantage comes from the same source: phase kickback + Hadamard interference." }
+  ]
+}

@@ -60,6 +60,33 @@ export interface DividerBlock {
   type: 'divider';
 }
 
+// ---------------------------------------------------------------------------
+// Algorithm-specific Blocks
+// ---------------------------------------------------------------------------
+
+export interface StepCircuitGate {
+  id: string;
+  gate: string;
+  qubits: number[];
+  column: number;
+  params?: Record<string, number>;
+}
+
+export interface StepCircuitBlock {
+  type: 'step_circuit';
+  numQubits: number;
+  caption: string;
+  gates: StepCircuitGate[];
+  stepDescriptions: string[];
+}
+
+export interface ComplexityBlock {
+  type: 'complexity';
+  classical: string;
+  quantum: string;
+  speedup: string;
+}
+
 export type ContentBlock =
   | TextBlock
   | MathBlock
@@ -68,7 +95,9 @@ export type ContentBlock =
   | CircuitBlock
   | MatrixBlock
   | BlochBlock
-  | DividerBlock;
+  | DividerBlock
+  | StepCircuitBlock
+  | ComplexityBlock;
 
 // ---------------------------------------------------------------------------
 // Lesson Metadata
@@ -83,6 +112,26 @@ export interface LessonMeta {
   prerequisites: string[];
   estimatedMinutes: number;
   objectives: string[];
+}
+
+// ---------------------------------------------------------------------------
+// Algorithm Metadata (extends LessonMeta pattern)
+// ---------------------------------------------------------------------------
+
+export interface AlgorithmMeta {
+  id: string;
+  title: string;
+  subtitle: string;
+  order: number;
+  difficulty: 'beginner' | 'intermediate' | 'advanced';
+  prerequisites: string[];
+  estimatedMinutes: number;
+  objectives: string[];
+  complexity: {
+    classical: string;
+    quantum: string;
+  };
+  applications: string[];
 }
 
 // ---------------------------------------------------------------------------
@@ -108,6 +157,16 @@ export interface LessonQuiz {
 
 export interface Lesson {
   meta: LessonMeta;
+  content: { blocks: ContentBlock[] };
+  quiz: LessonQuiz;
+}
+
+// ---------------------------------------------------------------------------
+// Full Algorithm
+// ---------------------------------------------------------------------------
+
+export interface Algorithm {
+  meta: AlgorithmMeta;
   content: { blocks: ContentBlock[] };
   quiz: LessonQuiz;
 }

@@ -13,6 +13,9 @@ export default function Home() {
           <Link href="/learn" className="nav-link">
             Learn
           </Link>
+          <Link href="/algorithms" className="nav-link">
+            Algorithms
+          </Link>
           <Link href="/playground" className="nav-link">
             Circuit Playground
           </Link>

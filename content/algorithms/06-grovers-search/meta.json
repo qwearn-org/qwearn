@@ -1,0 +1,19 @@
+{
+  "id": "grovers-search",
+  "title": "Grover's Search Algorithm",
+  "subtitle": "Quadratic speedup for unstructured search",
+  "order": 6,
+  "difficulty": "intermediate",
+  "prerequisites": ["h-gate", "cnot-gate", "phase-gate"],
+  "estimatedMinutes": 20,
+  "objectives": [
+    "Understand amplitude amplification",
+    "See how the oracle marks solutions with a phase flip",
+    "Learn why √N iterations are optimal"
+  ],
+  "complexity": {
+    "classical": "O(N) queries",
+    "quantum": "O(√N) queries"
+  },
+  "applications": ["Database search", "Satisfiability problems", "Cryptanalysis", "Optimization"]
+}

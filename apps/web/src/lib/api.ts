@@ -29,6 +29,15 @@ export interface CircuitResult {
   backend_name: string;
 }
 
+/** Result of a single step in step-through execution. */
+export interface StepResult {
+  step_index: number;
+  gate_name: string | null;
+  gate_qubits: number[];
+  statevector: number[][];
+  probabilities: Record<string, number>;
+}
+
 /** Bloch sphere coordinates for one qubit. */
 export interface BlochCoordinates {
   qubit_index: number;
@@ -100,6 +109,22 @@ export async function validateCircuit(
     body: JSON.stringify(circuit),
   });
   if (!res.ok) throw new Error('Validation request failed');
+  return res.json();
+}
+
+/** Execute a circuit gate-by-gate and return intermediate step results. */
+export async function executeSteps(
+  circuit: CircuitSpec
+): Promise<StepResult[]> {
+  const res = await fetch(`${API_URL}/api/circuits/step`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(circuit),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: res.statusText }));
+    throw new Error(err.detail || 'Step execution failed');
+  }
   return res.json();
 }
 

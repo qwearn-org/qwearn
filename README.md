@@ -176,7 +176,7 @@ See [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) for the full phased build p
 - [x] **Phase 0** — Foundations (repo scaffolding, CI, docs)
 - [x] **Phase 1** — Circuit Playground (drag-and-drop builder + simulator)
 - [x] **Phase 2** — Learn Module (7 gate lessons)
-- [ ] **Phase 3** — Quantum Algorithms (Grover's, Shor's, etc.)
+- [x] **Phase 3** — Quantum Algorithms (Grover's, Shor's, etc.)
 - [ ] **Phase 4** — Challenges (auto-evaluated circuit problems)
 - [ ] **Phase 5** — Quantum Machine Learning
 - [ ] **Phase 6** — Research Hub

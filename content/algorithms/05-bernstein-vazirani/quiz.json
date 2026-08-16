@@ -1,0 +1,33 @@
+{
+  "questions": [
+    {
+      "id": "bv-q1",
+      "type": "multiple_choice",
+      "question": "What does the Bernstein-Vazirani algorithm find?",
+      "options": ["Whether f is constant or balanced", "A hidden bit string s where f(x) = s·x mod 2", "The period of a function", "The minimum of a function"],
+      "correctIndex": 1,
+      "explanation": "The algorithm finds the hidden string s in the inner product function f(x) = s·x mod 2."
+    },
+    {
+      "id": "bv-q2",
+      "type": "multiple_choice",
+      "question": "For an n-bit hidden string, how many queries does the quantum algorithm need?",
+      "options": ["n", "log(n)", "1", "n²"],
+      "correctIndex": 2,
+      "explanation": "Bernstein-Vazirani needs exactly 1 query regardless of n. Classically, n queries are required."
+    },
+    {
+      "id": "bv-q3",
+      "type": "multiple_choice",
+      "question": "How does the oracle for s = '101' work?",
+      "options": [
+        "CNOT from q0 and q2 to ancilla (bits where s=1)",
+        "Apply X to q0 and q2",
+        "Apply Z to all qubits",
+        "CNOT from ancilla to q0 and q2"
+      ],
+      "correctIndex": 0,
+      "explanation": "The oracle applies CNOT from each input qubit qᵢ to the ancilla for every position where sᵢ = 1. For s = '101', that means CNOT from q0 and q2."
+    }
+  ]
+}

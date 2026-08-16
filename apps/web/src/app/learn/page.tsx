@@ -29,6 +29,7 @@ export default function LearnPage() {
         <Link href="/" className="nav-brand"><Logo size={28} /></Link>
         <div className="nav-links">
           <Link href="/learn" className="nav-link nav-link-active">Learn</Link>
+          <Link href="/algorithms" className="nav-link">Algorithms</Link>
           <Link href="/playground" className="nav-link">Circuit Playground</Link>
         </div>
       </nav>

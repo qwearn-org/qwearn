@@ -1,0 +1,33 @@
+{
+  "questions": [
+    {
+      "id": "sd-q1",
+      "type": "multiple_choice",
+      "question": "How many classical bits can Alice send to Bob using superdense coding with one shared Bell pair?",
+      "options": ["1 bit", "2 bits", "3 bits", "4 bits"],
+      "correctIndex": 1,
+      "explanation": "Superdense coding allows sending 2 classical bits by transmitting 1 qubit, provided Alice and Bob share an entangled Bell pair."
+    },
+    {
+      "id": "sd-q2",
+      "type": "multiple_choice",
+      "question": "Which gate does Alice apply to encode the message '01'?",
+      "options": ["Identity (I)", "Pauli-X", "Pauli-Z", "Hadamard (H)"],
+      "correctIndex": 1,
+      "explanation": "To encode '01', Alice applies the X gate to her qubit, transforming |Φ+⟩ into |Ψ+⟩."
+    },
+    {
+      "id": "sd-q3",
+      "type": "multiple_choice",
+      "question": "What is the relationship between superdense coding and quantum teleportation?",
+      "options": [
+        "They are the same protocol",
+        "They are dual protocols — teleportation sends 1 qubit with 2 cbits, superdense sends 2 cbits with 1 qubit",
+        "Superdense coding is a special case of teleportation",
+        "They have no relationship"
+      ],
+      "correctIndex": 1,
+      "explanation": "Superdense coding and teleportation are dual protocols. Both require a shared Bell pair, but they trade quantum and classical resources in opposite directions."
+    }
+  ]
+}

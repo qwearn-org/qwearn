@@ -1,0 +1,57 @@
+{
+  "blocks": [
+    { "type": "heading", "text": "The Search Problem", "level": 2 },
+    { "type": "text", "body": "Imagine searching through an unsorted database of N items for a specific target. Classically, you need to check items one by one — **O(N) queries** on average. Grover's algorithm (1996) finds the target in only **O(√N) queries**, a quadratic speedup." },
+    { "type": "callout", "variant": "info", "body": "Grover's speedup is provably optimal — no quantum algorithm can do better than O(√N) for unstructured search. This is one of the few known quantum lower bounds." },
+
+    { "type": "heading", "text": "The Two Operators", "level": 2 },
+    { "type": "text", "body": "Grover's algorithm iterates two operations:" },
+    { "type": "text", "body": "**1. Oracle (Oₓ):** Marks the target state |w⟩ by flipping its phase: |w⟩ → -|w⟩. All other states are unchanged." },
+    { "type": "math", "latex": "O_w|x\\rangle = (-1)^{f(x)}|x\\rangle \\text{ where } f(w)=1, f(x \\neq w)=0", "display": true },
+    { "type": "text", "body": "**2. Diffusion (D):** Reflects all amplitudes about their mean. This *amplifies* the amplitude of the marked state." },
+    { "type": "math", "latex": "D = 2|s\\rangle\\langle s| - I \\text{ where } |s\\rangle = H^{\\otimes n}|0\\rangle^{\\otimes n}", "display": true },
+
+    { "type": "heading", "text": "Geometric Picture", "level": 2 },
+    { "type": "text", "body": "Think of the state vector in a 2D plane spanned by |w⟩ (target) and |s'⟩ (superposition of non-targets). Each Grover iteration rotates the state vector by angle 2θ toward |w⟩, where sin(θ) = 1/√N." },
+    { "type": "text", "body": "After π/(4θ) ≈ (π/4)√N iterations, the state is almost exactly |w⟩." },
+
+    { "type": "heading", "text": "Step-Through: 2-Qubit Search", "level": 2 },
+    { "type": "text", "body": "Searching for |11⟩ among 4 items (N=4). One Grover iteration suffices (π/4 · √4 ≈ 1.57 → 1 iteration):" },
+    { "type": "step_circuit", "numQubits": 2, "caption": "Grover's search for |11⟩ in a 2-qubit space — one iteration gives 100% success",
+      "gates": [
+        { "id": "g1", "gate": "H", "qubits": [0], "column": 0 },
+        { "id": "g2", "gate": "H", "qubits": [1], "column": 0 },
+        { "id": "g3", "gate": "CZ", "qubits": [0, 1], "column": 1 },
+        { "id": "g4", "gate": "H", "qubits": [0], "column": 2 },
+        { "id": "g5", "gate": "H", "qubits": [1], "column": 2 },
+        { "id": "g6", "gate": "Z", "qubits": [0], "column": 3 },
+        { "id": "g7", "gate": "Z", "qubits": [1], "column": 3 },
+        { "id": "g8", "gate": "CZ", "qubits": [0, 1], "column": 4 },
+        { "id": "g9", "gate": "H", "qubits": [0], "column": 5 },
+        { "id": "g10", "gate": "H", "qubits": [1], "column": 5 }
+      ],
+      "stepDescriptions": [
+        "Initial state: |00⟩",
+        "H on q0: uniform superposition begins",
+        "H on q1: uniform superposition |s⟩ = (|00⟩+|01⟩+|10⟩+|11⟩)/2",
+        "Oracle CZ: marks |11⟩ with phase flip → amplitude of |11⟩ becomes negative",
+        "H on q0: begin diffusion operator",
+        "H on q1: diffusion — mapped to computational basis",
+        "Z on q0: conditional phase flip (part of reflection about |0⟩)",
+        "Z on q1: conditional phase flip",
+        "CZ: completes reflection about |0⟩",
+        "H on q0: map back from computational basis",
+        "H on q1: diffusion complete — |11⟩ now has probability 100%!"
+      ]
+    },
+
+    { "type": "heading", "text": "Complexity", "level": 2 },
+    { "type": "complexity", "classical": "O(N)", "quantum": "O(√N)", "speedup": "Quadratic (provably optimal)" },
+
+    { "type": "callout", "variant": "tip", "body": "For the 2-qubit case (N=4), a single Grover iteration gives *perfect* amplification — the target state has 100% probability. For larger N, you need approximately (π/4)√N iterations." },
+
+    { "type": "divider" },
+    { "type": "heading", "text": "Applications Beyond Search", "level": 2 },
+    { "type": "text", "body": "Grover's algorithm is far more general than database search. It can speed up *any* problem where you can verify a solution efficiently. This includes satisfiability (SAT), constraint satisfaction, and even speeding up other algorithms as a subroutine (amplitude amplification). It also has implications for cryptography — it halves the effective key length of symmetric ciphers, which is why post-quantum security recommendations double key sizes." }
+  ]
+}

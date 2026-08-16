@@ -231,6 +231,9 @@ export default function PlaygroundPage() {
           <Link href="/learn" className="nav-link">
             Learn
           </Link>
+          <Link href="/algorithms" className="nav-link">
+            Algorithms
+          </Link>
           <Link href="/playground" className="nav-link nav-link-active">
             Circuit Playground
           </Link>

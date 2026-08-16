@@ -1,0 +1,46 @@
+{
+  "blocks": [
+    { "type": "heading", "text": "What is Quantum Teleportation?", "level": 2 },
+    { "type": "text", "body": "Quantum teleportation allows Alice to transfer an unknown quantum state |ψ⟩ to Bob without physically sending the qubit. Instead, they use a **shared Bell pair** and **2 classical bits** of communication." },
+    { "type": "callout", "variant": "warning", "body": "Despite the name, nothing travels faster than light. Alice must send 2 classical bits to Bob (at light speed or slower) for the protocol to complete. No information is transmitted superluminally." },
+
+    { "type": "heading", "text": "The Protocol", "level": 2 },
+    { "type": "text", "body": "**Setup:** Alice has an unknown state |ψ⟩ = α|0⟩ + β|1⟩ on qubit 0. Alice and Bob share a Bell pair on qubits 1 and 2." },
+    { "type": "text", "body": "**Step 1:** Alice applies CNOT(q0, q1) followed by H(q0)." },
+    { "type": "text", "body": "**Step 2:** Alice measures qubits 0 and 1, getting two classical bits." },
+    { "type": "text", "body": "**Step 3:** Bob applies corrections based on Alice's measurement: if bit 1 is 1, apply X; if bit 0 is 1, apply Z. Bob's qubit is now in state |ψ⟩." },
+
+    { "type": "heading", "text": "The Math", "level": 2 },
+    { "type": "text", "body": "The initial three-qubit state (Alice's unknown state ⊗ Bell pair):" },
+    { "type": "math", "latex": "|\\psi\\rangle|\\Phi^+\\rangle = (\\alpha|0\\rangle + \\beta|1\\rangle) \\otimes \\frac{|00\\rangle + |11\\rangle}{\\sqrt{2}}", "display": true },
+    { "type": "text", "body": "After Alice's CNOT and H, the state factorizes into:" },
+    { "type": "math", "latex": "\\frac{1}{2}\\left[|00\\rangle(\\alpha|0\\rangle + \\beta|1\\rangle) + |01\\rangle(\\alpha|1\\rangle + \\beta|0\\rangle) + |10\\rangle(\\alpha|0\\rangle - \\beta|1\\rangle) + |11\\rangle(\\alpha|1\\rangle - \\beta|0\\rangle)\\right]", "display": true },
+
+    { "type": "heading", "text": "Step-Through: Teleporting |0⟩", "level": 2 },
+    { "type": "text", "body": "Watch the teleportation circuit for |ψ⟩ = |0⟩ (the simplest case):" },
+    { "type": "step_circuit", "numQubits": 3, "caption": "Quantum teleportation of |0⟩ from q0 to q2",
+      "gates": [
+        { "id": "tp1", "gate": "H", "qubits": [1], "column": 0 },
+        { "id": "tp2", "gate": "CX", "qubits": [1, 2], "column": 1 },
+        { "id": "tp3", "gate": "CX", "qubits": [0, 1], "column": 2 },
+        { "id": "tp4", "gate": "H", "qubits": [0], "column": 3 }
+      ],
+      "stepDescriptions": [
+        "Initial state: q0 has the state to teleport (|0⟩), q1 and q2 are |0⟩",
+        "H on q1: creating superposition for the Bell pair",
+        "CNOT(q1,q2): Bell pair created between q1 and q2 — entanglement resource ready",
+        "CNOT(q0,q1): Alice entangles her unknown state with the Bell pair",
+        "H on q0: Alice completes her part — ready for measurement and classical communication"
+      ]
+    },
+
+    { "type": "heading", "text": "Complexity", "level": 2 },
+    { "type": "complexity", "classical": "2 classical bits", "quantum": "1 ebit consumed", "speedup": "No classical equivalent — transfers quantum information" },
+
+    { "type": "callout", "variant": "tip", "body": "Quantum teleportation *destroys* the original state at Alice's end (no-cloning theorem). The state isn't copied — it's transferred." },
+
+    { "type": "divider" },
+    { "type": "heading", "text": "Why It Matters", "level": 2 },
+    { "type": "text", "body": "Teleportation is the backbone of *quantum repeaters* — devices that extend the range of quantum communication. Without teleportation, quantum networks would be limited to the distance a single photon can travel through fiber." }
+  ]
+}

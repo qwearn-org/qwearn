@@ -1,0 +1,48 @@
+{
+  "blocks": [
+    { "type": "heading", "text": "The First Quantum Advantage", "level": 2 },
+    { "type": "text", "body": "Deutsch's algorithm (1985) was the first algorithm to demonstrate that a quantum computer can solve a problem with **fewer queries** than any classical computer. While the problem itself is simple, it introduced the key ideas that power every major quantum algorithm." },
+
+    { "type": "heading", "text": "The Problem", "level": 2 },
+    { "type": "text", "body": "You're given a black-box function f: {0,1} → {0,1}. The function is either **constant** (f(0) = f(1)) or **balanced** (f(0) ≠ f(1)). Determine which type it is." },
+    { "type": "callout", "variant": "info", "body": "Classically, you must query f twice — once with input 0, once with input 1 — to compare outputs. Deutsch's algorithm needs only **1 query**." },
+
+    { "type": "heading", "text": "Quantum Oracles", "level": 2 },
+    { "type": "text", "body": "The function f is implemented as a quantum oracle Uf that acts as:" },
+    { "type": "math", "latex": "U_f|x\\rangle|y\\rangle = |x\\rangle|y \\oplus f(x)\\rangle", "display": true },
+    { "type": "text", "body": "When the target qubit is in the |−⟩ state, the oracle produces a **phase kickback**:" },
+    { "type": "math", "latex": "U_f|x\\rangle|-\\rangle = (-1)^{f(x)}|x\\rangle|-\\rangle", "display": true },
+
+    { "type": "heading", "text": "The Circuit", "level": 2 },
+    { "type": "text", "body": "The algorithm: prepare |01⟩, apply H to both qubits, query the oracle, apply H to qubit 0, measure qubit 0. If result is |0⟩, f is constant; if |1⟩, f is balanced." },
+
+    { "type": "heading", "text": "Step-Through: Balanced Oracle (f(x) = x)", "level": 2 },
+    { "type": "text", "body": "For the balanced function f(x) = x, the oracle is a CNOT gate:" },
+    { "type": "step_circuit", "numQubits": 2, "caption": "Deutsch's algorithm with balanced oracle f(x) = x (CNOT)",
+      "gates": [
+        { "id": "d1", "gate": "X", "qubits": [1], "column": 0 },
+        { "id": "d2", "gate": "H", "qubits": [0], "column": 1 },
+        { "id": "d3", "gate": "H", "qubits": [1], "column": 1 },
+        { "id": "d4", "gate": "CX", "qubits": [0, 1], "column": 2 },
+        { "id": "d5", "gate": "H", "qubits": [0], "column": 3 }
+      ],
+      "stepDescriptions": [
+        "Initial state: |00⟩",
+        "X on q1: prepare target qubit as |1⟩ → state is |01⟩",
+        "H on q0: superposition → (|0⟩+|1⟩)/√2",
+        "H on q1: create |−⟩ state for phase kickback",
+        "Oracle (CNOT): balanced function f(x)=x produces phase kickback → q0 picks up (-1)^f(x)",
+        "H on q0: interference reveals f is balanced → measure |1⟩ on q0"
+      ]
+    },
+
+    { "type": "heading", "text": "Complexity", "level": 2 },
+    { "type": "complexity", "classical": "2 queries", "quantum": "1 query", "speedup": "2× query reduction" },
+
+    { "type": "callout", "variant": "tip", "body": "The key insight is *phase kickback*: the oracle doesn't just compute f — it encodes the answer in the *phase* of the input qubit, which Hadamard then converts to a measurable amplitude." },
+
+    { "type": "divider" },
+    { "type": "heading", "text": "Historical Significance", "level": 2 },
+    { "type": "text", "body": "Deutsch's algorithm was the proof of concept that quantum parallelism is real. It directly inspired Deutsch-Jozsa, Simon's, and ultimately Shor's algorithm — each building on the same oracle + interference paradigm." }
+  ]
+}

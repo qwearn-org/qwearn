@@ -1,0 +1,19 @@
+{
+  "id": "deutsch-jozsa",
+  "title": "Deutsch-Jozsa Algorithm",
+  "subtitle": "Exponential speedup for oracle problems",
+  "order": 4,
+  "difficulty": "intermediate",
+  "prerequisites": ["h-gate", "cnot-gate"],
+  "estimatedMinutes": 15,
+  "objectives": [
+    "Generalize Deutsch's algorithm to n-bit functions",
+    "Understand exponential query speedup",
+    "See how Hadamard creates uniform superposition over n qubits"
+  ],
+  "complexity": {
+    "classical": "2^(n-1) + 1 queries (worst case)",
+    "quantum": "1 query"
+  },
+  "applications": ["Oracle-based quantum computing", "Foundation for Simon's and Shor's algorithms"]
+}

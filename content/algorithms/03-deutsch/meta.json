@@ -1,0 +1,19 @@
+{
+  "id": "deutsch",
+  "title": "Deutsch's Algorithm",
+  "subtitle": "The first quantum speedup",
+  "order": 3,
+  "difficulty": "intermediate",
+  "prerequisites": ["h-gate", "cnot-gate"],
+  "estimatedMinutes": 15,
+  "objectives": [
+    "Understand the concept of a quantum oracle",
+    "See how quantum parallelism evaluates a function on all inputs simultaneously",
+    "Determine if a function is constant or balanced in 1 query"
+  ],
+  "complexity": {
+    "classical": "2 queries (must evaluate f(0) and f(1))",
+    "quantum": "1 query"
+  },
+  "applications": ["Foundation for all oracle-based algorithms", "Proof of quantum advantage"]
+}

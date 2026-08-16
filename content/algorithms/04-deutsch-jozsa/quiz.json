@@ -1,0 +1,33 @@
+{
+  "questions": [
+    {
+      "id": "dj-q1",
+      "type": "multiple_choice",
+      "question": "For an n-bit function, how many classical queries are needed in the worst case to determine if it's constant or balanced?",
+      "options": ["n", "2^n", "2^(n-1) + 1", "n + 1"],
+      "correctIndex": 2,
+      "explanation": "In the worst case, a classical algorithm must query more than half the inputs. After 2^(n-1) queries all returning the same value, you still can't be sure — you need one more query to confirm."
+    },
+    {
+      "id": "dj-q2",
+      "type": "multiple_choice",
+      "question": "What measurement outcome indicates the function is constant?",
+      "options": ["Any result", "All zeros on the input qubits", "All ones on the input qubits", "Equal probability of all outcomes"],
+      "correctIndex": 1,
+      "explanation": "If f is constant, the final Hadamard concentrates all amplitude on |0...0⟩. Measuring all zeros means f is constant."
+    },
+    {
+      "id": "dj-q3",
+      "type": "multiple_choice",
+      "question": "What is the role of the ancilla qubit prepared in |−⟩?",
+      "options": [
+        "It stores the output of f",
+        "It enables phase kickback — encoding f(x) as a phase on input qubits",
+        "It entangles with the input qubits",
+        "It measures the final result"
+      ],
+      "correctIndex": 1,
+      "explanation": "The ancilla in |−⟩ enables phase kickback: Uf|x⟩|−⟩ = (-1)^f(x)|x⟩|−⟩. The function value becomes a phase factor on the input register."
+    }
+  ]
+}

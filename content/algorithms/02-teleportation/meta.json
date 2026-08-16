@@ -1,0 +1,19 @@
+{
+  "id": "teleportation",
+  "title": "Quantum Teleportation",
+  "subtitle": "Transfer a quantum state using entanglement",
+  "order": 2,
+  "difficulty": "beginner",
+  "prerequisites": ["h-gate", "cnot-gate"],
+  "estimatedMinutes": 15,
+  "objectives": [
+    "Understand quantum teleportation protocol",
+    "See how entanglement enables state transfer",
+    "Learn why classical communication is still needed"
+  ],
+  "complexity": {
+    "classical": "2 classical bits",
+    "quantum": "1 ebit + 2 cbits → transfer 1 qubit"
+  },
+  "applications": ["Quantum networks", "Distributed quantum computing", "Quantum repeaters"]
+}

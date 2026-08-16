@@ -13,6 +13,7 @@ import MathBlock from './MathBlock';
 import MatrixDisplay from './MatrixDisplay';
 import CircuitDemo from './CircuitDemo';
 import BlochDemo from './BlochDemo';
+import StepThroughPlayer from './StepThroughPlayer';
 
 interface LessonRendererProps {
   blocks: ContentBlock[];
@@ -95,6 +96,45 @@ export default function LessonRenderer({ blocks }: LessonRendererProps) {
                 state={block.state}
                 customCoords={block.customCoords}
               />
+            );
+
+          case 'step_circuit':
+            return (
+              <StepThroughPlayer
+                key={i}
+                numQubits={block.numQubits}
+                gates={block.gates}
+                stepDescriptions={block.stepDescriptions}
+                caption={block.caption}
+              />
+            );
+
+          case 'complexity':
+            return (
+              <div key={i} className="complexity-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Approach</th>
+                      <th>Complexity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Classical</td>
+                      <td className="complexity-value">{block.classical}</td>
+                    </tr>
+                    <tr>
+                      <td>Quantum</td>
+                      <td className="complexity-value quantum">{block.quantum}</td>
+                    </tr>
+                    <tr>
+                      <td>Speedup</td>
+                      <td className="complexity-value speedup">{block.speedup}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             );
 
           case 'divider':
