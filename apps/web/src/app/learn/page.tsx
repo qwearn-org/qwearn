@@ -8,6 +8,7 @@
 import Link from 'next/link';
 import Logo from '@web/components/common/Logo';
 import { getAllLessonMetas } from '@web/lib/lessons';
+import Footer from '@web/components/common/Footer';
 import './learn.css';
 
 const GATE_COLORS: Record<string, string> = {
@@ -71,6 +72,8 @@ export default function LearnPage() {
           })}
         </div>
       </main>
+
+      <Footer />
     </>
   );
 }

@@ -8,6 +8,7 @@
 import Link from 'next/link';
 import Logo from '@web/components/common/Logo';
 import { getAllAlgorithmMetas } from '@web/lib/algorithms';
+import Footer from '@web/components/common/Footer';
 import './algorithms.css';
 import '../learn/learn.css';
 
@@ -72,6 +73,8 @@ export default function AlgorithmsPage() {
           ))}
         </div>
       </main>
+
+      <Footer />
     </>
   );
 }
