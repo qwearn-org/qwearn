@@ -1,0 +1,13 @@
+{
+  "id": "bell-state",
+  "evaluator_type": "statevector",
+  "num_qubits": 2,
+  "target_statevector": [
+    [0.7071067811865476, 0.0],
+    [0.0, 0.0],
+    [0.0, 0.0],
+    [0.7071067811865476, 0.0]
+  ],
+  "tolerance": 0.01,
+  "max_gates": null
+}

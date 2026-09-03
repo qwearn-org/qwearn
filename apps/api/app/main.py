@@ -19,7 +19,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from app.models.circuit_save import CircuitSave
-from app.routers import circuits, health, saves
+from app.routers import challenges, circuits, health, saves
 
 
 @asynccontextmanager
@@ -92,3 +92,4 @@ app.add_middleware(
 app.include_router(health.router)
 app.include_router(circuits.router)
 app.include_router(saves.router)
+app.include_router(challenges.router)

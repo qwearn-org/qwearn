@@ -27,7 +27,8 @@ export default function AlgorithmsPage() {
         <div className="nav-links">
           <Link href="/learn" className="nav-link">Learn</Link>
           <Link href="/algorithms" className="nav-link nav-link-active">Algorithms</Link>
-          <Link href="/playground" className="nav-link">Circuit Playground</Link>
+          <Link href="/challenges" className="nav-link">Challenges</Link>
+          <Link href="/playground" className="nav-link">Playground</Link>
         </div>
       </nav>
 

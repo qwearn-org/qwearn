@@ -213,3 +213,36 @@ export async function deleteSavedCircuit(saveId: string): Promise<void> {
   });
   if (!res.ok) throw new Error('Failed to delete circuit');
 }
+
+// ---------------------------------------------------------------------------
+// Challenge Evaluation
+// ---------------------------------------------------------------------------
+
+/** Result from challenge evaluation. */
+export interface ChallengeEvalResult {
+  passed: boolean;
+  score: number;
+  feedback: string;
+  details: Record<string, unknown>;
+}
+
+/** Evaluate a submitted circuit against a challenge. */
+export async function evaluateChallenge(
+  challengeId: string,
+  submittedCircuit: CircuitSpec
+): Promise<ChallengeEvalResult> {
+  const res = await fetch(`${API_URL}/api/challenges/evaluate`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      challenge_id: challengeId,
+      submitted_circuit: submittedCircuit,
+    }),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: res.statusText }));
+    throw new Error(err.detail || 'Evaluation failed');
+  }
+  return res.json();
+}
+

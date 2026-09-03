@@ -1,0 +1,14 @@
+{
+  "id": "ghz-state",
+  "title": "GHZ State",
+  "subtitle": "Build the 3-qubit Greenberger–Horne–Zeilinger state",
+  "order": 3,
+  "difficulty": "intermediate",
+  "estimatedMinutes": 8,
+  "description": "Construct a circuit that produces the GHZ state (|000⟩ + |111⟩)/√2 on 3 qubits. This is the multi-qubit generalization of the Bell state — all three qubits are maximally entangled.",
+  "hint": "Start like a Bell state, then extend the entanglement chain to the third qubit.",
+  "objectives": [
+    "Extend Bell state preparation to 3+ qubits",
+    "Understand GHZ states and multi-party entanglement"
+  ]
+}

@@ -16,8 +16,11 @@ export default function Home() {
           <Link href="/algorithms" className="nav-link">
             Algorithms
           </Link>
+          <Link href="/challenges" className="nav-link">
+            Challenges
+          </Link>
           <Link href="/playground" className="nav-link">
-            Circuit Playground
+            Playground
           </Link>
         </div>
       </nav>

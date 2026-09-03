@@ -1,0 +1,14 @@
+{
+  "id": "superposition",
+  "title": "Equal Superposition",
+  "subtitle": "Create uniform probability across all basis states",
+  "order": 2,
+  "difficulty": "beginner",
+  "estimatedMinutes": 5,
+  "description": "Build a circuit on 3 qubits where every basis state (|000⟩ through |111⟩) has an equal 12.5% probability of being measured. This is a fundamental building block of many quantum algorithms.",
+  "hint": "Think about which single gate creates equal superposition on one qubit. Apply it to all three.",
+  "objectives": [
+    "Understand how Hadamard creates superposition",
+    "Extend single-qubit operations to multi-qubit registers"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "bell-state",
+  "title": "Create a Bell State",
+  "subtitle": "Build the maximally entangled state |Φ+⟩",
+  "order": 1,
+  "difficulty": "beginner",
+  "estimatedMinutes": 5,
+  "description": "Construct a quantum circuit that produces the Bell state |Φ+⟩ = (|00⟩ + |11⟩)/√2. This is the most fundamental entangled state in quantum computing — two qubits perfectly correlated so that measuring one instantly determines the other.",
+  "hint": "You need exactly two gates: one to create superposition, and one to entangle.",
+  "objectives": [
+    "Understand how to create entanglement",
+    "Learn the H + CNOT pattern for Bell state preparation"
+  ]
+}

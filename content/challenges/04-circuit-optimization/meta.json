@@ -1,0 +1,14 @@
+{
+  "id": "circuit-optimization",
+  "title": "Gate Minimization",
+  "subtitle": "Reproduce a circuit's output using fewer gates",
+  "order": 4,
+  "difficulty": "advanced",
+  "estimatedMinutes": 10,
+  "description": "A reference circuit uses 4 gates to produce a specific quantum state. Your task: build a circuit that produces the exact same output statevector, but using at most 2 gates. Think about which gates can be combined or simplified.",
+  "hint": "Two consecutive X gates cancel out. Look for redundancies in the reference circuit.",
+  "objectives": [
+    "Understand gate identities and simplifications",
+    "Practice circuit optimization techniques"
+  ]
+}

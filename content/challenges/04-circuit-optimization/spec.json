@@ -1,0 +1,16 @@
+{
+  "id": "circuit-optimization",
+  "evaluator_type": "equivalence",
+  "num_qubits": 2,
+  "target_circuit": {
+    "num_qubits": 2,
+    "gates": [
+      { "gate": "X", "qubits": [0] },
+      { "gate": "X", "qubits": [0] },
+      { "gate": "H", "qubits": [0] },
+      { "gate": "CX", "qubits": [0, 1] }
+    ]
+  },
+  "tolerance": 0.01,
+  "max_gates": 2
+}

@@ -170,3 +170,43 @@ export interface Algorithm {
   content: { blocks: ContentBlock[] };
   quiz: LessonQuiz;
 }
+
+// ---------------------------------------------------------------------------
+// Challenge Types
+// ---------------------------------------------------------------------------
+
+export interface ChallengeMeta {
+  id: string;
+  title: string;
+  subtitle: string;
+  order: number;
+  difficulty: 'beginner' | 'intermediate' | 'advanced';
+  estimatedMinutes: number;
+  description: string;
+  hint: string;
+  objectives: string[];
+}
+
+export interface ChallengeSpec {
+  id: string;
+  evaluator_type: 'statevector' | 'probability' | 'equivalence';
+  num_qubits: number;
+  target_statevector?: number[][];
+  target_probabilities?: Record<string, number>;
+  target_circuit?: { num_qubits: number; gates: { gate: string; qubits: number[] }[] };
+  tolerance: number;
+  max_gates?: number | null;
+}
+
+export interface ChallengeData {
+  meta: ChallengeMeta;
+  spec: ChallengeSpec;
+}
+
+export interface EvaluationResult {
+  passed: boolean;
+  score: number;
+  feedback: string;
+  details: Record<string, unknown>;
+}
+

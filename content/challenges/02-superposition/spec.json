@@ -1,0 +1,17 @@
+{
+  "id": "superposition",
+  "evaluator_type": "probability",
+  "num_qubits": 3,
+  "target_probabilities": {
+    "000": 0.125,
+    "001": 0.125,
+    "010": 0.125,
+    "011": 0.125,
+    "100": 0.125,
+    "101": 0.125,
+    "110": 0.125,
+    "111": 0.125
+  },
+  "tolerance": 0.01,
+  "max_gates": null
+}
