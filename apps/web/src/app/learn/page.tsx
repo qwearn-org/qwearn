@@ -32,6 +32,7 @@ export default function LearnPage() {
           <Link href="/learn" className="nav-link nav-link-active">Learn</Link>
           <Link href="/algorithms" className="nav-link">Algorithms</Link>
           <Link href="/challenges" className="nav-link">Challenges</Link>
+          <Link href="/qml" className="nav-link">QML</Link>
           <Link href="/playground" className="nav-link">Playground</Link>
         </div>
       </nav>

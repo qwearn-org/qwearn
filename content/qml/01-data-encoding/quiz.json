@@ -1,0 +1,30 @@
+{
+  "questions": [
+    {
+      "id": "enc-q1",
+      "type": "multiple_choice",
+      "question": "What is the primary objective of a Quantum Feature Map?",
+      "options": [
+        "To map classical data into quantum Hilbert space statevectors",
+        "To reduce the number of classical bits stored on disk",
+        "To compress audio signals using quantum Fourier transform",
+        "To convert qubit measurements into classical floating point numbers"
+      ],
+      "correctIndex": 0,
+      "explanation": "Quantum feature maps embed classical feature vectors x into multi-qubit statevectors |ψ(x)⟩ in a high-dimensional Hilbert space."
+    },
+    {
+      "id": "enc-q2",
+      "type": "multiple_choice",
+      "question": "In Angle Encoding, how are feature values x_i represented on a qubit?",
+      "options": [
+        "As computational basis bit values |0⟩ or |1⟩",
+        "As rotation angles θ = f(x_i) in gates like Rx(θ) or Ry(θ)",
+        "As measurement shot frequencies",
+        "As classical voltage levels in the control line"
+      ],
+      "correctIndex": 1,
+      "explanation": "Angle encoding uses continuous rotations (such as Rx(π x_i) or Ry(π x_i)) to encode continuous classical numbers into qubit phase/amplitude."
+    }
+  ]
+}

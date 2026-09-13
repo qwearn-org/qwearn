@@ -35,6 +35,7 @@ export default function ChallengePage() {
             <Link href="/learn" className="nav-link">Learn</Link>
             <Link href="/algorithms" className="nav-link">Algorithms</Link>
             <Link href="/challenges" className="nav-link nav-link-active">Challenges</Link>
+            <Link href="/qml" className="nav-link">QML</Link>
             <Link href="/playground" className="nav-link">Playground</Link>
           </div>
         </nav>
@@ -68,6 +69,7 @@ export default function ChallengePage() {
           <Link href="/learn" className="nav-link">Learn</Link>
           <Link href="/algorithms" className="nav-link">Algorithms</Link>
           <Link href="/challenges" className="nav-link nav-link-active">Challenges</Link>
+          <Link href="/qml" className="nav-link">QML</Link>
           <Link href="/playground" className="nav-link">Playground</Link>
         </div>
       </nav>

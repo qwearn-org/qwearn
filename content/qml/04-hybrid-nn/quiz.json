@@ -1,0 +1,30 @@
+{
+  "questions": [
+    {
+      "id": "hnn-q1",
+      "type": "multiple_choice",
+      "question": "How does the Parameter-Shift Rule evaluate the exact derivative ∂⟨Z⟩/∂θ_i of a quantum circuit?",
+      "options": [
+        "By evaluating expectation values at two parameter shifts θ_i + π/2 and θ_i - π/2",
+        "By running finite difference approximations with infinitesimal h → 0",
+        "By using PyTorch C++ autodiff symbolic graphs",
+        "By measuring the statevector phase directly on quantum memory"
+      ],
+      "correctIndex": 0,
+      "explanation": "The Parameter-Shift rule provides exact analytic gradients on quantum hardware by executing the circuit twice with shifts ±π/2."
+    },
+    {
+      "id": "hnn-q2",
+      "type": "multiple_choice",
+      "question": "What role does the classical portion of a Hybrid Neural Network serve?",
+      "options": [
+        "Feature dimensionality reduction (preprocessing) and post-circuit classification",
+        "Replacing the quantum simulator with matrix multiplications",
+        "Removing measurement noise from hardware shots",
+        "Generating synthetic training labels"
+      ],
+      "correctIndex": 0,
+      "explanation": "Classical neural network layers handle high-dimensional raw inputs (like pixels) and compress them into bottleneck features for quantum processing."
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "vqc",
+  "title": "Variational Quantum Classifier",
+  "subtitle": "Training parameterized quantum circuits with classical optimizers",
+  "order": 2,
+  "difficulty": "intermediate",
+  "prerequisites": ["data-encoding"],
+  "estimatedMinutes": 18,
+  "objectives": [
+    "Master the hybrid quantum-classical feedback loop",
+    "Understand ansatz architectures (Ry/Rz layers + entangling gates)",
+    "Train a VQC model using COBYLA/SPSA optimizers on synthetic 2D datasets"
+  ],
+  "complexity": {
+    "classical": "O(d) gradient step computation",
+    "quantum": "O(N) expectation evaluations per iteration"
+  },
+  "applications": ["Binary classification", "Pattern recognition", "Quantum chemistry ground state optimization"]
+}

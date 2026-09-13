@@ -246,3 +246,26 @@ export async function evaluateChallenge(
   return res.json();
 }
 
+// ---------------------------------------------------------------------------
+// QML API
+// ---------------------------------------------------------------------------
+
+import type { QMLTrainingConfig, QMLTrainingResult } from './lesson-types';
+
+/** Execute a live VQC training loop on the backend. */
+export async function trainQMLModel(
+  config: QMLTrainingConfig
+): Promise<QMLTrainingResult> {
+  const res = await fetch(`${API_URL}/api/qml/train`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(config),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: res.statusText }));
+    throw new Error(err.detail || 'QML training failed');
+  }
+  return res.json();
+}
+
+

@@ -1,0 +1,19 @@
+{
+  "id": "quantum-kernel",
+  "title": "Quantum Kernel Methods",
+  "subtitle": "Leveraging quantum inner products for Support Vector Machines",
+  "order": 3,
+  "difficulty": "advanced",
+  "prerequisites": ["data-encoding", "vqc"],
+  "estimatedMinutes": 20,
+  "objectives": [
+    "Understand the quantum kernel trick: K(x_i, x_j) = |⟨ψ(x_i)|ψ(x_j)⟩|^2",
+    "Construct quantum kernel matrices using overlap estimation circuits",
+    "Combine quantum kernel evaluation with classical SVM classifiers"
+  ],
+  "complexity": {
+    "classical": "O(N^2 d) for RBF kernel matrix",
+    "quantum": "O(N^2) quantum circuit executions for N samples"
+  },
+  "applications": ["High-dimensional pattern recognition", "Financial anomaly detection", "Genomics classification"]
+}

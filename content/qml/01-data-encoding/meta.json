@@ -1,0 +1,19 @@
+{
+  "id": "data-encoding",
+  "title": "Quantum Data Encoding",
+  "subtitle": "Transforming classical feature vectors into quantum state space",
+  "order": 1,
+  "difficulty": "intermediate",
+  "prerequisites": ["h-gate", "phase-gate", "cnot-gate"],
+  "estimatedMinutes": 15,
+  "objectives": [
+    "Understand the challenge of embedding classical features into Hilbert space",
+    "Master Basis Encoding, Angle Encoding, and Amplitude Encoding",
+    "Learn how quantum feature maps map 2D coordinates to multi-qubit states"
+  ],
+  "complexity": {
+    "classical": "O(N) storage for N features",
+    "quantum": "Exponential compression in 2^n Hilbert space"
+  },
+  "applications": ["Quantum Machine Learning", "Feature maps for SVMs", "Variational Quantum Classifiers"]
+}

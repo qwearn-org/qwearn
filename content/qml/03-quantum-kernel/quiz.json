@@ -1,0 +1,30 @@
+{
+  "questions": [
+    {
+      "id": "qk-q1",
+      "type": "multiple_choice",
+      "question": "What mathematical quantity does a Quantum Kernel circuit compute between two feature vectors x_i and x_j?",
+      "options": [
+        "The state transition fidelity (inner product squared) |⟨ψ(x_i)|ψ(x_j)⟩|^2",
+        "The Euclidean distance ||x_i - x_j|| in 2D space",
+        "The classical covariance matrix",
+        "The sum of single-qubit measurement shot counts"
+      ],
+      "correctIndex": 0,
+      "explanation": "A quantum kernel evaluates quantum state overlap |⟨ψ(x_i)|ψ(x_j)⟩|^2 using the U†(x_j) U(x_i) sequence measured in the computational basis."
+    },
+    {
+      "id": "qk-q2",
+      "type": "multiple_choice",
+      "question": "Once the N×N quantum kernel matrix is computed, how is classification performed?",
+      "options": [
+        "A classical SVM algorithm solves the standard dual optimization problem using the quantum matrix",
+        "The quantum computer automatically classifies future samples without classical intervention",
+        "The quantum circuit parameters are iteratively updated using gradient descent",
+        "The kernel matrix is inverted on quantum hardware"
+      ],
+      "correctIndex": 0,
+      "explanation": "Quantum Kernel Methods use quantum hardware strictly for kernel matrix calculation, delegating the quadratic optimization problem to a classical SVM."
+    }
+  ]
+}

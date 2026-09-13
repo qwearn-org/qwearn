@@ -237,6 +237,9 @@ export default function PlaygroundPage() {
           <Link href="/challenges" className="nav-link">
             Challenges
           </Link>
+          <Link href="/qml" className="nav-link">
+            QML
+          </Link>
           <Link href="/playground" className="nav-link nav-link-active">
             Playground
           </Link>

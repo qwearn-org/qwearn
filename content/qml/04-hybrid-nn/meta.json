@@ -1,0 +1,19 @@
+{
+  "id": "hybrid-nn",
+  "title": "Hybrid Classical-Quantum Neural Networks",
+  "subtitle": "Embedding parameterized quantum layers inside PyTorch/TensorFlow architectures",
+  "order": 4,
+  "difficulty": "advanced",
+  "prerequisites": ["data-encoding", "vqc", "quantum-kernel"],
+  "estimatedMinutes": 22,
+  "objectives": [
+    "Understand how PyTorch/TensorFlow autograd integrates with quantum circuits",
+    "Master the Parameter-Shift Rule for computing exact quantum gradients",
+    "Design PyTorch-style hybrid neural network architectures"
+  ],
+  "complexity": {
+    "classical": "O(W) backpropagation",
+    "quantum": "2 evaluations per parameter via Parameter-Shift Rule"
+  },
+  "applications": ["Quantum transfer learning", "Image classification (MNIST feature extraction)", "Quantum generative modeling (QGANs)"]
+}

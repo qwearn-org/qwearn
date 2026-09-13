@@ -14,6 +14,7 @@ import MatrixDisplay from './MatrixDisplay';
 import CircuitDemo from './CircuitDemo';
 import BlochDemo from './BlochDemo';
 import StepThroughPlayer from './StepThroughPlayer';
+import ComparisonPanel from '@web/components/qml/ComparisonPanel';
 
 interface LessonRendererProps {
   blocks: ContentBlock[];
@@ -139,6 +140,9 @@ export default function LessonRenderer({ blocks }: LessonRendererProps) {
 
           case 'divider':
             return <hr key={i} className="lesson-divider" />;
+
+          case 'qml_comparison':
+            return <ComparisonPanel key={i} block={block} />;
 
           default:
             return null;

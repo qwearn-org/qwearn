@@ -1,0 +1,30 @@
+{
+  "questions": [
+    {
+      "id": "vqc-q1",
+      "type": "multiple_choice",
+      "question": "What component updates the parameters θ of a Variational Quantum Classifier?",
+      "options": [
+        "A classical optimizer running on a classical CPU/GPU",
+        "An automatic quantum measurement gate",
+        "The Qiskit Aer simulator internal hardware clock",
+        "The feature encoding circuit"
+      ],
+      "correctIndex": 0,
+      "explanation": "VQC is a hybrid algorithm: the quantum computer evaluates loss/expectation values, and a classical optimizer (like COBYLA or SPSA) updates the parameters."
+    },
+    {
+      "id": "vqc-q2",
+      "type": "multiple_choice",
+      "question": "Why are entangling gates (like CZ or CNOT) critical in a variational ansatz?",
+      "options": [
+        "They allow the circuit to model correlations and non-linear interactions across features",
+        "They increase the number of physical qubits required",
+        "They reduce noise in hardware measurements",
+        "They prevent optimization gradients from decaying"
+      ],
+      "correctIndex": 0,
+      "explanation": "Without entangling gates, single-qubit rotations would operate independently on each qubit, producing simple product states unable to capture non-linear feature interactions."
+    }
+  ]
+}

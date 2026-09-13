@@ -19,6 +19,9 @@ export default function Home() {
           <Link href="/challenges" className="nav-link">
             Challenges
           </Link>
+          <Link href="/qml" className="nav-link">
+            QML
+          </Link>
           <Link href="/playground" className="nav-link">
             Playground
           </Link>

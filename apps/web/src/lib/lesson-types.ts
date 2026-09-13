@@ -87,6 +87,24 @@ export interface ComplexityBlock {
   speedup: string;
 }
 
+export interface QMLComparisonBlock {
+  type: 'qml_comparison';
+  classicalModel: string;
+  quantumModel: string;
+  dataset: string;
+  precomputedResults: {
+    classical: {
+      accuracy: number;
+      boundary: number[][];
+    };
+    quantum: {
+      accuracy: number;
+      lossHistory: number[];
+      boundary: number[][];
+    };
+  };
+}
+
 export type ContentBlock =
   | TextBlock
   | MathBlock
@@ -97,7 +115,53 @@ export type ContentBlock =
   | BlochBlock
   | DividerBlock
   | StepCircuitBlock
-  | ComplexityBlock;
+  | ComplexityBlock
+  | QMLComparisonBlock;
+
+// ---------------------------------------------------------------------------
+// QML Types
+// ---------------------------------------------------------------------------
+
+export interface QMLMeta {
+  id: string;
+  title: string;
+  subtitle: string;
+  order: number;
+  difficulty: 'beginner' | 'intermediate' | 'advanced';
+  prerequisites: string[];
+  estimatedMinutes: number;
+  objectives: string[];
+  complexity: {
+    classical: string;
+    quantum: string;
+  };
+  applications: string[];
+}
+
+export interface QMLTopic {
+  meta: QMLMeta;
+  content: { blocks: ContentBlock[] };
+  quiz: LessonQuiz;
+}
+
+export interface QMLTrainingConfig {
+  dataset: string;
+  num_samples?: number;
+  ansatz?: string;
+  num_qubits?: number;
+  max_epochs?: number;
+}
+
+export interface QMLTrainingResult {
+  loss_history: number[];
+  accuracy: number;
+  final_params: number[];
+  decision_boundary: number[][];
+  classical_accuracy: number;
+  classical_decision_boundary: number[][];
+  training_time_ms: number;
+}
+
 
 // ---------------------------------------------------------------------------
 // Lesson Metadata
