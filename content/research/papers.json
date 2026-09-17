@@ -163,5 +163,60 @@
     "abstract": "Identifies the barren plateau phenomenon in variational quantum circuits: gradients vanish exponentially with system size for random parameterized circuits, posing a fundamental challenge for QML.",
     "url": "https://arxiv.org/abs/1803.11173",
     "difficulty": "advanced"
+  },
+    {
+    "id": "bernstein-vazirani-1993",
+    "title": "Quantum Complexity Theory",
+    "authors": ["Ethan Bernstein", "Umesh Vazirani"],
+    "year": 1993,
+    "category": "paper",
+    "tags": ["complexity-theory", "quantum-computation", "foundational"],
+    "abstract": "Studies quantum computation from a complexity-theoretic perspective and develops an efficient universal quantum Turing machine, establishing foundational results for quantum complexity theory.",
+    "url": "https://doi.org/10.1145/167088.167097",
+    "difficulty": "advanced"
+  },
+  {
+    "id": "simon-1994",
+    "title": "On the Power of Quantum Computation",
+    "authors": ["Daniel R. Simon"],
+    "year": 1994,
+    "category": "paper",
+    "tags": ["algorithms", "complexity-theory", "quantum-computation", "foundational"],
+    "abstract": "Introduces Simon's algorithm and shows that a quantum computer can solve a structured problem exponentially faster than known classical probabilistic methods, providing an early demonstration of quantum computational advantage.",
+    "url": "https://doi.org/10.1109/SFCS.1994.365701",
+    "difficulty": "advanced"
+  },
+  {
+    "id": "kitaev-1995",
+    "title": "Quantum Measurements and the Abelian Stabilizer Problem",
+    "authors": ["Alexei Yu. Kitaev"],
+    "year": 1995,
+    "category": "paper",
+    "tags": ["quantum-algorithms", "abelian-groups", "quantum-fourier-transform", "foundational"],
+    "abstract": "Presents a polynomial-time quantum algorithm for the Abelian stabilizer problem and describes a procedure for measuring eigenvalues of unitary operators, with applications including the quantum Fourier transform over finite Abelian groups.",
+    "url": "https://arxiv.org/abs/quant-ph/9511026",
+    "difficulty": "advanced"
+  },
+  {
+    "id": "experimental-teleportation-1997",
+    "title": "Experimental Quantum Teleportation",
+    "authors": ["Dik Bouwmeester", "Jian-Wei Pan", "Klaus Mattle", "Manfred Eibl", "Harald Weinfurter", "Anton Zeilinger"],
+    "year": 1997,
+    "category": "paper",
+    "tags": ["teleportation", "entanglement", "experimental", "foundational"],
+    "abstract": "Demonstrates the experimental teleportation of a quantum state using entangled photons and measurements, providing an early experimental realization of quantum teleportation.",
+    "url": "https://doi.org/10.1038/37539",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "majorana-wires-2001",
+    "title": "Unpaired Majorana Fermions in Quantum Wires",
+    "authors": ["Alexei Yu. Kitaev"],
+    "year": 2001,
+    "category": "paper",
+    "tags": ["majorana", "quantum-wires", "topological", "quantum-computing"],
+    "abstract": "Describes one-dimensional quantum systems with Majorana boundary states and shows how such systems can encode qubits with intrinsic protection against certain forms of decoherence.",
+    "url": "https://doi.org/10.1070/1063-7869/44/10S/S29",
+    "difficulty": "advanced"
   }
 ]
