@@ -1,0 +1,102 @@
+[
+  {
+    "id": "qiskit-textbook",
+    "title": "Qiskit Textbook — Learn Quantum Computation Using Qiskit",
+    "source": "IBM Quantum",
+    "category": "tutorial",
+    "tags": ["qiskit", "beginner", "interactive", "textbook"],
+    "description": "The official open-source interactive textbook covering quantum computing fundamentals, algorithms, and applications using Qiskit. Includes Jupyter notebooks for hands-on learning.",
+    "url": "https://learning.quantum.ibm.com/",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "pennylane-demos",
+    "title": "PennyLane Demos — Quantum Machine Learning Tutorials",
+    "source": "Xanadu",
+    "category": "tutorial",
+    "tags": ["pennylane", "QML", "variational", "interactive"],
+    "description": "Collection of hands-on demos covering variational quantum classifiers, quantum chemistry, quantum GANs, and more using PennyLane's autodiff-compatible quantum framework.",
+    "url": "https://pennylane.ai/qml/demonstrations/",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "cirq-tutorials",
+    "title": "Cirq Tutorials — Google Quantum AI",
+    "source": "Google Quantum AI",
+    "category": "tutorial",
+    "tags": ["cirq", "Google", "NISQ", "simulation"],
+    "description": "Official tutorials for Google's Cirq framework covering circuit construction, noise simulation, and quantum algorithm implementation on Google's quantum processors.",
+    "url": "https://quantumai.google/cirq/start",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "ibm-quantum-lab",
+    "title": "IBM Quantum Lab — Run Circuits on Real Hardware",
+    "source": "IBM Quantum",
+    "category": "tutorial",
+    "tags": ["IBM", "hardware", "cloud", "qiskit"],
+    "description": "Cloud-based quantum computing environment providing free access to IBM's quantum processors. Run real circuits, explore noise characteristics, and benchmark algorithms.",
+    "url": "https://quantum.ibm.com/",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "quantum-computing-primer",
+    "title": "Quantum Computing: An Applied Approach (Hidary)",
+    "source": "Springer",
+    "category": "tutorial",
+    "tags": ["textbook", "applied", "comprehensive", "reference"],
+    "description": "Applied introduction to quantum computing covering gates, circuits, algorithms, error correction, and quantum machine learning with code examples in multiple frameworks.",
+    "url": "https://link.springer.com/book/10.1007/978-3-030-83274-2",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "nielsen-chuang",
+    "title": "Quantum Computation and Quantum Information (Nielsen & Chuang)",
+    "source": "Cambridge University Press",
+    "category": "tutorial",
+    "tags": ["textbook", "foundational", "comprehensive", "reference"],
+    "description": "The definitive graduate-level textbook on quantum computation and information theory. Covers quantum mechanics, circuit model, algorithms, error correction, and entanglement in rigorous mathematical detail.",
+    "url": "https://doi.org/10.1017/CBO9780511976667",
+    "difficulty": "advanced"
+  },
+  {
+    "id": "aws-braket-examples",
+    "title": "Amazon Braket Examples — Quantum Computing on AWS",
+    "source": "AWS",
+    "category": "tutorial",
+    "tags": ["AWS", "cloud", "multi-framework", "braket"],
+    "description": "Collection of Jupyter notebooks demonstrating quantum algorithms, hybrid jobs, and multi-framework (Qiskit, Cirq, PennyLane) execution on Amazon Braket's quantum service.",
+    "url": "https://github.com/amazon-braket/amazon-braket-examples",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "qiskit-runtime",
+    "title": "Qiskit Runtime Primitives — Efficient Quantum Workloads",
+    "source": "IBM Quantum",
+    "category": "tutorial",
+    "tags": ["qiskit", "runtime", "optimization", "production"],
+    "description": "Learn to use Qiskit Runtime's Sampler and Estimator primitives to run quantum workloads more efficiently on IBM Quantum hardware with built-in error mitigation.",
+    "url": "https://docs.quantum.ibm.com/guides/primitives",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "quantum-error-mitigation",
+    "title": "Quantum Error Mitigation Techniques — A Practical Guide",
+    "source": "Qiskit Community",
+    "category": "tutorial",
+    "tags": ["error-mitigation", "NISQ", "practical", "noise"],
+    "description": "Practical guide to error mitigation strategies for NISQ devices including zero-noise extrapolation, probabilistic error cancellation, and measurement error mitigation.",
+    "url": "https://learning.quantum.ibm.com/tutorial/error-suppression-and-error-mitigation-with-qiskit-runtime",
+    "difficulty": "advanced"
+  },
+  {
+    "id": "quantum-chemistry-vqe",
+    "title": "Simulating Molecules with VQE — Quantum Chemistry Tutorial",
+    "source": "Qiskit Community",
+    "category": "tutorial",
+    "tags": ["chemistry", "VQE", "simulation", "molecules"],
+    "description": "Step-by-step tutorial on using the Variational Quantum Eigensolver to compute ground state energies of small molecules (H₂, LiH) on quantum simulators and real hardware.",
+    "url": "https://learning.quantum.ibm.com/tutorial/variational-quantum-eigensolver",
+    "difficulty": "advanced"
+  }
+]

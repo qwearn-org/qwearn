@@ -240,6 +240,9 @@ export default function PlaygroundPage() {
           <Link href="/qml" className="nav-link">
             QML
           </Link>
+          <Link href="/research" className="nav-link">
+            Research
+          </Link>
           <Link href="/playground" className="nav-link nav-link-active">
             Playground
           </Link>

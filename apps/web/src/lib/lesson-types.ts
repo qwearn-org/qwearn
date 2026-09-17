@@ -274,3 +274,26 @@ export interface EvaluationResult {
   details: Record<string, unknown>;
 }
 
+// ---------------------------------------------------------------------------
+// Research Hub Types
+// ---------------------------------------------------------------------------
+
+export interface ResearchItem {
+  id: string;
+  title: string;
+  category: 'paper' | 'tutorial' | 'roadmap';
+  tags: string[];
+  description: string;
+  url: string;
+  difficulty?: 'beginner' | 'intermediate' | 'advanced';
+  // Paper-specific
+  authors?: string[];
+  year?: number;
+  abstract?: string;
+  // Tutorial-specific
+  source?: string;
+  // Roadmap-specific
+  organization?: string;
+  lastUpdated?: string;
+}
+

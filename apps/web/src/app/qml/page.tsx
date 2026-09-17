@@ -26,6 +26,7 @@ export default function QMLIndexPage() {
           <Link href="/algorithms" className="nav-link">Algorithms</Link>
           <Link href="/challenges" className="nav-link">Challenges</Link>
           <Link href="/qml" className="nav-link nav-link-active">QML</Link>
+          <Link href="/research" className="nav-link">Research</Link>
           <Link href="/playground" className="nav-link">Playground</Link>
         </div>
       </nav>

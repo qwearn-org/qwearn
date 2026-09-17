@@ -1,0 +1,167 @@
+[
+  {
+    "id": "shor-1994",
+    "title": "Algorithms for Quantum Computation: Discrete Logarithms and Factoring",
+    "authors": ["Peter W. Shor"],
+    "year": 1994,
+    "category": "paper",
+    "tags": ["factoring", "number-theory", "exponential-speedup", "foundational"],
+    "abstract": "Introduces polynomial-time quantum algorithms for integer factorization and discrete logarithms, demonstrating exponential speedup over all known classical algorithms.",
+    "url": "https://arxiv.org/abs/quant-ph/9508027",
+    "difficulty": "advanced"
+  },
+  {
+    "id": "grover-1996",
+    "title": "A Fast Quantum Mechanical Algorithm for Database Search",
+    "authors": ["Lov K. Grover"],
+    "year": 1996,
+    "category": "paper",
+    "tags": ["search", "quadratic-speedup", "oracle", "foundational"],
+    "abstract": "Presents a quantum algorithm that searches an unsorted database of N items in O(√N) time, providing a provably optimal quadratic speedup over classical search.",
+    "url": "https://arxiv.org/abs/quant-ph/9605043",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "bb84-1984",
+    "title": "Quantum Cryptography: Public Key Distribution and Coin Tossing",
+    "authors": ["Charles H. Bennett", "Gilles Brassard"],
+    "year": 1984,
+    "category": "paper",
+    "tags": ["cryptography", "QKD", "security", "foundational"],
+    "abstract": "Proposes the first quantum key distribution protocol (BB84), enabling two parties to establish a shared secret key with information-theoretic security guaranteed by quantum mechanics.",
+    "url": "https://arxiv.org/abs/2003.06557",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "deutsch-1985",
+    "title": "Quantum Theory, the Church-Turing Principle and the Universal Quantum Computer",
+    "authors": ["David Deutsch"],
+    "year": 1985,
+    "category": "paper",
+    "tags": ["computation-theory", "universal-quantum-computer", "foundational"],
+    "abstract": "Introduces the concept of a universal quantum computer and demonstrates that quantum mechanics enables computational capabilities beyond classical Turing machines.",
+    "url": "https://doi.org/10.1098/rspa.1985.0070",
+    "difficulty": "advanced"
+  },
+  {
+    "id": "vqe-2014",
+    "title": "A Variational Eigenvalue Solver on a Photonic Quantum Processor",
+    "authors": ["Alberto Peruzzo", "Jarrod McClean", "Peter Shadbolt", "et al."],
+    "year": 2014,
+    "category": "paper",
+    "tags": ["variational", "chemistry", "NISQ", "optimization"],
+    "abstract": "Introduces the Variational Quantum Eigensolver (VQE) algorithm, a hybrid quantum-classical approach for finding ground state energies of molecular Hamiltonians on near-term quantum hardware.",
+    "url": "https://arxiv.org/abs/1304.3061",
+    "difficulty": "advanced"
+  },
+  {
+    "id": "qaoa-2014",
+    "title": "A Quantum Approximate Optimization Algorithm",
+    "authors": ["Edward Farhi", "Jeffrey Goldstone", "Sam Gutmann"],
+    "year": 2014,
+    "category": "paper",
+    "tags": ["optimization", "combinatorial", "NISQ", "variational"],
+    "abstract": "Proposes QAOA, a quantum algorithm designed for combinatorial optimization problems that uses alternating unitary operators and classical parameter optimization.",
+    "url": "https://arxiv.org/abs/1411.4028",
+    "difficulty": "advanced"
+  },
+  {
+    "id": "supremacy-2019",
+    "title": "Quantum Supremacy Using a Programmable Superconducting Processor",
+    "authors": ["Frank Arute", "Kunal Arya", "Ryan Babbush", "et al."],
+    "year": 2019,
+    "category": "paper",
+    "tags": ["supremacy", "superconducting", "Google", "milestone"],
+    "abstract": "Google's Sycamore processor performs a specific computational task in 200 seconds that would take a classical supercomputer approximately 10,000 years, demonstrating quantum computational advantage.",
+    "url": "https://doi.org/10.1038/s41586-019-1666-5",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "error-correction-1996",
+    "title": "Good Quantum Error-Correcting Codes Exist",
+    "authors": ["A. Robert Calderbank", "Peter W. Shor"],
+    "year": 1996,
+    "category": "paper",
+    "tags": ["error-correction", "fault-tolerance", "foundational"],
+    "abstract": "Proves that quantum error-correcting codes exist and provides construction methods, establishing the theoretical foundation for fault-tolerant quantum computation.",
+    "url": "https://arxiv.org/abs/quant-ph/9512032",
+    "difficulty": "advanced"
+  },
+  {
+    "id": "hhl-2009",
+    "title": "Quantum Algorithm for Linear Systems of Equations",
+    "authors": ["Aram W. Harrow", "Avinatan Hassidim", "Seth Lloyd"],
+    "year": 2009,
+    "category": "paper",
+    "tags": ["linear-algebra", "exponential-speedup", "machine-learning"],
+    "abstract": "Presents a quantum algorithm (HHL) that solves systems of linear equations exponentially faster than the best known classical algorithms, with applications to machine learning and simulation.",
+    "url": "https://arxiv.org/abs/0811.3171",
+    "difficulty": "advanced"
+  },
+  {
+    "id": "quantum-teleportation-1993",
+    "title": "Teleporting an Unknown Quantum State via Dual Classical and Einstein-Podolsky-Rosen Channels",
+    "authors": ["Charles H. Bennett", "Gilles Brassard", "Claude Crépeau", "et al."],
+    "year": 1993,
+    "category": "paper",
+    "tags": ["teleportation", "entanglement", "communication", "foundational"],
+    "abstract": "Introduces quantum teleportation: the transfer of an unknown quantum state from one location to another using shared entanglement and classical communication.",
+    "url": "https://doi.org/10.1103/PhysRevLett.70.1895",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "surface-codes-2012",
+    "title": "Surface Codes: Towards Practical Large-Scale Quantum Computation",
+    "authors": ["Austin G. Fowler", "Matteo Mariantoni", "John M. Martinis", "Andrew N. Cleland"],
+    "year": 2012,
+    "category": "paper",
+    "tags": ["error-correction", "surface-code", "fault-tolerance", "hardware"],
+    "abstract": "Comprehensive review of surface codes as the leading candidate for scalable quantum error correction, with detailed threshold analysis and hardware implementation requirements.",
+    "url": "https://arxiv.org/abs/1208.0928",
+    "difficulty": "advanced"
+  },
+  {
+    "id": "quantum-walk-2003",
+    "title": "Quantum Random Walks: An Introductory Overview",
+    "authors": ["Julia Kempe"],
+    "year": 2003,
+    "category": "paper",
+    "tags": ["quantum-walk", "algorithms", "graph-theory"],
+    "abstract": "Provides an accessible introduction to quantum random walks on graphs, their properties, and their role as a universal computational primitive for quantum algorithms.",
+    "url": "https://arxiv.org/abs/quant-ph/0303081",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "nisq-2018",
+    "title": "Quantum Computing in the NISQ Era and Beyond",
+    "authors": ["John Preskill"],
+    "year": 2018,
+    "category": "paper",
+    "tags": ["NISQ", "near-term", "survey", "perspective"],
+    "abstract": "Defines the Noisy Intermediate-Scale Quantum (NISQ) era and discusses what quantum computers with 50-100 qubits might achieve despite lacking full error correction.",
+    "url": "https://arxiv.org/abs/1801.00862",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "quantum-ml-review-2017",
+    "title": "Quantum Machine Learning: What Quantum Computing Means to Data Mining",
+    "authors": ["Peter Wittek"],
+    "year": 2017,
+    "category": "paper",
+    "tags": ["machine-learning", "QML", "survey", "data-mining"],
+    "abstract": "Surveys the intersection of quantum computing and machine learning, covering quantum-enhanced versions of SVMs, clustering, PCA, and neural networks.",
+    "url": "https://doi.org/10.1016/C2013-0-19170-2",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "barren-plateaus-2018",
+    "title": "Barren Plateaus in Quantum Neural Network Training Landscapes",
+    "authors": ["Jarrod R. McClean", "Sergio Boixo", "Vadim N. Smelyanskiy", "et al."],
+    "year": 2018,
+    "category": "paper",
+    "tags": ["variational", "training", "barren-plateaus", "QML"],
+    "abstract": "Identifies the barren plateau phenomenon in variational quantum circuits: gradients vanish exponentially with system size for random parameterized circuits, posing a fundamental challenge for QML.",
+    "url": "https://arxiv.org/abs/1803.11173",
+    "difficulty": "advanced"
+  }
+]

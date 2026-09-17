@@ -1,0 +1,82 @@
+[
+  {
+    "id": "ibm-roadmap",
+    "title": "IBM Quantum Development Roadmap",
+    "organization": "IBM Quantum",
+    "category": "roadmap",
+    "tags": ["IBM", "superconducting", "error-correction", "100K-qubits"],
+    "description": "IBM's vision to deliver 100,000+ qubit systems by 2033 through modular quantum processors, error correction breakthroughs, and the Qiskit software stack evolution.",
+    "url": "https://www.ibm.com/quantum/roadmap",
+    "lastUpdated": "2024"
+  },
+  {
+    "id": "google-quantum-ai",
+    "title": "Google Quantum AI Roadmap",
+    "organization": "Google Quantum AI",
+    "category": "roadmap",
+    "tags": ["Google", "superconducting", "supremacy", "Willow"],
+    "description": "Google's roadmap toward building a useful, error-corrected quantum computer. Milestones include quantum supremacy (Sycamore 2019), below-threshold error correction (Willow 2024), and a long-lived logical qubit.",
+    "url": "https://quantumai.google/",
+    "lastUpdated": "2024"
+  },
+  {
+    "id": "microsoft-azure-quantum",
+    "title": "Microsoft Azure Quantum & Topological Qubits",
+    "organization": "Microsoft",
+    "category": "roadmap",
+    "tags": ["Microsoft", "topological", "Azure", "cloud"],
+    "description": "Microsoft's approach using topological qubits (Majorana zero modes) for inherently fault-tolerant quantum computing, integrated with Azure Quantum cloud services.",
+    "url": "https://quantum.microsoft.com/",
+    "lastUpdated": "2024"
+  },
+  {
+    "id": "ionq-roadmap",
+    "title": "IonQ — Trapped Ion Quantum Computing Roadmap",
+    "organization": "IonQ",
+    "category": "roadmap",
+    "tags": ["IonQ", "trapped-ion", "algorithmic-qubits", "commercial"],
+    "description": "IonQ's roadmap toward commercial-grade trapped-ion quantum computers with high connectivity, long coherence times, and the '#AQ' algorithmic qubit metric.",
+    "url": "https://ionq.com/resources/roadmap",
+    "lastUpdated": "2024"
+  },
+  {
+    "id": "quantinuum-roadmap",
+    "title": "Quantinuum — H-Series Quantum Computers",
+    "organization": "Quantinuum",
+    "category": "roadmap",
+    "tags": ["Quantinuum", "trapped-ion", "QCCD", "Honeywell"],
+    "description": "Quantinuum's H-Series trapped-ion processors use QCCD architecture for all-to-all connectivity. Roadmap targets fault-tolerant quantum computing with industry-leading gate fidelities.",
+    "url": "https://www.quantinuum.com/hardware",
+    "lastUpdated": "2024"
+  },
+  {
+    "id": "rigetti-roadmap",
+    "title": "Rigetti — Superconducting Quantum Computing",
+    "organization": "Rigetti Computing",
+    "category": "roadmap",
+    "tags": ["Rigetti", "superconducting", "cloud", "hybrid"],
+    "description": "Rigetti's roadmap for scalable superconducting quantum processors with multi-chip architectures, integrated with their Quilc compiler and Forest SDK.",
+    "url": "https://www.rigetti.com/",
+    "lastUpdated": "2024"
+  },
+  {
+    "id": "psiquantum-roadmap",
+    "title": "PsiQuantum — Photonic Quantum Computing at Scale",
+    "organization": "PsiQuantum",
+    "category": "roadmap",
+    "tags": ["PsiQuantum", "photonic", "manufacturing", "million-qubits"],
+    "description": "PsiQuantum's silicon-photonic approach aims to build million-qubit fault-tolerant quantum computers using existing semiconductor manufacturing infrastructure.",
+    "url": "https://www.psiquantum.com/",
+    "lastUpdated": "2024"
+  },
+  {
+    "id": "aws-braket-roadmap",
+    "title": "AWS Center for Quantum Computing",
+    "organization": "Amazon Web Services",
+    "category": "roadmap",
+    "tags": ["AWS", "cloud", "multi-hardware", "braket"],
+    "description": "AWS's quantum computing strategy providing cloud access to multiple hardware technologies (superconducting, trapped-ion, photonic) through Amazon Braket, plus in-house quantum hardware research.",
+    "url": "https://aws.amazon.com/quantum-computing/",
+    "lastUpdated": "2024"
+  }
+]

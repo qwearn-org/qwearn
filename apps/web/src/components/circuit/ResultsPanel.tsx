@@ -143,51 +143,25 @@ function StatevectorDisplay({ statevector }: { statevector: number[][] }) {
   );
 }
 
-/** 2D Bloch sphere projection (SVG). */
+import BlochSphere3D from '@web/components/visualization/BlochSphere3D';
+
+/** 3D Bloch sphere visualizer (Three.js). */
 function BlochDisplay({ coords }: { coords: BlochCoordinates[] }) {
   if (coords.length === 0) {
-    return <div className="bloch-empty">Run circuit to see Bloch spheres</div>;
+    return <div className="bloch-empty">Run circuit to see 3D Bloch spheres</div>;
   }
 
   return (
-    <div className="bloch-grid">
+    <div className="bloch-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '1rem' }}>
       {coords.map((c) => (
-        <div key={c.qubit_index} className="bloch-sphere-container">
-          <span className="bloch-label">Qubit {c.qubit_index}</span>
-          <svg viewBox="-1.3 -1.3 2.6 2.6" className="bloch-svg">
-            {/* Sphere outline */}
-            <circle cx="0" cy="0" r="1" fill="none" stroke="#334155" strokeWidth="0.02" />
-            {/* Equator ellipse */}
-            <ellipse cx="0" cy="0" rx="1" ry="0.3" fill="none" stroke="#475569" strokeWidth="0.01" strokeDasharray="0.04 0.04" />
-            {/* Axes */}
-            <line x1="-1.1" y1="0" x2="1.1" y2="0" stroke="#475569" strokeWidth="0.01" />
-            <line x1="0" y1="-1.1" x2="0" y2="1.1" stroke="#475569" strokeWidth="0.01" />
-            {/* Axis labels */}
-            <text x="1.15" y="0.05" fontSize="0.12" fill="#94a3b8">x</text>
-            <text x="0.05" y="-1.1" fontSize="0.12" fill="#94a3b8">z</text>
-            {/* |0⟩ and |1⟩ labels */}
-            <text x="0.06" y="-1.02" fontSize="0.1" fill="#6366f1">|0⟩</text>
-            <text x="0.06" y="1.08" fontSize="0.1" fill="#ef4444">|1⟩</text>
-            {/* State vector arrow (project x,z to 2D) */}
-            <line
-              x1="0" y1="0"
-              x2={c.x} y2={-c.z}
-              stroke="#22d3ee" strokeWidth="0.04"
-              markerEnd="url(#arrowhead)"
-            />
-            {/* State point */}
-            <circle cx={c.x} cy={-c.z} r="0.06" fill="#22d3ee" />
-            {/* Arrow marker definition */}
-            <defs>
-              <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
-                <polygon points="0 0, 6 2, 0 4" fill="#22d3ee" />
-              </marker>
-            </defs>
-          </svg>
-          <div className="bloch-coords">
-            ({c.x.toFixed(2)}, {c.y.toFixed(2)}, {c.z.toFixed(2)})
-          </div>
-        </div>
+        <BlochSphere3D
+          key={c.qubit_index}
+          x={c.x}
+          y={c.y}
+          z={c.z}
+          label={`Qubit ${c.qubit_index}`}
+          interactive={true}
+        />
       ))}
     </div>
   );
