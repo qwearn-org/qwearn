@@ -47,12 +47,6 @@ export default function PlaygroundPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Next gate column (auto-incrementing)
-  const nextColumn = useMemo(() => {
-    if (gates.length === 0) return 0;
-    return Math.max(...gates.map((g) => g.column)) + 1;
-  }, [gates]);
-
   // Convert PlacedGates to GateSpec array for the API
   const buildCircuitSpec = useCallback((): GateSpec[] => {
     return gates

@@ -10,8 +10,8 @@ See docs/architecture/ for the full system design.
 """
 
 import os
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
 
 from beanie import init_beanie
 from fastapi import FastAPI
@@ -56,9 +56,9 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         # MongoDB not available — circuit endpoints still work,
         # but save/load endpoints will fail at request time.
         import logging
+
         logging.warning(
-            "MongoDB not available at %s. "
-            "Circuit execution works, but save/load is disabled.",
+            "MongoDB not available at %s. Circuit execution works, but save/load is disabled.",
             mongo_url,
         )
 

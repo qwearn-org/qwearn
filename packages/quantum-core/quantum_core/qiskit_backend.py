@@ -44,7 +44,6 @@ from quantum_core.backend import (
     CircuitResult,
     CircuitSpec,
     GateName,
-    GateSpec,
     QuantumBackend,
     StepResult,
 )
@@ -280,10 +279,16 @@ class QiskitBackend(QuantumBackend):
         """
         errors = []
         gate_qubit_counts = {
-            GateName.X: 1, GateName.Y: 1, GateName.Z: 1,
-            GateName.H: 1, GateName.S: 1, GateName.T: 1,
+            GateName.X: 1,
+            GateName.Y: 1,
+            GateName.Z: 1,
+            GateName.H: 1,
+            GateName.S: 1,
+            GateName.T: 1,
             GateName.PHASE: 1,
-            GateName.CX: 2, GateName.CZ: 2, GateName.SWAP: 2,
+            GateName.CX: 2,
+            GateName.CZ: 2,
+            GateName.SWAP: 2,
             GateName.CCX: 3,
         }
 
@@ -294,29 +299,23 @@ class QiskitBackend(QuantumBackend):
             for q in gate_spec.qubits:
                 if q < 0 or q >= circuit.num_qubits:
                     errors.append(
-                        f"{prefix}: qubit index {q} out of range "
-                        f"[0, {circuit.num_qubits})"
+                        f"{prefix}: qubit index {q} out of range [0, {circuit.num_qubits})"
                     )
 
             # Check qubit count
             expected = gate_qubit_counts.get(gate_spec.gate)
             if expected is not None and len(gate_spec.qubits) != expected:
                 errors.append(
-                    f"{prefix}: expected {expected} qubit(s), "
-                    f"got {len(gate_spec.qubits)}"
+                    f"{prefix}: expected {expected} qubit(s), got {len(gate_spec.qubits)}"
                 )
 
             # Check for duplicate qubits
             if len(gate_spec.qubits) != len(set(gate_spec.qubits)):
-                errors.append(
-                    f"{prefix}: duplicate qubit indices {gate_spec.qubits}"
-                )
+                errors.append(f"{prefix}: duplicate qubit indices {gate_spec.qubits}")
 
             # Check required parameters
             if gate_spec.gate == GateName.PHASE and "theta" not in gate_spec.params:
-                errors.append(
-                    f"{prefix}: Phase gate requires 'theta' parameter"
-                )
+                errors.append(f"{prefix}: Phase gate requires 'theta' parameter")
 
         return errors
 
@@ -360,8 +359,7 @@ class QiskitBackend(QuantumBackend):
                 "num_qubits": 1,
                 "has_params": False,
                 "description": (
-                    "Creates equal superposition. "
-                    "H|0⟩ = (|0⟩+|1⟩)/√2, H|1⟩ = (|0⟩-|1⟩)/√2."
+                    "Creates equal superposition. H|0⟩ = (|0⟩+|1⟩)/√2, H|1⟩ = (|0⟩-|1⟩)/√2."
                 ),
                 "matrix": "1/√2 · [[1, 1], [1, -1]]",
                 "category": "common",
@@ -394,7 +392,9 @@ class QiskitBackend(QuantumBackend):
                     "maps |1⟩ to e^(iθ)|1⟩. S = P(π/2), T = P(π/4), Z = P(π)."
                 ),
                 "matrix": "[[1, 0], [0, e^(iθ)]]",
-                "params": [{"name": "theta", "type": "float", "description": "Phase angle in radians"}],
+                "params": [
+                    {"name": "theta", "type": "float", "description": "Phase angle in radians"}
+                ],
                 "category": "phase",
             },
             {
@@ -511,9 +511,13 @@ class QiskitBackend(QuantumBackend):
             GateName.S: lambda gs: f"qc.s({gs.qubits[0]})",
             GateName.T: lambda gs: f"qc.t({gs.qubits[0]})",
             GateName.PHASE: lambda gs: f"qc.p({gs.params['theta']}, {gs.qubits[0]})",
-            GateName.CX: lambda gs: f"qc.cx({gs.qubits[0]}, {gs.qubits[1]})  # CNOT: control={gs.qubits[0]}, target={gs.qubits[1]}",
+            GateName.CX: lambda gs: (
+                f"qc.cx({gs.qubits[0]}, {gs.qubits[1]})  # CNOT: control={gs.qubits[0]}, target={gs.qubits[1]}"
+            ),
             GateName.CZ: lambda gs: f"qc.cz({gs.qubits[0]}, {gs.qubits[1]})",
-            GateName.CCX: lambda gs: f"qc.ccx({gs.qubits[0]}, {gs.qubits[1]}, {gs.qubits[2]})  # Toffoli",
+            GateName.CCX: lambda gs: (
+                f"qc.ccx({gs.qubits[0]}, {gs.qubits[1]}, {gs.qubits[2]})  # Toffoli"
+            ),
             GateName.SWAP: lambda gs: f"qc.swap({gs.qubits[0]}, {gs.qubits[1]})",
         }
 
@@ -525,17 +529,19 @@ class QiskitBackend(QuantumBackend):
                     lines.append(code_gen(gate_spec))
             lines.append("")
 
-        lines.extend([
-            "# Simulate",
-            "qc.save_statevector()",
-            "simulator = AerSimulator(method='statevector')",
-            "result = simulator.run(qc).result()",
-            "statevector = result.get_statevector(qc)",
-            "",
-            "# Print results",
-            "print('Statevector:', statevector)",
-            "print('Probabilities:', statevector.probabilities_dict())",
-        ])
+        lines.extend(
+            [
+                "# Simulate",
+                "qc.save_statevector()",
+                "simulator = AerSimulator(method='statevector')",
+                "result = simulator.run(qc).result()",
+                "statevector = result.get_statevector(qc)",
+                "",
+                "# Print results",
+                "print('Statevector:', statevector)",
+                "print('Probabilities:', statevector.probabilities_dict())",
+            ]
+        )
 
         return "\n".join(lines)
 

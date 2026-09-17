@@ -15,7 +15,7 @@ interface QuizPanelProps {
   lessonId: string;
 }
 
-export default function QuizPanel({ questions, lessonId }: QuizPanelProps) {
+export default function QuizPanel({ questions, lessonId: _lessonId }: QuizPanelProps) {
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [revealed, setRevealed] = useState<Record<string, boolean>>({});
 

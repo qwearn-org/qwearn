@@ -12,12 +12,10 @@ from __future__ import annotations
 
 import math
 import time
-from typing import Any
 
 import numpy as np
 from pydantic import BaseModel, Field
 from qiskit import QuantumCircuit
-from qiskit.circuit import ParameterVector
 from qiskit.quantum_info import Statevector
 from qiskit_aer import AerSimulator
 from scipy.optimize import minimize
@@ -26,7 +24,9 @@ from scipy.optimize import minimize
 class TrainingConfig(BaseModel):
     """Configuration options for VQC training."""
 
-    dataset: str = Field(default="circles", description="Dataset generator ('circles', 'moons', 'linear')")
+    dataset: str = Field(
+        default="circles", description="Dataset generator ('circles', 'moons', 'linear')"
+    )
     num_samples: int = Field(default=100, ge=20, le=200, description="Number of samples (20..200)")
     ansatz: str = Field(default="basic", description="Ansatz type ('basic', 'layered')")
     num_qubits: int = Field(default=2, ge=2, le=4, description="Number of qubits (2..4)")
@@ -63,6 +63,7 @@ class PredictResponse(BaseModel):
 
 # --- Synthetic Data Generator ---
 
+
 def generate_dataset(
     name: str = "circles", n_samples: int = 100, seed: int = 42
 ) -> tuple[np.ndarray, np.ndarray]:
@@ -93,7 +94,9 @@ def generate_dataset(
         X_0[:, 0] -= 0.3
 
         t1 = np.linspace(0, math.pi, n_samples - n_per_class)
-        X_1 = np.column_stack([1 - np.cos(t1), 0.5 - np.sin(t1)]) + rng.normal(0, 0.08, (n_samples - n_per_class, 2))
+        X_1 = np.column_stack([1 - np.cos(t1), 0.5 - np.sin(t1)]) + rng.normal(
+            0, 0.08, (n_samples - n_per_class, 2)
+        )
         X_1[:, 0] -= 0.3
 
         X = np.vstack([X_0, X_1])
@@ -113,6 +116,7 @@ def generate_dataset(
 
 
 # --- Quantum Circuit Engine for QML ---
+
 
 class QMLEngine:
     """Handles parameterized circuits, expectation values, and optimization."""
@@ -192,26 +196,22 @@ class QMLEngine:
 
 # --- Classical Baseline ---
 
+
 def fit_classical_baseline(X: np.ndarray, y: np.ndarray) -> tuple[float, list[list[float]]]:
     """
     Train a classical logistic regression model with RBF/polynomial features
     using scipy optimization to provide side-by-side comparative accuracy and decision boundary.
     """
     # Expanded features: [1, x0, x1, x0^2, x1^2, x0*x1]
-    X_exp = np.column_stack([
-        np.ones(len(X)),
-        X[:, 0],
-        X[:, 1],
-        X[:, 0] ** 2,
-        X[:, 1] ** 2,
-        X[:, 0] * X[:, 1]
-    ])
+    X_exp = np.column_stack(
+        [np.ones(len(X)), X[:, 0], X[:, 1], X[:, 0] ** 2, X[:, 1] ** 2, X[:, 0] * X[:, 1]]
+    )
 
     def loss(w: np.ndarray) -> float:
         z = np.clip(X_exp @ w, -20, 20)
         p = 1.0 / (1.0 + np.exp(-z))
         bce = -np.mean(y * np.log(p + 1e-12) + (1 - y) * np.log(1 - p + 1e-12))
-        l2 = 0.01 * np.sum(w ** 2)
+        l2 = 0.01 * np.sum(w**2)
         return float(bce + l2)
 
     init_w = np.zeros(6)
@@ -228,14 +228,16 @@ def fit_classical_baseline(X: np.ndarray, y: np.ndarray) -> tuple[float, list[li
     grid_pts = np.linspace(-1, 1, 20)
     grid_x, grid_y = np.meshgrid(grid_pts, grid_pts)
     X_grid = np.column_stack([grid_x.ravel(), grid_y.ravel()])
-    X_grid_exp = np.column_stack([
-        np.ones(len(X_grid)),
-        X_grid[:, 0],
-        X_grid[:, 1],
-        X_grid[:, 0] ** 2,
-        X_grid[:, 1] ** 2,
-        X_grid[:, 0] * X_grid[:, 1]
-    ])
+    X_grid_exp = np.column_stack(
+        [
+            np.ones(len(X_grid)),
+            X_grid[:, 0],
+            X_grid[:, 1],
+            X_grid[:, 0] ** 2,
+            X_grid[:, 1] ** 2,
+            X_grid[:, 0] * X_grid[:, 1],
+        ]
+    )
     p_grid = 1.0 / (1.0 + np.exp(-np.clip(X_grid_exp @ w_opt, -20, 20)))
     boundary_grid = p_grid.reshape(20, 20).tolist()
 
@@ -243,6 +245,7 @@ def fit_classical_baseline(X: np.ndarray, y: np.ndarray) -> tuple[float, list[li
 
 
 # --- Main VQC Trainer ---
+
 
 def train_vqc(config: TrainingConfig) -> TrainingResult:
     """
@@ -288,7 +291,9 @@ def train_vqc(config: TrainingConfig) -> TrainingResult:
     opt_params = res.x
 
     # Final evaluation
-    final_probs = engine.predict_batch(X, opt_params, ansatz=config.ansatz, num_qubits=config.num_qubits)
+    final_probs = engine.predict_batch(
+        X, opt_params, ansatz=config.ansatz, num_qubits=config.num_qubits
+    )
     final_preds = (final_probs >= 0.5).astype(int)
     quantum_acc = float(np.mean(final_preds == y))
 
@@ -296,7 +301,9 @@ def train_vqc(config: TrainingConfig) -> TrainingResult:
     grid_pts = np.linspace(-1, 1, 20)
     grid_x, grid_y = np.meshgrid(grid_pts, grid_pts)
     X_grid = np.column_stack([grid_x.ravel(), grid_y.ravel()])
-    grid_probs = engine.predict_batch(X_grid, opt_params, ansatz=config.ansatz, num_qubits=config.num_qubits)
+    grid_probs = engine.predict_batch(
+        X_grid, opt_params, ansatz=config.ansatz, num_qubits=config.num_qubits
+    )
     quantum_boundary = grid_probs.reshape(20, 20).tolist()
 
     # Classical baseline comparison

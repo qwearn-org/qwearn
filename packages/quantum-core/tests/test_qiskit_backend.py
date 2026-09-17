@@ -6,7 +6,9 @@ Every test verifies against known quantum states from textbook results
 """
 
 import math
+
 import pytest
+
 from quantum_core.backend import CircuitSpec, GateName, GateSpec
 from quantum_core.qiskit_backend import QiskitBackend
 
@@ -36,10 +38,13 @@ class TestSingleGateStatevectors:
 
     def test_z_gate_on_plus(self, backend: QiskitBackend) -> None:
         """Z·H|0⟩ = (|0⟩-|1⟩)/√2"""
-        spec = CircuitSpec(num_qubits=1, gates=[
-            GateSpec(gate=GateName.H, qubits=[0]),
-            GateSpec(gate=GateName.Z, qubits=[0]),
-        ])
+        spec = CircuitSpec(
+            num_qubits=1,
+            gates=[
+                GateSpec(gate=GateName.H, qubits=[0]),
+                GateSpec(gate=GateName.Z, qubits=[0]),
+            ],
+        )
         result = backend.execute(spec, shots=0)
         inv_sqrt2 = 1.0 / math.sqrt(2)
         assert result.statevector[0] == pytest.approx([inv_sqrt2, 0.0], abs=1e-8)
@@ -54,10 +59,13 @@ class TestSingleGateStatevectors:
 
     def test_phase_gate(self, backend: QiskitBackend) -> None:
         """P(π/2) on |1⟩ = i|1⟩. First apply X to get |1⟩, then P(π/2)."""
-        spec = CircuitSpec(num_qubits=1, gates=[
-            GateSpec(gate=GateName.X, qubits=[0]),
-            GateSpec(gate=GateName.PHASE, qubits=[0], params={"theta": math.pi / 2}),
-        ])
+        spec = CircuitSpec(
+            num_qubits=1,
+            gates=[
+                GateSpec(gate=GateName.X, qubits=[0]),
+                GateSpec(gate=GateName.PHASE, qubits=[0], params={"theta": math.pi / 2}),
+            ],
+        )
         result = backend.execute(spec, shots=0)
         assert result.statevector[0] == pytest.approx([0.0, 0.0], abs=1e-8)
         assert result.statevector[1] == pytest.approx([0.0, 1.0], abs=1e-8)
@@ -72,10 +80,13 @@ class TestEntangledStates:
         Circuit: H(0) → CNOT(0,1)
         Reference: Nielsen & Chuang §1.3.6
         """
-        spec = CircuitSpec(num_qubits=2, gates=[
-            GateSpec(gate=GateName.H, qubits=[0]),
-            GateSpec(gate=GateName.CX, qubits=[0, 1]),
-        ])
+        spec = CircuitSpec(
+            num_qubits=2,
+            gates=[
+                GateSpec(gate=GateName.H, qubits=[0]),
+                GateSpec(gate=GateName.CX, qubits=[0, 1]),
+            ],
+        )
         result = backend.execute(spec, shots=0)
         inv_sqrt2 = 1.0 / math.sqrt(2)
         # |00⟩ amplitude
@@ -88,10 +99,13 @@ class TestEntangledStates:
 
     def test_bell_state_probabilities(self, backend: QiskitBackend) -> None:
         """Bell state should have 50% probability for |00⟩ and |11⟩."""
-        spec = CircuitSpec(num_qubits=2, gates=[
-            GateSpec(gate=GateName.H, qubits=[0]),
-            GateSpec(gate=GateName.CX, qubits=[0, 1]),
-        ])
+        spec = CircuitSpec(
+            num_qubits=2,
+            gates=[
+                GateSpec(gate=GateName.H, qubits=[0]),
+                GateSpec(gate=GateName.CX, qubits=[0, 1]),
+            ],
+        )
         result = backend.execute(spec, shots=0)
         assert result.probabilities["00"] == pytest.approx(0.5, abs=1e-8)
         assert result.probabilities["11"] == pytest.approx(0.5, abs=1e-8)
@@ -103,11 +117,14 @@ class TestEntangledStates:
         GHZ state = (|000⟩ + |111⟩)/√2.
         Circuit: H(0) → CNOT(0,1) → CNOT(0,2)
         """
-        spec = CircuitSpec(num_qubits=3, gates=[
-            GateSpec(gate=GateName.H, qubits=[0]),
-            GateSpec(gate=GateName.CX, qubits=[0, 1]),
-            GateSpec(gate=GateName.CX, qubits=[0, 2]),
-        ])
+        spec = CircuitSpec(
+            num_qubits=3,
+            gates=[
+                GateSpec(gate=GateName.H, qubits=[0]),
+                GateSpec(gate=GateName.CX, qubits=[0, 1]),
+                GateSpec(gate=GateName.CX, qubits=[0, 2]),
+            ],
+        )
         result = backend.execute(spec, shots=0)
         inv_sqrt2 = 1.0 / math.sqrt(2)
         assert result.probabilities["000"] == pytest.approx(0.5, abs=1e-8)
@@ -179,10 +196,13 @@ class TestValidation:
         assert any("theta" in e for e in errors)
 
     def test_valid_circuit_no_errors(self, backend: QiskitBackend) -> None:
-        spec = CircuitSpec(num_qubits=2, gates=[
-            GateSpec(gate=GateName.H, qubits=[0]),
-            GateSpec(gate=GateName.CX, qubits=[0, 1]),
-        ])
+        spec = CircuitSpec(
+            num_qubits=2,
+            gates=[
+                GateSpec(gate=GateName.H, qubits=[0]),
+                GateSpec(gate=GateName.CX, qubits=[0, 1]),
+            ],
+        )
         errors = backend.validate_circuit(spec)
         assert errors == []
 
@@ -198,10 +218,13 @@ class TestCodeGeneration:
 
     def test_generated_code_is_valid_python(self, backend: QiskitBackend) -> None:
         """The generated code should at least parse as valid Python."""
-        spec = CircuitSpec(num_qubits=2, gates=[
-            GateSpec(gate=GateName.H, qubits=[0]),
-            GateSpec(gate=GateName.CX, qubits=[0, 1]),
-        ])
+        spec = CircuitSpec(
+            num_qubits=2,
+            gates=[
+                GateSpec(gate=GateName.H, qubits=[0]),
+                GateSpec(gate=GateName.CX, qubits=[0, 1]),
+            ],
+        )
         result = backend.execute(spec, shots=0)
         compile(result.generated_code, "<generated>", "exec")  # Should not raise
 
@@ -252,4 +275,3 @@ class TestStepExecution:
         assert steps[2].gate_qubits == [0, 1]
         assert steps[2].probabilities["00"] == pytest.approx(0.5, abs=1e-6)
         assert steps[2].probabilities["11"] == pytest.approx(0.5, abs=1e-6)
-

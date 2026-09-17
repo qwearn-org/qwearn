@@ -8,27 +8,27 @@ Covers all three evaluation strategies:
 """
 
 import math
+
 import pytest
 
+from quantum_core.backend import CircuitResult, CircuitSpec
 from quantum_core.evaluator import (
     ChallengeSpec,
     EvaluatorType,
-    EvaluationResult,
-    evaluate_statevector,
-    evaluate_probability,
-    evaluate_equivalence,
-    _statevector_fidelity,
     _probability_similarity,
+    _statevector_fidelity,
+    evaluate_equivalence,
+    evaluate_probability,
+    evaluate_statevector,
 )
-from quantum_core.backend import CircuitResult, CircuitSpec
 from quantum_core.qiskit_backend import QiskitBackend
-
 
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 
 _backend = QiskitBackend()
+
 
 def _make_result(**overrides) -> CircuitResult:
     """Create a CircuitResult with sensible defaults."""
@@ -69,10 +69,13 @@ class TestStatevectorFidelity:
 
     def test_bell_state_fidelity_with_itself(self):
         """Create a Bell state via backend and check self-fidelity."""
-        spec = CircuitSpec(num_qubits=2, gates=[
-            {"gate": "H", "qubits": [0]},
-            {"gate": "CX", "qubits": [0, 1]},
-        ])
+        spec = CircuitSpec(
+            num_qubits=2,
+            gates=[
+                {"gate": "H", "qubits": [0]},
+                {"gate": "CX", "qubits": [0, 1]},
+            ],
+        )
         result = _backend.execute(spec, shots=0)
         fidelity = _statevector_fidelity(result.statevector, result.statevector)
         assert fidelity == pytest.approx(1.0, abs=0.001)
@@ -136,10 +139,13 @@ class TestEvaluateStatevector:
             target_statevector=None,  # will set from backend
         )
         # Generate the target
-        target_circuit = CircuitSpec(num_qubits=2, gates=[
-            {"gate": "H", "qubits": [0]},
-            {"gate": "CX", "qubits": [0, 1]},
-        ])
+        target_circuit = CircuitSpec(
+            num_qubits=2,
+            gates=[
+                {"gate": "H", "qubits": [0]},
+                {"gate": "CX", "qubits": [0, 1]},
+            ],
+        )
         target_result = _backend.execute(target_circuit, shots=0)
         spec.target_statevector = target_result.statevector
 
@@ -170,10 +176,13 @@ class TestEvaluateStatevector:
 
     def test_gate_count_constraint(self):
         """Correct state but too many gates → should fail."""
-        target_circuit = CircuitSpec(num_qubits=2, gates=[
-            {"gate": "H", "qubits": [0]},
-            {"gate": "CX", "qubits": [0, 1]},
-        ])
+        target_circuit = CircuitSpec(
+            num_qubits=2,
+            gates=[
+                {"gate": "H", "qubits": [0]},
+                {"gate": "CX", "qubits": [0, 1]},
+            ],
+        )
         target_result = _backend.execute(target_circuit, shots=0)
 
         spec = ChallengeSpec(
@@ -194,11 +203,14 @@ class TestEvaluateProbability:
 
     def test_correct_equal_superposition(self):
         """3-qubit H on all → equal superposition → should pass."""
-        circuit = CircuitSpec(num_qubits=3, gates=[
-            {"gate": "H", "qubits": [0]},
-            {"gate": "H", "qubits": [1]},
-            {"gate": "H", "qubits": [2]},
-        ])
+        circuit = CircuitSpec(
+            num_qubits=3,
+            gates=[
+                {"gate": "H", "qubits": [0]},
+                {"gate": "H", "qubits": [1]},
+                {"gate": "H", "qubits": [2]},
+            ],
+        )
         submitted = _backend.execute(circuit, shots=0)
 
         target_probs = {f"{i:03b}": 0.125 for i in range(8)}
@@ -220,10 +232,13 @@ class TestEvaluateEquivalence:
     def test_equivalent_circuits(self):
         """Two different circuits that produce the same state → should pass."""
         # Circuit 1: H then X
-        c1 = CircuitSpec(num_qubits=1, gates=[
-            {"gate": "H", "qubits": [0]},
-            {"gate": "X", "qubits": [0]},
-        ])
+        c1 = CircuitSpec(
+            num_qubits=1,
+            gates=[
+                {"gate": "H", "qubits": [0]},
+                {"gate": "X", "qubits": [0]},
+            ],
+        )
         # Circuit 2: X then H (different, but let's just use a known equivalent)
         # Actually, let's use the same to ensure equivalence
         r1 = _backend.execute(c1, shots=0)

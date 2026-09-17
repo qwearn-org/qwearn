@@ -13,8 +13,7 @@ execution path from user input. See docs/adr/ for the security design.
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-
-from quantum_core.backend import CircuitSpec, CircuitResult, BlochCoordinates, StepResult
+from quantum_core.backend import BlochCoordinates, CircuitResult, CircuitSpec, StepResult
 from quantum_core.qiskit_backend import QiskitBackend
 
 router = APIRouter(prefix="/api/circuits", tags=["circuits"])
@@ -26,12 +25,14 @@ _backend = QiskitBackend()
 
 class ExecuteRequest(BaseModel):
     """Request body for circuit execution."""
+
     circuit: CircuitSpec
     shots: int = 1024
 
 
 class BlochRequest(BaseModel):
     """Request body for Bloch coordinate computation."""
+
     statevector: list[list[float]]
     num_qubits: int
 
@@ -79,9 +80,7 @@ async def get_bloch_coordinates(request: BlochRequest) -> list[BlochCoordinates]
     Returns one BlochCoordinates object per qubit.
     """
     try:
-        coords = _backend.get_bloch_coordinates(
-            request.statevector, request.num_qubits
-        )
+        coords = _backend.get_bloch_coordinates(request.statevector, request.num_qubits)
         return coords
     except Exception as e:
         raise HTTPException(status_code=422, detail=str(e))

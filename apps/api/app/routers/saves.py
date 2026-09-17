@@ -12,7 +12,7 @@ the saves. This is acceptable for Phase 1 since saved circuits
 contain no sensitive data. Auth will add proper access control.
 """
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Header, HTTPException
@@ -71,9 +71,7 @@ async def list_circuit_saves(
     Returns circuits ordered by most recently updated first.
     """
     docs = (
-        await CircuitSave.find(CircuitSave.session_id == x_session_id)
-        .sort("-updated_at")
-        .to_list()
+        await CircuitSave.find(CircuitSave.session_id == x_session_id).sort("-updated_at").to_list()
     )
     return [_to_response(doc) for doc in docs]
 
@@ -117,7 +115,7 @@ async def update_circuit_save(
     if body.circuit_spec is not None:
         doc.circuit_spec = body.circuit_spec
 
-    doc.updated_at = datetime.now(timezone.utc)
+    doc.updated_at = datetime.now(UTC)
     await doc.save()
     return _to_response(doc)
 

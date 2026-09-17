@@ -44,7 +44,6 @@ from typing import Any
 
 from pydantic import BaseModel, Field
 
-
 # ---------------------------------------------------------------------------
 # Data Models (framework-agnostic)
 # ---------------------------------------------------------------------------
@@ -354,7 +353,7 @@ class QuantumBackend(ABC):
     def execute_steps(
         self,
         circuit: CircuitSpec,
-    ) -> list["StepResult"]:
+    ) -> list[StepResult]:
         """
         Execute a circuit gate-by-gate, returning intermediate states.
 

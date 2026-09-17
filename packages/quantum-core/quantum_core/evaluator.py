@@ -23,13 +23,11 @@ REFERENCES:
 
 from __future__ import annotations
 
-import math
 from enum import Enum
 
 from pydantic import BaseModel, Field
 
-from quantum_core.backend import CircuitSpec, CircuitResult
-
+from quantum_core.backend import CircuitResult, CircuitSpec
 
 # ---------------------------------------------------------------------------
 # Data Models
@@ -38,6 +36,7 @@ from quantum_core.backend import CircuitSpec, CircuitResult
 
 class EvaluatorType(str, Enum):
     """Supported evaluation strategies."""
+
     STATEVECTOR = "statevector"
     PROBABILITY = "probability"
     EQUIVALENCE = "equivalence"
@@ -62,6 +61,7 @@ class ChallengeSpec(BaseModel):
         tolerance: Acceptable error margin (default 0.01).
         max_gates: Maximum gate count allowed (for optimization challenges).
     """
+
     id: str
     evaluator_type: EvaluatorType
     num_qubits: int = Field(..., ge=1, le=20)
@@ -82,6 +82,7 @@ class EvaluationResult(BaseModel):
         feedback: Human-readable explanation of the result.
         details: Evaluator-specific data (fidelity, gate count, etc.).
     """
+
     passed: bool
     score: float = Field(..., ge=0.0, le=1.0)
     feedback: str
@@ -120,7 +121,7 @@ def _statevector_fidelity(
         inner_imag += tr * si - ti * sr
 
     # Fidelity = |inner product|²
-    fidelity = inner_real ** 2 + inner_imag ** 2
+    fidelity = inner_real**2 + inner_imag**2
     return min(fidelity, 1.0)  # clamp floating-point errors
 
 
@@ -148,9 +149,7 @@ def _probability_similarity(
         error = abs(sub_p - tgt_p)
         total_error += error
         if error > tolerance:
-            mismatches.append(
-                f"|{key}⟩: expected {tgt_p:.3f}, got {sub_p:.3f} (Δ={error:.3f})"
-            )
+            mismatches.append(f"|{key}⟩: expected {tgt_p:.3f}, got {sub_p:.3f} (Δ={error:.3f})")
 
     # Similarity: 1 - normalized total variation distance
     similarity = max(0.0, 1.0 - total_error / 2.0)
@@ -167,14 +166,13 @@ def evaluate_statevector(
     """Evaluate using statevector fidelity."""
     if spec.target_statevector is None:
         return EvaluationResult(
-            passed=False, score=0.0,
+            passed=False,
+            score=0.0,
             feedback="Challenge spec error: no target statevector defined.",
             details={},
         )
 
-    fidelity = _statevector_fidelity(
-        submitted_result.statevector, spec.target_statevector
-    )
+    fidelity = _statevector_fidelity(submitted_result.statevector, spec.target_statevector)
 
     passed = fidelity >= (1.0 - spec.tolerance)
 
@@ -187,7 +185,9 @@ def evaluate_statevector(
     if passed:
         feedback = f"✅ Correct! Fidelity: {fidelity:.4f} (≥ {1.0 - spec.tolerance:.2f}).{gate_msg}"
     else:
-        feedback = f"❌ Not quite. Fidelity: {fidelity:.4f} (need ≥ {1.0 - spec.tolerance:.2f}).{gate_msg}"
+        feedback = (
+            f"❌ Not quite. Fidelity: {fidelity:.4f} (need ≥ {1.0 - spec.tolerance:.2f}).{gate_msg}"
+        )
 
     return EvaluationResult(
         passed=passed,
@@ -205,7 +205,8 @@ def evaluate_probability(
     """Evaluate using probability distribution match."""
     if spec.target_probabilities is None:
         return EvaluationResult(
-            passed=False, score=0.0,
+            passed=False,
+            score=0.0,
             feedback="Challenge spec error: no target probabilities defined.",
             details={},
         )
@@ -247,9 +248,7 @@ def evaluate_equivalence(
     gate_count: int,
 ) -> EvaluationResult:
     """Evaluate using circuit equivalence (same output statevector, fewer gates)."""
-    fidelity = _statevector_fidelity(
-        submitted_result.statevector, target_result.statevector
-    )
+    fidelity = _statevector_fidelity(submitted_result.statevector, target_result.statevector)
 
     equivalent = fidelity >= (1.0 - spec.tolerance)
 

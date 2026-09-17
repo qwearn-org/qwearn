@@ -8,6 +8,7 @@ will be added in Phase 1 when the QiskitBackend implementation is built.
 """
 
 import pytest
+
 from quantum_core.backend import (
     BlochCoordinates,
     CircuitResult,
@@ -83,7 +84,7 @@ class TestCircuitResult:
             statevector=[[1.0, 0.0], [0.0, 0.0]],
             probabilities={"0": 1.0, "1": 0.0},
             counts={"0": 1024},
-            generated_code='qc = QuantumCircuit(1)\n# identity circuit',
+            generated_code="qc = QuantumCircuit(1)\n# identity circuit",
             backend_name="test-backend",
         )
         data = result.model_dump()
@@ -98,8 +99,11 @@ class TestBlochCoordinates:
         """|0⟩ state should map to the north pole of the Bloch sphere: (0, 0, 1)."""
         coords = BlochCoordinates(
             qubit_index=0,
-            x=0.0, y=0.0, z=1.0,
-            theta=0.0, phi=0.0,
+            x=0.0,
+            y=0.0,
+            z=1.0,
+            theta=0.0,
+            phi=0.0,
         )
         assert coords.z == 1.0
 
@@ -107,7 +111,10 @@ class TestBlochCoordinates:
         """|1⟩ state should map to the south pole: (0, 0, -1)."""
         coords = BlochCoordinates(
             qubit_index=0,
-            x=0.0, y=0.0, z=-1.0,
-            theta=3.14159, phi=0.0,
+            x=0.0,
+            y=0.0,
+            z=-1.0,
+            theta=3.14159,
+            phi=0.0,
         )
         assert coords.z == -1.0

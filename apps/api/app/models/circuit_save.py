@@ -19,8 +19,7 @@ DESIGN DECISIONS:
 COLLECTION: circuit_saves
 """
 
-from datetime import datetime, timezone
-from typing import Optional
+from datetime import UTC, datetime
 
 from beanie import Document
 from pydantic import BaseModel, Field
@@ -28,6 +27,7 @@ from pydantic import BaseModel, Field
 
 class EmbeddedGateSpec(BaseModel):
     """Gate spec stored inside a saved circuit document."""
+
     gate: str
     qubits: list[int]
     params: dict[str, float] = Field(default_factory=dict)
@@ -35,6 +35,7 @@ class EmbeddedGateSpec(BaseModel):
 
 class EmbeddedCircuitSpec(BaseModel):
     """Circuit spec stored inside a saved circuit document."""
+
     num_qubits: int = Field(..., ge=1, le=20)
     gates: list[EmbeddedGateSpec]
 
@@ -51,12 +52,13 @@ class CircuitSave(Document):
         created_at: When the circuit was first saved.
         updated_at: When the circuit was last modified.
     """
+
     title: str = Field(..., min_length=1, max_length=100)
     description: str = Field(default="", max_length=500)
     circuit_spec: EmbeddedCircuitSpec
     session_id: str = Field(..., min_length=1, max_length=64)
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
 
     class Settings:
         name = "circuit_saves"
@@ -70,6 +72,7 @@ class CircuitSave(Document):
 
 class CircuitSaveCreate(BaseModel):
     """Request body for creating a new saved circuit."""
+
     title: str = Field(..., min_length=1, max_length=100)
     description: str = Field(default="", max_length=500)
     circuit_spec: EmbeddedCircuitSpec
@@ -77,13 +80,15 @@ class CircuitSaveCreate(BaseModel):
 
 class CircuitSaveUpdate(BaseModel):
     """Request body for updating a saved circuit."""
-    title: Optional[str] = Field(default=None, min_length=1, max_length=100)
-    description: Optional[str] = Field(default=None, max_length=500)
-    circuit_spec: Optional[EmbeddedCircuitSpec] = None
+
+    title: str | None = Field(default=None, min_length=1, max_length=100)
+    description: str | None = Field(default=None, max_length=500)
+    circuit_spec: EmbeddedCircuitSpec | None = None
 
 
 class CircuitSaveResponse(BaseModel):
     """Response model for a saved circuit."""
+
     id: str
     title: str
     description: str

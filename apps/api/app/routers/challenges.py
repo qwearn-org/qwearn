@@ -13,17 +13,16 @@ from pathlib import Path
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-
 from quantum_core.backend import CircuitSpec
-from quantum_core.qiskit_backend import QiskitBackend
 from quantum_core.evaluator import (
     ChallengeSpec,
-    EvaluatorType,
     EvaluationResult,
-    evaluate_statevector,
-    evaluate_probability,
+    EvaluatorType,
     evaluate_equivalence,
+    evaluate_probability,
+    evaluate_statevector,
 )
+from quantum_core.qiskit_backend import QiskitBackend
 
 router = APIRouter(prefix="/api/challenges", tags=["challenges"])
 
@@ -35,6 +34,7 @@ CHALLENGES_DIR = Path(__file__).resolve().parents[3] / "content" / "challenges"
 
 class EvaluateRequest(BaseModel):
     """Request body for challenge evaluation."""
+
     challenge_id: str
     submitted_circuit: CircuitSpec
 
@@ -70,7 +70,7 @@ async def evaluate_challenge(request: EvaluateRequest) -> EvaluationResult:
             passed=False,
             score=0.0,
             feedback=f"❌ This challenge requires exactly {spec.num_qubits} qubit(s). "
-                     f"Your circuit has {request.submitted_circuit.num_qubits}.",
+            f"Your circuit has {request.submitted_circuit.num_qubits}.",
             details={"error": "qubit_count_mismatch"},
         )
 
@@ -101,4 +101,6 @@ async def evaluate_challenge(request: EvaluateRequest) -> EvaluationResult:
         return evaluate_equivalence(submitted_result, target_result, spec, gate_count)
 
     else:
-        raise HTTPException(status_code=500, detail=f"Unknown evaluator type: {spec.evaluator_type}")
+        raise HTTPException(
+            status_code=500, detail=f"Unknown evaluator type: {spec.evaluator_type}"
+        )

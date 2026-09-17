@@ -12,12 +12,6 @@ import { getAllChallengeMetas } from '@web/lib/challenges';
 import './challenges.css';
 import '../learn/learn.css';
 
-const TYPE_LABELS: Record<string, string> = {
-  statevector: 'State Match',
-  probability: 'Probability Match',
-  equivalence: 'Equivalence',
-};
-
 export const metadata = {
   title: 'Challenges — Qwearn',
   description: 'Test your quantum computing skills with interactive circuit challenges. Auto-evaluated against real quantum simulation.',

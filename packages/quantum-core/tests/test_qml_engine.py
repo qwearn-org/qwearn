@@ -3,7 +3,7 @@ Unit tests for qml_engine module — synthetic data, parameterized circuits, and
 """
 
 import numpy as np
-import pytest
+
 from quantum_core.qml_engine import (
     QMLEngine,
     TrainingConfig,

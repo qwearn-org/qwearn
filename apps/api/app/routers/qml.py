@@ -39,7 +39,9 @@ async def predict_qml_model(request: PredictRequest) -> PredictResponse:
     try:
         X = np.array(request.features)
         if X.ndim != 2 or X.shape[1] != 2:
-            raise HTTPException(status_code=400, detail="Features must be a list of 2D coordinates [[x0, x1], ...]")
+            raise HTTPException(
+                status_code=400, detail="Features must be a list of 2D coordinates [[x0, x1], ...]"
+            )
 
         params = np.array(request.params)
         probs = _qml_engine.predict_batch(

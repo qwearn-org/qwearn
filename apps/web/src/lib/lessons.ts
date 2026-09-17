@@ -12,7 +12,7 @@ import type { Lesson, LessonMeta } from './lesson-types';
 // Each lesson is a directory under content/lessons/.
 // The import paths are relative to the monorepo root, resolved by Next.js.
 
-const LESSON_DIRS = [
+export const LESSON_DIRS = [
   '01-x-gate',
   '02-z-gate',
   '03-h-gate',
