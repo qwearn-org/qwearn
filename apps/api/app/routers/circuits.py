@@ -46,6 +46,17 @@ async def execute_circuit(request: ExecuteRequest) -> CircuitResult:
     the Qiskit Aer simulator, and returns statevector, probabilities,
     measurement counts, and generated Qiskit source code.
     """
+    if request.circuit.num_qubits > 20:
+        raise HTTPException(
+            status_code=400, detail="Qubit limit exceeded. Maximum allowed qubits is 20."
+        )
+    if len(request.circuit.gates) > 100:
+        raise HTTPException(
+            status_code=400, detail="Gate limit exceeded. Maximum allowed gates per circuit is 100."
+        )
+    if not (0 <= request.shots <= 10000):
+        raise HTTPException(status_code=400, detail="Shots must be between 0 and 10,000.")
+
     try:
         result = _backend.execute(request.circuit, shots=request.shots)
         return result

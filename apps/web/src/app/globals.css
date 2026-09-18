@@ -19,6 +19,13 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Accessibility Focus Ring */
+:focus-visible {
+  outline: 2px solid #6366f1 !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.25) !important;
+}
+
 /* ---- Navigation ---- */
 .nav {
   display: flex;

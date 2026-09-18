@@ -25,6 +25,9 @@ export default function Home() {
           <Link href="/research" className="nav-link">
             Research
           </Link>
+          <Link href="/progress" className="nav-link">
+            Progress
+          </Link>
           <Link href="/playground" className="nav-link">
             Playground
           </Link>

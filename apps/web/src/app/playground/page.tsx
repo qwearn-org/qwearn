@@ -14,7 +14,7 @@
  * until the user explicitly saves it via the SaveLoadPanel.
  */
 
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import Logo from '@web/components/common/Logo';
 import GatePalette from '@web/components/circuit/GatePalette';
@@ -23,6 +23,7 @@ import CodePanel from '@web/components/circuit/CodePanel';
 import ResultsPanel from '@web/components/circuit/ResultsPanel';
 import SaveLoadPanel from '@web/components/circuit/SaveLoadPanel';
 import CircuitExamples from '@web/components/circuit/CircuitExamples';
+import { incrementCircuitCount } from '@web/lib/progress';
 import {
   executeCircuit,
   getBlochCoordinates,
@@ -165,12 +166,32 @@ export default function PlaygroundPage() {
         numQubits
       );
       setBlochCoords(coords);
+      void incrementCircuitCount();
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Execution failed');
     } finally {
       setIsLoading(false);
     }
   }, [gates, numQubits, buildCircuitSpec]);
+
+  // Keyboard accessibility shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't trigger when typing in input fields
+      if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) return;
+
+      if (e.shiftKey && (e.key === 'R' || e.key === 'r')) {
+        e.preventDefault();
+        void handleRun();
+      } else if (e.shiftKey && (e.key === 'C' || e.key === 'c')) {
+        e.preventDefault();
+        setGates([]);
+        setResult(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleRun]);
 
   // Clear the circuit
   const handleClear = useCallback(() => {

@@ -19,7 +19,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from app.models.circuit_save import CircuitSave
-from app.routers import challenges, circuits, health, qml, saves
+from app.models.user_progress import UserProgress
+from app.routers import challenges, circuits, health, progress, qml, saves
 
 
 @asynccontextmanager
@@ -50,7 +51,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         db = client[db_name]
         await init_beanie(
             database=db,
-            document_models=[CircuitSave],
+            document_models=[CircuitSave, UserProgress],
         )
     except Exception:
         # MongoDB not available — circuit endpoints still work,
@@ -94,3 +95,4 @@ app.include_router(circuits.router)
 app.include_router(saves.router)
 app.include_router(challenges.router)
 app.include_router(qml.router)
+app.include_router(progress.router)
