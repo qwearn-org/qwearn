@@ -1,10 +1,10 @@
 'use client';
 
 /**
- * Quantum Coherence & Progress Dashboard Page
+ * Futuristic Minimalist Quantum Progress & Coherence HUD
  *
- * Unique, interactive dashboard displaying learner rank, coherence score,
- * completed module matrix, quiz accuracy, and unlocked achievement badges.
+ * Sci-fi HUD aesthetic featuring glowing coherence radar, live status telemetry,
+ * gate/challenge matrix nodes, and achievement telemetry.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -26,8 +26,8 @@ export default function ProgressDashboardPage() {
 
   if (!progress) {
     return (
-      <div className="progress-dashboard" style={{ textAlign: 'center', padding: '5rem 0', color: '#94a3b8' }}>
-        Loading Quantum Coherence Data...
+      <div className="futuristic-dashboard" style={{ textAlign: 'center', padding: '6rem 0', color: '#38bdf8', fontFamily: 'var(--font-mono, monospace)' }}>
+        [INITIALIZING QUANTUM TELEMETRY...]
       </div>
     );
   }
@@ -37,59 +37,55 @@ export default function ProgressDashboardPage() {
   const challenges = getAllChallengeMetas();
   const qmlTopics = getAllQMLMetas();
 
-  // Compute stats
+  // Stats
   const completedLessonsCount = progress.completedLessons.length;
   const completedChallengesCount = progress.completedChallenges.length;
   const completedQMLCount = progress.completedQMLTopics.length;
 
-  const totalQuizScore = progress.completedLessons.reduce((acc, l) => acc + l.quizScore, 0);
-  const totalQuizQuestions = progress.completedLessons.reduce((acc, l) => acc + l.totalQuestions, 0);
-  const quizAccuracyPercent = totalQuizQuestions > 0 ? Math.round((totalQuizScore / totalQuizQuestions) * 100) : 100;
-
-  // SVG stroke-dashoffset for circular ring (radius 60 -> circumference ~377)
-  const strokeDashoffset = 377 - (377 * rankInfo.coherencePercent) / 100;
+  // Radar ring calculation (r=75 -> 2*pi*75 = 471)
+  const strokeDashoffset = 471 - (471 * rankInfo.coherencePercent) / 100;
 
   // Achievements
   const achievements = [
     {
       id: 'first_lesson',
-      title: 'First Superposition',
-      desc: 'Completed your first quantum gate lesson',
-      icon: '✨',
+      title: 'SUPERPOSITION_INIT',
+      desc: 'Completed initial quantum gate lesson',
+      icon: '⚡',
       unlocked: completedLessonsCount >= 1,
     },
     {
       id: 'quiz_master',
-      title: 'Coherence Analyst',
-      desc: 'Scored 100% on a lesson quiz',
+      title: 'FIDELITY_ANALYST',
+      desc: 'Achieved 100% score on a quiz module',
       icon: '🎯',
       unlocked: progress.completedLessons.some((l) => l.totalQuestions > 0 && l.quizScore === l.totalQuestions),
     },
     {
       id: 'circuit_master',
-      title: 'Circuit Architect',
-      desc: 'Executed 5+ custom quantum circuits',
-      icon: '⚡',
+      title: 'CIRCUIT_PIONEER',
+      desc: 'Executed 5+ custom circuits on Aer simulator',
+      icon: '🔮',
       unlocked: progress.circuitsExecuted >= 5,
     },
     {
       id: 'challenge_hero',
-      title: 'Quantum Solver',
-      desc: 'Successfully solved a quantum challenge',
+      title: 'ORACLE_SOLVER',
+      desc: 'Evaluated & solved a quantum challenge spec',
       icon: '🏆',
       unlocked: completedChallengesCount >= 1,
     },
     {
       id: 'qml_pioneer',
-      title: 'QML Optimizer',
-      desc: 'Completed a Variational Quantum Classifier module',
+      title: 'VQC_OPTIMIZER',
+      desc: 'Trained a Variational Quantum Classifier',
       icon: '🧠',
       unlocked: completedQMLCount >= 1,
     },
     {
       id: 'quantum_architect',
-      title: 'Grand Quantum Master',
-      desc: 'Achieved 80%+ total platform coherence',
+      title: 'QUANTUM_ARCHITECT',
+      desc: 'Reached 80%+ system-wide coherence',
       icon: '👑',
       unlocked: rankInfo.coherencePercent >= 80,
     },
@@ -110,84 +106,87 @@ export default function ProgressDashboardPage() {
         </div>
       </nav>
 
-      <main className="progress-dashboard">
-        {/* Hero Section */}
-        <section className="dashboard-hero">
-          <div className="hero-rank-info">
-            <span className="hero-rank-badge">
-              {rankInfo.badge} Level {rankInfo.level}
-            </span>
-            <h1 className="hero-rank-title">{rankInfo.rankName}</h1>
-            <p className="hero-rank-desc">
-              Your quantum coherence measures your overall mastery across gate theory, algorithm implementation, challenge solving, and QML models.
+      <main className="futuristic-dashboard">
+        {/* Top Telemetry Status Bar */}
+        <div className="hud-status-bar">
+          <div className="hud-status-item">
+            <span className="status-dot"></span>
+            <span>STATUS: QUANTUM_COHERENT</span>
+          </div>
+          <div className="hud-status-item">
+            <span>SESSION: {progress.sessionId.slice(0, 14)}...</span>
+          </div>
+          <div className="hud-status-item">
+            <span>LATENCY: 0.12ms</span>
+          </div>
+        </div>
+
+        {/* Futuristic Hero HUD */}
+        <section className="futuristic-hero">
+          <div className="hero-main-content">
+            <span className="hero-tag">[ RANK LEVEL {rankInfo.level} // COHERENCE TELEMETRY ]</span>
+            <h1 className="hero-title-text">{rankInfo.rankName}</h1>
+            <p className="hero-sub-text">
+              Real-time quantum coherence metrics derived from circuit execution fidelity, algorithm completions, and quiz performance.
             </p>
           </div>
 
-          {/* Coherence Dial */}
-          <div className="coherence-dial-container">
-            <svg className="coherence-ring-svg" viewBox="0 0 140 140">
+          {/* Radar Core Dial */}
+          <div className="radar-core-container">
+            <svg className="radar-svg" viewBox="0 0 170 170">
               <defs>
-                <linearGradient id="coherence-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <linearGradient id="radar-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="#38bdf8" />
-                  <stop offset="50%" stopColor="#6366f1" />
+                  <stop offset="50%" stopColor="#818cf8" />
                   <stop offset="100%" stopColor="#a855f7" />
                 </linearGradient>
               </defs>
-              <circle className="coherence-ring-bg" cx="70" cy="70" r="60" />
+              <circle className="radar-track" cx="85" cy="85" r="75" />
               <circle
-                className="coherence-ring-fill"
-                cx="70"
-                cy="70"
-                r="60"
+                className="radar-progress"
+                cx="85"
+                cy="85"
+                r="75"
                 style={{ strokeDashoffset }}
               />
             </svg>
-            <div className="coherence-dial-text">
-              <div className="coherence-percent">{rankInfo.coherencePercent}%</div>
-              <div className="coherence-label">Coherence</div>
+            <div className="radar-center-info">
+              <div className="radar-number">{rankInfo.coherencePercent}%</div>
+              <div className="radar-label">COHERENCE</div>
             </div>
           </div>
         </section>
 
-        {/* Stats Grid */}
-        <section className="stats-grid">
-          <div className="stat-card">
-            <div className="stat-icon-wrapper">📘</div>
-            <div className="stat-content">
-              <span className="stat-value">{completedLessonsCount} / {lessons.length}</span>
-              <span className="stat-label">Lessons Mastered</span>
-            </div>
+        {/* Minimalist Stats Strip */}
+        <section className="stats-strip">
+          <div className="hud-stat-box">
+            <span className="hud-stat-header">LESSONS_MASTERED</span>
+            <span className="hud-stat-num">{completedLessonsCount} / {lessons.length}</span>
           </div>
 
-          <div className="stat-card">
-            <div className="stat-icon-wrapper">🏆</div>
-            <div className="stat-content">
-              <span className="stat-value">{completedChallengesCount} / {challenges.length}</span>
-              <span className="stat-label">Challenges Solved</span>
-            </div>
+          <div className="hud-stat-box">
+            <span className="hud-stat-header">CHALLENGES_SOLVED</span>
+            <span className="hud-stat-num">{completedChallengesCount} / {challenges.length}</span>
           </div>
 
-          <div className="stat-card">
-            <div className="stat-icon-wrapper">🧠</div>
-            <div className="stat-content">
-              <span className="stat-value">{completedQMLCount} / {qmlTopics.length}</span>
-              <span className="stat-label">QML Modules Done</span>
-            </div>
+          <div className="hud-stat-box">
+            <span className="hud-stat-header">QML_MODELS</span>
+            <span className="hud-stat-num">{completedQMLCount} / {qmlTopics.length}</span>
           </div>
 
-          <div className="stat-card">
-            <div className="stat-icon-wrapper">⚡</div>
-            <div className="stat-content">
-              <span className="stat-value">{progress.circuitsExecuted}</span>
-              <span className="stat-label">Circuits Simulated</span>
-            </div>
+          <div className="hud-stat-box">
+            <span className="hud-stat-header">SIMULATIONS</span>
+            <span className="hud-stat-num">{progress.circuitsExecuted}</span>
           </div>
         </section>
 
-        {/* Learn Module Coherence Matrix */}
-        <h2 className="section-title">📘 Learn Gate Lessons Matrix</h2>
-        <div className="matrix-grid">
-          {lessons.map((lesson) => {
+        {/* Gate Lessons Matrix */}
+        <div className="futuristic-section-title">
+          <h2>📘 Gate Lessons Telemetry</h2>
+          <span className="section-code-tag">// Q-GATE_MATRIX</span>
+        </div>
+        <div className="futuristic-grid">
+          {lessons.map((lesson, idx) => {
             const record = progress.completedLessons.find((l) => l.lessonId === lesson.id);
             const isDone = !!record;
 
@@ -195,19 +194,23 @@ export default function ProgressDashboardPage() {
               <Link
                 key={lesson.id}
                 href={`/learn/${lesson.id}`}
-                className={`matrix-card ${isDone ? 'completed' : ''}`}
+                className={`futuristic-card ${isDone ? 'completed' : ''}`}
               >
-                <div className="matrix-card-header">
-                  <span className="matrix-card-type">{lesson.gate} Gate</span>
-                  <span className={`status-badge ${isDone ? 'done' : 'pending'}`}>
-                    {isDone ? '✓ Mastered' : 'Pending'}
+                <div className="futuristic-card-top">
+                  <span className="card-code">GATE_0{idx + 1}</span>
+                  <span className={`status-pill-minimal ${isDone ? 'done' : 'pending'}`}>
+                    {isDone ? '● ONLINE' : '○ PENDING'}
                   </span>
                 </div>
-                <h3 className="matrix-card-title">{lesson.title}</h3>
-                <div className="matrix-card-meta">
-                  <span>⏱ {lesson.estimatedMinutes} min</span>
-                  {isDone && record.totalQuestions > 0 && (
-                    <span>Quiz: {record.quizScore}/{record.totalQuestions}</span>
+
+                <h3 className="futuristic-card-title">{lesson.title}</h3>
+
+                <div className="futuristic-card-footer">
+                  <span>⏱ {lesson.estimatedMinutes}m</span>
+                  {isDone && record.totalQuestions > 0 ? (
+                    <span style={{ color: '#4ade80' }}>QUIZ: {record.quizScore}/{record.totalQuestions}</span>
+                  ) : (
+                    <span>READY</span>
                   )}
                 </div>
               </Link>
@@ -215,10 +218,13 @@ export default function ProgressDashboardPage() {
           })}
         </div>
 
-        {/* Challenges Matrix */}
-        <h2 className="section-title">🏆 Challenge Spectrum</h2>
-        <div className="matrix-grid">
-          {challenges.map((c) => {
+        {/* Challenge Spectrum */}
+        <div className="futuristic-section-title">
+          <h2>🏆 Challenge Spectrum</h2>
+          <span className="section-code-tag">// EVALUATOR_SUITE</span>
+        </div>
+        <div className="futuristic-grid">
+          {challenges.map((c, idx) => {
             const record = progress.completedChallenges.find((ch) => ch.challengeId === c.id);
             const isDone = !!record;
 
@@ -226,17 +232,20 @@ export default function ProgressDashboardPage() {
               <Link
                 key={c.id}
                 href={`/challenges/${c.id}`}
-                className={`matrix-card ${isDone ? 'completed' : ''}`}
+                className={`futuristic-card ${isDone ? 'completed' : ''}`}
               >
-                <div className="matrix-card-header">
-                  <span className="matrix-card-type">{c.difficulty}</span>
-                  <span className={`status-badge ${isDone ? 'done' : 'pending'}`}>
-                    {isDone ? '✓ Solved' : 'Unsolved'}
+                <div className="futuristic-card-top">
+                  <span className="card-code">CHALLENGE_0{idx + 1}</span>
+                  <span className={`status-pill-minimal ${isDone ? 'done' : 'pending'}`}>
+                    {isDone ? '● SOLVED' : '○ UNSOLVED'}
                   </span>
                 </div>
-                <h3 className="matrix-card-title">{c.title}</h3>
-                <div className="matrix-card-meta">
-                  <span>{c.subtitle}</span>
+
+                <h3 className="futuristic-card-title">{c.title}</h3>
+
+                <div className="futuristic-card-footer">
+                  <span>{c.difficulty.toUpperCase()}</span>
+                  <span>{isDone ? '100% MATCH' : 'START'}</span>
                 </div>
               </Link>
             );
@@ -244,17 +253,20 @@ export default function ProgressDashboardPage() {
         </div>
 
         {/* Achievements Section */}
-        <h2 className="section-title">🎖️ Quantum Achievements</h2>
-        <div className="achievements-grid">
+        <div className="futuristic-section-title">
+          <h2>🎖️ Quantum Achievement Badges</h2>
+          <span className="section-code-tag">// BADGE_TELEMETRY</span>
+        </div>
+        <div className="badge-grid">
           {achievements.map((ach) => (
             <div
               key={ach.id}
-              className={`achievement-card ${ach.unlocked ? 'unlocked' : ''}`}
+              className={`futuristic-badge-card ${ach.unlocked ? 'unlocked' : ''}`}
             >
-              <div className="achievement-icon">{ach.icon}</div>
-              <div>
-                <h4 className="achievement-title">{ach.title}</h4>
-                <p className="achievement-desc">{ach.desc}</p>
+              <div className="badge-icon-box">{ach.icon}</div>
+              <div className="badge-info">
+                <span className="badge-name">{ach.title}</span>
+                <span className="badge-desc">{ach.desc}</span>
               </div>
             </div>
           ))}
