@@ -48,6 +48,14 @@ export interface BlochCoordinates {
   phi: number;
 }
 
+/** Metadata for an available SDK execution backend. */
+export interface BackendInfo {
+  name: string;
+  display_name: string;
+  is_default: boolean;
+  supported_gates: number;
+}
+
 /** Gate metadata from the backend. */
 export interface GateInfo {
   name: string;
@@ -61,15 +69,23 @@ export interface GateInfo {
   params?: { name: string; type: string; description: string }[];
 }
 
+/** Fetch all registered SDK execution backends. */
+export async function getAvailableBackends(): Promise<BackendInfo[]> {
+  const res = await fetch(`${API_URL}/api/circuits/backends`);
+  if (!res.ok) throw new Error('Failed to fetch available backends');
+  return res.json();
+}
+
 /** Execute a circuit and return results. */
 export async function executeCircuit(
   circuit: CircuitSpec,
-  shots: number = 1024
+  shots: number = 1024,
+  backend: string = 'qiskit'
 ): Promise<CircuitResult> {
   const res = await fetch(`${API_URL}/api/circuits/execute`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ circuit, shots }),
+    body: JSON.stringify({ circuit, shots, backend }),
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({ detail: res.statusText }));
@@ -92,18 +108,19 @@ export async function getBlochCoordinates(
   return res.json();
 }
 
-/** Get list of supported gates. */
-export async function getSupportedGates(): Promise<GateInfo[]> {
-  const res = await fetch(`${API_URL}/api/circuits/gates`);
+/** Get list of supported gates for a backend. */
+export async function getSupportedGates(backend: string = 'qiskit'): Promise<GateInfo[]> {
+  const res = await fetch(`${API_URL}/api/circuits/gates?backend=${encodeURIComponent(backend)}`);
   if (!res.ok) throw new Error('Failed to get gates');
   return res.json();
 }
 
 /** Validate a circuit without executing. */
 export async function validateCircuit(
-  circuit: CircuitSpec
+  circuit: CircuitSpec,
+  backend: string = 'qiskit'
 ): Promise<{ valid: boolean; errors: string[] }> {
-  const res = await fetch(`${API_URL}/api/circuits/validate`, {
+  const res = await fetch(`${API_URL}/api/circuits/validate?backend=${encodeURIComponent(backend)}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(circuit),
@@ -114,9 +131,10 @@ export async function validateCircuit(
 
 /** Execute a circuit gate-by-gate and return intermediate step results. */
 export async function executeSteps(
-  circuit: CircuitSpec
+  circuit: CircuitSpec,
+  backend: string = 'qiskit'
 ): Promise<StepResult[]> {
-  const res = await fetch(`${API_URL}/api/circuits/step`, {
+  const res = await fetch(`${API_URL}/api/circuits/step?backend=${encodeURIComponent(backend)}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(circuit),
@@ -267,5 +285,3 @@ export async function trainQMLModel(
   }
   return res.json();
 }
-
-

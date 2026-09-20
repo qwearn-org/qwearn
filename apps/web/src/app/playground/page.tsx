@@ -5,10 +5,11 @@
  *
  * This is the main page where users:
  * 1. Build quantum circuits by selecting gates and placing them on qubits
- * 2. See generated Qiskit code update in real-time
- * 3. Run the circuit on the Aer simulator
- * 4. View results (probabilities, statevector, Bloch sphere)
- * 5. Save/load circuits for later use
+ * 2. Select SDK backend (IBM Qiskit vs Google Cirq)
+ * 3. See generated Qiskit/Cirq code update in real-time
+ * 4. Run the circuit on the simulator backend
+ * 5. View results (probabilities, statevector, Bloch sphere)
+ * 6. Save/load circuits for later use
  *
  * State management is local (useState) since the circuit is ephemeral
  * until the user explicitly saves it via the SaveLoadPanel.
@@ -35,6 +36,7 @@ import {
 export default function PlaygroundPage() {
   // Circuit state
   const [numQubits, setNumQubits] = useState(2);
+  const [selectedBackend, setSelectedBackend] = useState('qiskit');
   const [gates, setGates] = useState<PlacedGate[]>([]);
   const [selectedGate, setSelectedGate] = useState<{
     name: string;
@@ -63,6 +65,38 @@ export default function PlaygroundPage() {
   const previewCode = useMemo(() => {
     if (gates.length === 0) return '# Add gates to your circuit to see code';
     const sorted = [...gates].sort((a, b) => a.column - b.column);
+
+    if (selectedBackend === 'cirq') {
+      const lines = [
+        'import cirq',
+        '',
+        `# Create ${numQubits} qubits`,
+        `qubits = cirq.LineQubit.range(${numQubits})`,
+        'circuit = cirq.Circuit()',
+        '',
+        '# Apply gates',
+      ];
+      const cirqMap: Record<string, (g: PlacedGate) => string> = {
+        X: (g) => `circuit.append(cirq.X(qubits[${g.qubits[0]}]))`,
+        Y: (g) => `circuit.append(cirq.Y(qubits[${g.qubits[0]}]))`,
+        Z: (g) => `circuit.append(cirq.Z(qubits[${g.qubits[0]}]))`,
+        H: (g) => `circuit.append(cirq.H(qubits[${g.qubits[0]}]))`,
+        S: (g) => `circuit.append(cirq.S(qubits[${g.qubits[0]}]))`,
+        T: (g) => `circuit.append(cirq.T(qubits[${g.qubits[0]}]))`,
+        Phase: (g) => `circuit.append(cirq.rz(${g.params?.theta ?? 'theta'})(qubits[${g.qubits[0]}]))`,
+        CX: (g) => `circuit.append(cirq.CNOT(qubits[${g.qubits[0]}], qubits[${g.qubits[1]}]))`,
+        CZ: (g) => `circuit.append(cirq.CZ(qubits[${g.qubits[0]}], qubits[${g.qubits[1]}]))`,
+        CCX: (g) => `circuit.append(cirq.TOFFOLI(qubits[${g.qubits[0]}], qubits[${g.qubits[1]}], qubits[${g.qubits[2]}]))`,
+        SWAP: (g) => `circuit.append(cirq.SWAP(qubits[${g.qubits[0]}], qubits[${g.qubits[1]}]))`,
+      };
+      for (const g of sorted) {
+        const fn = cirqMap[g.gate];
+        if (fn) lines.push(fn(g));
+      }
+      lines.push('', '# Simulate circuit', 'simulator = cirq.Simulator()', 'result = simulator.simulate(circuit)', "print('Statevector:', result.state_vector())");
+      return lines.join('\n');
+    }
+
     const lines = [
       'from qiskit import QuantumCircuit',
       'from qiskit_aer import AerSimulator',
@@ -91,7 +125,7 @@ export default function PlaygroundPage() {
     }
     lines.push('', '# Simulate', 'qc.save_statevector()', "simulator = AerSimulator(method='statevector')", 'result = simulator.run(qc).result()');
     return lines.join('\n');
-  }, [gates, numQubits]);
+  }, [gates, numQubits, selectedBackend]);
 
   // Handle gate selection from palette
   const handleSelectGate = useCallback(
@@ -156,7 +190,8 @@ export default function PlaygroundPage() {
     try {
       const circuitResult = await executeCircuit(
         { num_qubits: numQubits, gates: buildCircuitSpec() },
-        1024
+        1024,
+        selectedBackend
       );
       setResult(circuitResult);
 
@@ -172,7 +207,7 @@ export default function PlaygroundPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [gates, numQubits, buildCircuitSpec]);
+  }, [gates, numQubits, selectedBackend, buildCircuitSpec]);
 
   // Keyboard accessibility shortcuts
   useEffect(() => {
@@ -300,6 +335,22 @@ export default function PlaygroundPage() {
                 ))}
               </select>
             </div>
+
+            <div className="qubit-control">
+              <label htmlFor="sdk-backend">SDK Backend:</label>
+              <select
+                id="sdk-backend"
+                value={selectedBackend}
+                onChange={(e) => {
+                  setSelectedBackend(e.target.value);
+                  setResult(null);
+                }}
+              >
+                <option value="qiskit">IBM Qiskit (Aer)</option>
+                <option value="cirq">Google Cirq</option>
+              </select>
+            </div>
+
             <button
               className="btn btn-run"
               onClick={handleRun}

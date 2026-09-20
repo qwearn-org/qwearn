@@ -3,7 +3,7 @@ Circuit execution API routes.
 
 These endpoints are the bridge between the frontend circuit builder
 and the quantum-core execution engine. They accept CircuitSpec JSON,
-delegate to the QuantumBackend, and return results.
+delegate to the QuantumBackend registry, and return results.
 
 Security note: These endpoints accept STRUCTURED circuit specs (JSON with
 gate names and qubit indices), NOT arbitrary code. The CircuitSpec is
@@ -11,16 +11,12 @@ validated by Pydantic before reaching the backend. There is no code
 execution path from user input. See docs/adr/ for the security design.
 """
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
+from quantum_core import get_backend, list_backends
 from quantum_core.backend import BlochCoordinates, CircuitResult, CircuitSpec, StepResult
-from quantum_core.qiskit_backend import QiskitBackend
 
 router = APIRouter(prefix="/api/circuits", tags=["circuits"])
-
-# Singleton backend instance — initialized once, reused for all requests.
-# In Phase 9, this will become a registry of backends selectable by the user.
-_backend = QiskitBackend()
 
 
 class ExecuteRequest(BaseModel):
@@ -28,6 +24,7 @@ class ExecuteRequest(BaseModel):
 
     circuit: CircuitSpec
     shots: int = 1024
+    backend: str = "qiskit"
 
 
 class BlochRequest(BaseModel):
@@ -37,14 +34,20 @@ class BlochRequest(BaseModel):
     num_qubits: int
 
 
+@router.get("/backends")
+async def get_available_backends() -> list[dict]:
+    """Return metadata for all registered SDK backends."""
+    return list_backends()
+
+
 @router.post("/execute", response_model=CircuitResult)
 async def execute_circuit(request: ExecuteRequest) -> CircuitResult:
     """
     Execute a quantum circuit and return results.
 
     Accepts a CircuitSpec (list of gates + qubit indices), runs it on
-    the Qiskit Aer simulator, and returns statevector, probabilities,
-    measurement counts, and generated Qiskit source code.
+    the requested backend (Qiskit, Cirq, etc.), and returns statevector,
+    probabilities, measurement counts, and generated source code.
     """
     if request.circuit.num_qubits > 20:
         raise HTTPException(
@@ -58,7 +61,8 @@ async def execute_circuit(request: ExecuteRequest) -> CircuitResult:
         raise HTTPException(status_code=400, detail="Shots must be between 0 and 10,000.")
 
     try:
-        result = _backend.execute(request.circuit, shots=request.shots)
+        backend_instance = get_backend(request.backend)
+        result = backend_instance.execute(request.circuit, shots=request.shots)
         return result
     except ValueError as e:
         raise HTTPException(status_code=422, detail=str(e))
@@ -67,14 +71,18 @@ async def execute_circuit(request: ExecuteRequest) -> CircuitResult:
 
 
 @router.post("/step", response_model=list[StepResult])
-async def execute_circuit_steps(circuit: CircuitSpec) -> list[StepResult]:
+async def execute_circuit_steps(
+    circuit: CircuitSpec,
+    backend: str = Query("qiskit", description="Backend key name (e.g. qiskit, cirq)"),
+) -> list[StepResult]:
     """
     Execute a quantum circuit gate-by-gate and return intermediate step results.
 
     Used by the Quantum Algorithms module to animate circuit execution step-by-step.
     """
     try:
-        results = _backend.execute_steps(circuit)
+        backend_instance = get_backend(backend)
+        results = backend_instance.execute_steps(circuit)
         return results
     except ValueError as e:
         raise HTTPException(status_code=422, detail=str(e))
@@ -91,23 +99,37 @@ async def get_bloch_coordinates(request: BlochRequest) -> list[BlochCoordinates]
     Returns one BlochCoordinates object per qubit.
     """
     try:
-        coords = _backend.get_bloch_coordinates(request.statevector, request.num_qubits)
+        backend_instance = get_backend("qiskit")
+        coords = backend_instance.get_bloch_coordinates(request.statevector, request.num_qubits)
         return coords
     except Exception as e:
         raise HTTPException(status_code=422, detail=str(e))
 
 
 @router.get("/gates")
-async def list_supported_gates() -> list[dict]:
-    """Return metadata about all supported quantum gates."""
-    return _backend.supported_gates()
+async def list_supported_gates(
+    backend: str = Query("qiskit", description="Backend key name"),
+) -> list[dict]:
+    """Return metadata about all supported quantum gates for a backend."""
+    try:
+        backend_instance = get_backend(backend)
+        return backend_instance.supported_gates()
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
 
 
 @router.post("/validate")
-async def validate_circuit(circuit: CircuitSpec) -> dict:
+async def validate_circuit(
+    circuit: CircuitSpec,
+    backend: str = Query("qiskit", description="Backend key name"),
+) -> dict:
     """
     Validate a circuit spec without executing it.
     Returns {"valid": true} or {"valid": false, "errors": [...]}.
     """
-    errors = _backend.validate_circuit(circuit)
-    return {"valid": len(errors) == 0, "errors": errors}
+    try:
+        backend_instance = get_backend(backend)
+        errors = backend_instance.validate_circuit(circuit)
+        return {"valid": len(errors) == 0, "errors": errors}
+    except ValueError as e:
+        return {"valid": False, "errors": [str(e)]}
