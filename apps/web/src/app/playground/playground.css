@@ -804,3 +804,26 @@
   color: #475569;
 }
 
+
+/* ---- Export controls ---- */
+.export-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.export-name {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  color: #e2e8f0;
+  padding: 6px 8px;
+  font-size: 13px;
+  width: 140px;
+}
+
+.btn-clear:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
