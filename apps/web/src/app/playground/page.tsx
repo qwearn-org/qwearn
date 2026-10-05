@@ -25,6 +25,7 @@ import ResultsPanel from '@web/components/circuit/ResultsPanel';
 import SaveLoadPanel from '@web/components/circuit/SaveLoadPanel';
 import CircuitExamples from '@web/components/circuit/CircuitExamples';
 import { incrementCircuitCount } from '@web/lib/progress';
+import { downloadCircuitPng, downloadCircuitSvg } from '@web/lib/exportCircuit';
 import {
   executeCircuit,
   getBlochCoordinates,
@@ -38,6 +39,7 @@ export default function PlaygroundPage() {
   const [numQubits, setNumQubits] = useState(2);
   const [selectedBackend, setSelectedBackend] = useState('qiskit');
   const [gates, setGates] = useState<PlacedGate[]>([]);
+  const [circuitName, setCircuitName] = useState('qwearn-circuit');
   const [selectedGate, setSelectedGate] = useState<{
     name: string;
     numQubits: number;
@@ -228,6 +230,21 @@ export default function PlaygroundPage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleRun]);
 
+  // Export the circuit as an image
+  const handleExport = useCallback(
+    async (format: 'png' | 'svg') => {
+      if (gates.length === 0) return;
+      const name = circuitName || 'qwearn-circuit';
+      try {
+        if (format === 'svg') downloadCircuitSvg(numQubits, gates, name);
+        else await downloadCircuitPng(numQubits, gates, name);
+      } catch (e) {
+        setError(e instanceof Error ? e.message : 'Export failed');
+      }
+    },
+    [gates, numQubits, circuitName]
+  );
+
   // Clear the circuit
   const handleClear = useCallback(() => {
     setGates([]);
@@ -238,8 +255,9 @@ export default function PlaygroundPage() {
 
   // Load a saved circuit
   const handleLoadCircuit = useCallback(
-    (spec: { num_qubits: number; gates: GateSpec[] }, _title: string) => {
+    (spec: { num_qubits: number; gates: GateSpec[] }, title: string) => {
       setNumQubits(spec.num_qubits);
+      setCircuitName(title);
       const placedGates: PlacedGate[] = spec.gates.map((g, i) => ({
         id: `loaded-${Date.now()}-${i}`,
         gate: g.gate,
@@ -361,6 +379,33 @@ export default function PlaygroundPage() {
             <button className="btn btn-clear" onClick={handleClear}>
               🗑 Clear
             </button>
+
+            <div className="export-controls">
+              <input
+                type="text"
+                className="export-name"
+                placeholder="circuit name"
+                aria-label="Circuit name for export"
+                value={circuitName}
+                onChange={(e) => setCircuitName(e.target.value)}
+              />
+              <button
+                className="btn btn-clear"
+                onClick={() => void handleExport('png')}
+                disabled={gates.length === 0}
+                title="Download circuit as PNG"
+              >
+                ⬇ PNG
+              </button>
+              <button
+                className="btn btn-clear"
+                onClick={() => void handleExport('svg')}
+                disabled={gates.length === 0}
+                title="Download circuit as SVG"
+              >
+                ⬇ SVG
+              </button>
+            </div>
           </div>
 
           <CircuitGrid
