@@ -1,3 +1,4 @@
+
 """
 Deterministic tests for QiskitBackend.
 
@@ -89,12 +90,9 @@ class TestEntangledStates:
         )
         result = backend.execute(spec, shots=0)
         inv_sqrt2 = 1.0 / math.sqrt(2)
-        # |00⟩ amplitude
         assert result.statevector[0] == pytest.approx([inv_sqrt2, 0.0], abs=1e-8)
-        # |01⟩ and |10⟩ amplitudes should be 0
         assert result.statevector[1] == pytest.approx([0.0, 0.0], abs=1e-8)
         assert result.statevector[2] == pytest.approx([0.0, 0.0], abs=1e-8)
-        # |11⟩ amplitude
         assert result.statevector[3] == pytest.approx([inv_sqrt2, 0.0], abs=1e-8)
 
     def test_bell_state_probabilities(self, backend: QiskitBackend) -> None:
@@ -195,6 +193,21 @@ class TestValidation:
         errors = backend.validate_circuit(spec)
         assert any("theta" in e for e in errors)
 
+    @pytest.mark.parametrize("num_classical_bits", [1, 3])
+    def test_classical_bit_count_must_match_qubits(
+        self, backend: QiskitBackend, num_classical_bits: int
+    ) -> None:
+        """Reject mismatched classical-bit counts before Qiskit execution."""
+        spec = CircuitSpec(
+            num_qubits=2,
+            num_classical_bits=num_classical_bits,
+            gates=[],
+        )
+
+        errors = backend.validate_circuit(spec)
+
+        assert any("num_classical_bits" in error for error in errors)
+
     def test_valid_circuit_no_errors(self, backend: QiskitBackend) -> None:
         spec = CircuitSpec(
             num_qubits=2,
@@ -226,7 +239,7 @@ class TestCodeGeneration:
             ],
         )
         result = backend.execute(spec, shots=0)
-        compile(result.generated_code, "<generated>", "exec")  # Should not raise
+        compile(result.generated_code, "<generated>", "exec")
 
 
 class TestMeasurementCounts:

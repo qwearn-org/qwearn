@@ -66,6 +66,7 @@ class QiskitBackend(QuantumBackend):
     # Public API (implements QuantumBackend)
     # ------------------------------------------------------------------
 
+    
     def execute(
         self,
         circuit: CircuitSpec,
@@ -82,43 +83,66 @@ class QiskitBackend(QuantumBackend):
         5. Generate the equivalent Qiskit source code
         6. Package everything into a CircuitResult
         """
-        # 1. Validate
+        # 1. Validate the shot count.
+        if shots < 0:
+            raise ValueError("shots must be greater than or equal to 0")
+
+        # 2. Validate the circuit specification.
         errors = self.validate_circuit(circuit)
         if errors:
             raise ValueError(f"Invalid circuit: {'; '.join(errors)}")
 
-        # 2. Build the Qiskit circuit (no measurements — for statevector)
+        # 3. Build the Qiskit circuit (without measurements).
         qc = self._build_circuit(circuit)
 
-        # 3. Run statevector calculation
+        # 4. Run statevector calculation.
         sv_obj = Statevector.from_instruction(qc)
         sv_array = np.array(sv_obj.data)
-        statevector = [[float(c.real), float(c.imag)] for c in sv_array]
+        statevector = [
+            [float(c.real), float(c.imag)]
+            for c in sv_array
+        ]
 
-        # Compute probabilities from statevector
+        # 5. Compute probabilities from the statevector.
         probs = {}
         for i, amp in enumerate(sv_array):
             prob = float(abs(amp) ** 2)
-            if prob > 1e-10:  # Only include non-zero probabilities
+            if prob > 1e-10:
                 basis_state = format(i, f"0{circuit.num_qubits}b")
                 probs[basis_state] = round(prob, 10)
 
-        # 4. Shot-based measurement counts (optional)
+        # 6. Calculate shot-based measurement counts (optional).
         counts: dict[str, int] = {}
+
         if shots > 0:
             qc_meas = qc.copy()
-            num_classical = circuit.num_classical_bits or circuit.num_qubits
-            qc_meas.measure(list(range(circuit.num_qubits)), list(range(num_classical)))
+            num_classical = (
+                circuit.num_classical_bits
+                if circuit.num_classical_bits is not None
+                else circuit.num_qubits
+            )
+
+            qc_meas.measure(
+                list(range(circuit.num_qubits)),
+                list(range(num_classical)),
+            )
 
             qasm_sim = AerSimulator(method="automatic")
-            result_meas = qasm_sim.run(qc_meas, shots=shots).result()
-            raw_counts = result_meas.get_counts(qc_meas)
-            counts = {str(k): int(v) for k, v in raw_counts.items()}
+            result_meas = qasm_sim.run(
+                qc_meas,
+                shots=shots,
+            ).result()
 
-        # 5. Generate code
+            raw_counts = result_meas.get_counts(qc_meas)
+            counts = {
+                str(key): int(value)
+                for key, value in raw_counts.items()
+            }
+
+        # 7. Generate equivalent Qiskit source code.
         generated_code = self._generate_code(circuit)
 
-        # 6. Package result
+        # 8. Package and return the result.
         return CircuitResult(
             statevector=statevector,
             probabilities=probs,
@@ -126,6 +150,7 @@ class QiskitBackend(QuantumBackend):
             generated_code=generated_code,
             backend_name=self.name,
         )
+
 
     def execute_steps(
         self,
@@ -267,6 +292,7 @@ class QiskitBackend(QuantumBackend):
 
         return results
 
+    
     def validate_circuit(self, circuit: CircuitSpec) -> list[str]:
         """
         Validate a circuit specification without executing it.
@@ -275,9 +301,14 @@ class QiskitBackend(QuantumBackend):
         1. All qubit indices are within [0, num_qubits)
         2. Each gate has the correct number of qubit operands
         3. No duplicate qubits in a single gate application
-        4. Required parameters are present (e.g., angle for Phase gate)
+        4. Required parameters are present
+        5. Classical-bit count matches the number of qubits when specified
+
+        This backend measures all qubits, so partial or additional
+        classical-bit mappings are not supported.
         """
         errors = []
+
         gate_qubit_counts = {
             GateName.X: 1,
             GateName.Y: 1,
@@ -292,32 +323,53 @@ class QiskitBackend(QuantumBackend):
             GateName.CCX: 3,
         }
 
+        # This backend measures every qubit into a corresponding
+        # classical bit, so the counts must match when specified.
+        if (
+            circuit.num_classical_bits is not None
+            and circuit.num_classical_bits != circuit.num_qubits
+        ):
+            errors.append(
+                "num_classical_bits must equal num_qubits because "
+                "this backend measures all qubits"
+            )
+
         for idx, gate_spec in enumerate(circuit.gates):
             prefix = f"Gate {idx} ({gate_spec.gate.value})"
 
-            # Check qubit bounds
+            # Check qubit bounds.
             for q in gate_spec.qubits:
                 if q < 0 or q >= circuit.num_qubits:
                     errors.append(
-                        f"{prefix}: qubit index {q} out of range [0, {circuit.num_qubits})"
+                        f"{prefix}: qubit index {q} out of range "
+                        f"[0, {circuit.num_qubits})"
                     )
 
-            # Check qubit count
+            # Check the number of qubits required by the gate.
             expected = gate_qubit_counts.get(gate_spec.gate)
             if expected is not None and len(gate_spec.qubits) != expected:
                 errors.append(
-                    f"{prefix}: expected {expected} qubit(s), got {len(gate_spec.qubits)}"
+                    f"{prefix}: expected {expected} qubit(s), "
+                    f"got {len(gate_spec.qubits)}"
                 )
 
-            # Check for duplicate qubits
+            # Check for duplicate qubits.
             if len(gate_spec.qubits) != len(set(gate_spec.qubits)):
-                errors.append(f"{prefix}: duplicate qubit indices {gate_spec.qubits}")
+                errors.append(
+                    f"{prefix}: duplicate qubit indices {gate_spec.qubits}"
+                )
 
-            # Check required parameters
-            if gate_spec.gate == GateName.PHASE and "theta" not in gate_spec.params:
-                errors.append(f"{prefix}: Phase gate requires 'theta' parameter")
+            # Check required parameters.
+            if (
+                gate_spec.gate == GateName.PHASE
+                and "theta" not in gate_spec.params
+            ):
+                errors.append(
+                    f"{prefix}: Phase gate requires 'theta' parameter"
+                )
 
         return errors
+
 
     def supported_gates(self) -> list[dict[str, Any]]:
         """
